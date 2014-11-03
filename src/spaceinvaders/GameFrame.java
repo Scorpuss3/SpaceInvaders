@@ -5,10 +5,8 @@
  */
 package spaceinvaders;
 
-/**
- *
- * @author Acer Laptop
- */
-public class GameFrame {
+import javax.swing.JPanel;
+
+public class GameFrame extends JPanel{
     
 }
