@@ -14,7 +14,7 @@ Planned Features:
 * Single Movable Player.
 * Multiple Enemy Types, with varied characteristics.
 * 'Bonus' enemies (Quick to disappear, high scoring).
-* Boff Fights
+* Boss Fights
 
 Current Status:
 ---------------
