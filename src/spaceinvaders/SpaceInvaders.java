@@ -21,7 +21,7 @@ public class SpaceInvaders extends JPanel{
     private final int canvasWidth = 300;
     private final int canvasHeight = 400;
     private final int borderWidth = 5;
-    private final int enemyGridWidth = (canvasWidth - borderWidth) - 40 ;
+    private final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 100 ;
     private final int enemyGridHeight = 200;
     
     private static SpaceInvaders game;
@@ -36,8 +36,9 @@ public class SpaceInvaders extends JPanel{
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
-            g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 10, 5); //Last two numbers are width, height
+            g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 30, 15); //Last two numbers are width, height
         }
+        g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
     }
     
     public void initialiseGame() {
@@ -48,11 +49,6 @@ public class SpaceInvaders extends JPanel{
             Enemy newEnemy= new Enemy();
             
             newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ));
-            //System.out.println((i%5)/4);
-            //System.out.println(((i%5)/4)*enemyGridWidth);
-            //System.out.println(Math.round( (((i%5)/4) * enemyGridWidth) ));
-            //float thing = Math.round( (((i%5)/4) * enemyGridWidth) );
-            //System.out.println(Float.toString(thing));
             
             newEnemy.setY((int) ((i-1)/5)*(enemyGridHeight/4) + borderWidth);
             enemies.add(newEnemy);
@@ -67,12 +63,13 @@ public class SpaceInvaders extends JPanel{
         int yMod = 0;
         while (true) {
             //TODO Add the actual game logic...
-            if (( (Enemy) enemies.get(1) ).getX() <= borderWidth) {
+            if (( (Enemy) enemies.get(0) ).getX() <= borderWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
                 yMod = 5;
-            } else if (( (Enemy) enemies.get(enemies.size()-1) ).getX() >= canvasWidth - borderWidth) {
+            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= canvasWidth - 2*borderWidth) {
                 //Invaders have reached right side of screen...
+                // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                 xMod = -1;
                 yMod = 5;
             } else {
@@ -98,7 +95,7 @@ public class SpaceInvaders extends JPanel{
         game = new SpaceInvaders();
         game.setSize(game.canvasWidth, game.canvasHeight);
         frame.add(game);
-        frame.setSize(game.canvasWidth,game.canvasHeight);
+        frame.setSize(game.canvasWidth+20,game.canvasHeight+39);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
