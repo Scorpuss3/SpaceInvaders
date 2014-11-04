@@ -23,7 +23,7 @@ public class SpaceInvaders extends JPanel{
     private final int borderWidth = 5;
     private final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
     private final int enemyGridHeight = 200;
-    private final int halfEnemyWidth = 15; // Will be implemented somewhere else latter.
+    private final int halfEnemyWidth = 15; // Will be implemented somewhere else later
     private static SpaceInvaders game;
     private ArrayList enemies = new ArrayList();
     private Player player;
