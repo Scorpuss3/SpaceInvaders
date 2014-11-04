@@ -20,8 +20,8 @@ import spaceinvaders.Entities.*;
 public class SpaceInvaders extends JPanel{
     private final int canvasWidth = 300;
     private final int canvasHeight = 400;
-    private final int borderWidth = 5;
-    private final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 100 ;
+    private final int borderWidth = 15;
+    private final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
     private final int enemyGridHeight = 200;
     
     private static SpaceInvaders game;
@@ -67,7 +67,7 @@ public class SpaceInvaders extends JPanel{
                 //Invaders have reached left side of screen...
                 xMod = 1;
                 yMod = 5;
-            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= canvasWidth - 2*borderWidth) {
+            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= canvasWidth - borderWidth) {
                 //Invaders have reached right side of screen...
                 // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                 xMod = -1;
