@@ -10,32 +10,37 @@ package spaceinvaders.Entities;
  * @author Acer Laptop
  */
 public class Entity {
-    private int xPosition;
-    private int yPosition;
+    private float xPosition;
+    private float yPosition;
     
     public Entity() {
         xPosition = 0;
         yPosition = 0;
     }
     
-    public void setX(int newX) {
+    public void setX(float newX) {
         xPosition = newX;
     }
     
-    public void setY(int newY) {
+    public void setY(float newY) {
         yPosition = newY;
     }
     
     public void move(int newX, int newY) {
+        //TODO remove this:
+        System.out.print("Moved from: " + Float.toString(xPosition) + "," + Float.toString(yPosition) + ")");
+        System.out.println("to:         " + Float.toString(xPosition + newX) + "," + Float.toString(yPosition + newY) + ")");
+        
+        //NOT THIS:
         xPosition += newX;
         yPosition += newY;
     }
     
-    public int getX() {
+    public float getX() {
         return xPosition;
     }
     
-    public int getY() {
+    public float getY() {
         return yPosition;
     }
 }
