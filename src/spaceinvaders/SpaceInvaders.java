@@ -9,20 +9,38 @@
  */
 package spaceinvaders;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 
-public class SpaceInvaders {
-    private static int canvasWidth = 300;
-    private static int canvasHeight = 400;
-    private static int enemyGridWidth = 200;
-    private static int enemyGridHeight = 200;
-    private static int borderWidth = 5;
-    private static ArrayList enemies = new ArrayList();
-    private static Player player;
+public class SpaceInvaders extends JPanel{
+    private final int canvasWidth = 300;
+    private final int canvasHeight = 400;
+    private final int enemyGridWidth = 200;
+    private final int enemyGridHeight = 200;
+    private final int borderWidth = 5;
     
-    public static void initialiseGame() {
+    private static SpaceInvaders game;
+    private ArrayList enemies = new ArrayList();
+    private Player player;
+    
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                                RenderingHints.VALUE_ANTIALIAS_ON);
+        for (Object object : enemies) {
+            Enemy selectedEnemy = (Enemy) object;
+            g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 5, 2); //Last two numbers are width, height
+        }
+    }
+    
+    public void initialiseGame() {
         int i;
         for (i = 0; i >=20 ; i++) {
             Enemy newEnemy= new Enemy();
@@ -30,10 +48,10 @@ public class SpaceInvaders {
             newEnemy.setY((i/20*enemyGridHeight) + borderWidth);
             enemies.add(newEnemy);
         }
-        player.setX(canvasWidth/2); player.setY(canvasHeight-20);
+        player.setX(canvasWidth/2); player.setY(canvasHeight - borderWidth);
     }
     
-    public static void startGameLoop() {
+    public void startGameLoop() {
         while (true) {
             //TODO Add the actual game logic...
             int xMod = 0;
@@ -51,27 +69,29 @@ public class SpaceInvaders {
                 Enemy selectedEnemy = (Enemy) object;
                 selectedEnemy.move(xMod,yMod);
             }
+            game.repaint();
         }
     }
     
-    public static void getUserDetails() {
+    public void getUserDetails() {
         //TODO add name collection
         player = new Player("Player 1");
     }
     
     public static void createUI() {
         JFrame frame = new JFrame("Space Invaders");
-        GameFrame game = new GameFrame();
+        game = new SpaceInvaders();
         frame.add(game);
-        frame.setSize(canvasWidth,canvasHeight);
-        frame.setVisible(true);
+        frame.setSize(game.canvasWidth,game.canvasHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
     
     public static void main(String[] args) {
         createUI();
-        getUserDetails();
-        initialiseGame();
-        startGameLoop();
+        game.getUserDetails();
+        game.initialiseGame();
+        game.startGameLoop();
     }
 }
