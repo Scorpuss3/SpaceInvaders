@@ -7,7 +7,7 @@ create games with Java.
 
 Included Features:
 ------------------
-* None.
+* Enemies that move side-to-side and down over time.
 
 Planned Features:
 -----------------
