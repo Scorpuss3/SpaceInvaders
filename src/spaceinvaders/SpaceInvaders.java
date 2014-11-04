@@ -14,8 +14,11 @@ import javax.swing.JFrame;
 import spaceinvaders.Entities.*;
 
 public class SpaceInvaders {
-    private static int width = 300;
-    private static int height = 400;
+    private static int canvasWidth = 300;
+    private static int canvasHeight = 400;
+    private static int enemyGridWidth = 200;
+    private static int enemyGridHeight = 200;
+    private static int borderWidth = 5;
     private static ArrayList enemies = new ArrayList();
     private static Player player;
     
@@ -23,16 +26,31 @@ public class SpaceInvaders {
         int i;
         for (i = 0; i >=20 ; i++) {
             Enemy newEnemy= new Enemy();
-            newEnemy.setX(i%20);
-            newEnemy.setY(i/20);
+            newEnemy.setX((i%20)/enemyGridWidth);
+            newEnemy.setY((i/20*enemyGridHeight) + borderWidth);
             enemies.add(newEnemy);
         }
-        player.setX(width/2); player.setY(height-20);
+        player.setX(canvasWidth/2); player.setY(canvasHeight-20);
     }
     
     public static void startGameLoop() {
         while (true) {
             //TODO Add the actual game logic...
+            int xMod = 0;
+            int yMod = 0;
+            if (( (Enemy) enemies.get(1) ).getX() <= borderWidth) {
+                //Invaders have reached left side of screen...
+                xMod = 1;
+                yMod = 1;
+            } else if (( (Enemy) enemies.get(1) ).getX() <= canvasWidth - borderWidth) {
+                //Invaders have reached right side of screen...
+                xMod = -1;
+                yMod = 1;
+            }
+            for (Object object : enemies) {
+                Enemy selectedEnemy = (Enemy) object;
+                selectedEnemy.move(xMod,yMod);
+            }
         }
     }
     
@@ -45,7 +63,7 @@ public class SpaceInvaders {
         JFrame frame = new JFrame("Space Invaders");
         GameFrame game = new GameFrame();
         frame.add(game);
-        frame.setSize(width,height);
+        frame.setSize(canvasWidth,canvasHeight);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
