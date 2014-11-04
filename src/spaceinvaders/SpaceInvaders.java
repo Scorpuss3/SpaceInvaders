@@ -75,8 +75,6 @@ public class SpaceInvaders extends JPanel{
                 //Invaders have reached right side of screen...
                 xMod = -1;
                 //yMod = 1;
-            } else {
-                System.out.println("In Transit");
             }
             System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
             for (Object object : enemies) {
