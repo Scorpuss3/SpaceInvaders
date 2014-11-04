@@ -30,4 +30,12 @@ public class Entity {
         xPosition += newX;
         yPosition += newY;
     }
+    
+    public int getX() {
+        return xPosition;
+    }
+    
+    public int getY() {
+        return yPosition;
+    }
 }
