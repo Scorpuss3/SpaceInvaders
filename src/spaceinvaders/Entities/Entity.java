@@ -25,4 +25,9 @@ public class Entity {
     public void setY(int newY) {
         yPosition = newY;
     }
+    
+    public void move(int newX, int newY) {
+        xPosition += newX;
+        yPosition += newY;
+    }
 }
