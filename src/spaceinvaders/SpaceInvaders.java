@@ -70,11 +70,13 @@ public class SpaceInvaders extends JPanel{
             if (( (Enemy) enemies.get(1) ).getX() <= borderWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
-                //yMod = 1;
+                yMod = 5;
             } else if (( (Enemy) enemies.get(enemies.size()-1) ).getX() >= canvasWidth - borderWidth) {
                 //Invaders have reached right side of screen...
                 xMod = -1;
-                //yMod = 1;
+                yMod = 5;
+            } else {
+                yMod = 0;
             }
             System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
             for (Object object : enemies) {
