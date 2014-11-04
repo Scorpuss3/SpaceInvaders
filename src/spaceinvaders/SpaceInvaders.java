@@ -20,9 +20,9 @@ import spaceinvaders.Entities.*;
 public class SpaceInvaders extends JPanel{
     private final int canvasWidth = 300;
     private final int canvasHeight = 400;
-    private final int enemyGridWidth = 200;
-    private final int enemyGridHeight = 200;
     private final int borderWidth = 5;
+    private final int enemyGridWidth = (canvasWidth - borderWidth) - 40 ;
+    private final int enemyGridHeight = 200;
     
     private static SpaceInvaders game;
     private ArrayList enemies = new ArrayList();
@@ -46,11 +46,15 @@ public class SpaceInvaders extends JPanel{
         for (i = 0; i <=20 ; i++) {
             System.out.println("And here");
             Enemy newEnemy= new Enemy();
-            newEnemy.setX((int) ((i%5)/4)*enemyGridWidth);
+            
+            newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ));
             //System.out.println((i%5)/4);
-            System.out.println(((i%5)/4)*enemyGridWidth);
-            System.out.println(Math.round((i%5)/4)*enemyGridWidth);
-            newEnemy.setY((int) (i/20*enemyGridHeight) + borderWidth);
+            //System.out.println(((i%5)/4)*enemyGridWidth);
+            //System.out.println(Math.round( (((i%5)/4) * enemyGridWidth) ));
+            //float thing = Math.round( (((i%5)/4) * enemyGridWidth) );
+            //System.out.println(Float.toString(thing));
+            
+            newEnemy.setY((int) ((i-1)/5)*(enemyGridHeight/4) + borderWidth);
             enemies.add(newEnemy);
             System.out.print("New enemy added:" + Float.toString(i));
             System.out.println("At Coordinates: (" + Integer.toString(newEnemy.getX()) + "," + Integer.toString(newEnemy.getY()) + ")");
@@ -59,18 +63,20 @@ public class SpaceInvaders extends JPanel{
     }
     
     public void startGameLoop() throws InterruptedException {
-        int xMod = 0;
+        int xMod = 1;
         int yMod = 0;
-        while (false) {
+        while (true) {
             //TODO Add the actual game logic...
             if (( (Enemy) enemies.get(1) ).getX() <= borderWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
                 //yMod = 1;
-            } else if (( (Enemy) enemies.get(1) ).getX() >= canvasWidth - borderWidth) {
+            } else if (( (Enemy) enemies.get(enemies.size()-1) ).getX() >= canvasWidth - borderWidth) {
                 //Invaders have reached right side of screen...
                 xMod = -1;
                 //yMod = 1;
+            } else {
+                System.out.println("In Transit");
             }
             System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
             for (Object object : enemies) {
@@ -90,6 +96,7 @@ public class SpaceInvaders extends JPanel{
     public static void createUI() {
         JFrame frame = new JFrame("Space Invaders");
         game = new SpaceInvaders();
+        game.setSize(game.canvasWidth, game.canvasHeight);
         frame.add(game);
         frame.setSize(game.canvasWidth,game.canvasHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
