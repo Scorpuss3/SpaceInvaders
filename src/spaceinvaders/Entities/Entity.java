@@ -27,6 +27,11 @@ public class Entity {
     }
     
     public void move(int newX, int newY) {
+        //TODO remove this:
+        System.out.print("Moved from: " + Integer.toString(xPosition) + "," + Integer.toString(yPosition) + ")");
+        System.out.println("to:         " + Integer.toString(xPosition + newX) + "," + Integer.toString(yPosition + newY) + ")");
+        
+        //NOT THIS:
         xPosition += newX;
         yPosition += newY;
     }
