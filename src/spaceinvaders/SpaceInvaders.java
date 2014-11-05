@@ -50,6 +50,10 @@ public class SpaceInvaders extends JPanel{
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
         g2d.drawRect(0,0,canvasWidth,canvasHeight);
         g2d.drawRect(borderWidth,borderWidth,canvasWidth-2*borderWidth,canvasHeight-2*borderWidth);
+        
+        if (Game.isPaused()) {
+            g2d.drawString("PAUSED",canvasWidth/2-20,canvasHeight/2);
+        }
     }
     
     public void initialiseGame() {
