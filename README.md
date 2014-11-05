@@ -17,7 +17,7 @@ Planned Features:
 * 'Bonus' enemies (Quick to disappear, high scoring).
 * Boss Fights
 * Better graphics for all sprites. Perhaps animated.
-* Better looking background (at least colour change).
+* Better looking background.
 
 Current Status:
 ---------------
