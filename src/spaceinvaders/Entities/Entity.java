@@ -53,4 +53,8 @@ public class Entity {
     public void deactivate() {
         isActive = false;
     }
+    
+    public boolean isActive() {
+        return isActive;
+    }
 }
