@@ -23,11 +23,10 @@ import spaceinvaders.Entities.Enemy;
 public class Game {
     private static SpaceInvaders session;
     
-    private static void startGameLoop() throws InterruptedException {
+    private static void enemyMovementLoop() throws InterruptedException {
         int xMod = 1;
         int yMod = 0;
         while (true) {
-            //TODO Add the actual game logic...
             if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
@@ -45,11 +44,23 @@ public class Game {
             System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
             for (Object object : session.enemies) {
                 Enemy selectedEnemy = (Enemy) object;
-                selectedEnemy.move(xMod,yMod);
+                if (selectedEnemy.isActive()) {
+                    selectedEnemy.move(xMod,yMod);
+                }
             }
             session.repaint();
             Thread.sleep(20);
         }
+    }
+    
+    private static void movePlayer() {
+        if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
+                ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
+                 (session.player.getDirection() == 1)) {
+            //Player is at left or right side, and the direction is pointing into the edge.
+            session.player.setDirection(0); //Deactivates any movement keypress
+        }
+        session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
     }
     
     public static void setUpKeyboardListener() {
@@ -97,10 +108,12 @@ public class Game {
                 //Do things
                 break;
             case "Left" :
-                //Do things
+                session.player.setDirection(-1);
+                movePlayer();
                 break;
             case "Right" :
-                //Do things
+                session.player.setDirection(1);
+                movePlayer();
                 break;
             case "Toggle_Pause" :
                 //Do things
@@ -109,12 +122,13 @@ public class Game {
                 //Do things
                 break;
         }
+        session.repaint();
     }
     
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
         setUpKeyboardListener();
-        startGameLoop();
+        enemyMovementLoop();
     }
         
 }
