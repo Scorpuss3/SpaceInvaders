@@ -6,6 +6,14 @@
 
 package spaceinvaders;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import spaceinvaders.Entities.Enemy;
 
 /**
@@ -15,7 +23,7 @@ import spaceinvaders.Entities.Enemy;
 public class Game {
     private static SpaceInvaders session;
     
-    public static void startGameLoop() throws InterruptedException {
+    private static void startGameLoop() throws InterruptedException {
         int xMod = 1;
         int yMod = 0;
         while (true) {
@@ -44,9 +52,69 @@ public class Game {
         }
     }
     
+    public static void setUpKeyboardListener() {
+        ActionMap actionMap = session.getActionMap();
+        InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        //Action must be a javax.swing.Action object
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "Fire");
+        actionMap.put("Fire", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("Fire");
+            }
+        });
+        
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "Left");
+        actionMap.put("Left", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("Left");
+            }
+        });
+        
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "Right");
+        actionMap.put("Right", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("Right");
+            }
+        });
+        
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Toggle_Pause");
+        actionMap.put("Toggle_Pause", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("Toggle_Pause");
+            }
+        });
+    }
+    
+    private static void keyAction(String actionString) {
+        System.out.println("Got Command: " + actionString);
+        switch (actionString) {
+            case "Fire" :
+                //Do things
+                break;
+            case "Left" :
+                //Do things
+                break;
+            case "Right" :
+                //Do things
+                break;
+            case "Toggle_Pause" :
+                //Do things
+                break;
+            default :
+                //Do things
+                break;
+        }
+    }
+    
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
-        startGameLoop();
+        setUpKeyboardListener();
+        //startGameLoop();
     }
         
 }
