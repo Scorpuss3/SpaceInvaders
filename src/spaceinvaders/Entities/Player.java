@@ -15,5 +15,7 @@ public class Player extends Entity{
     public Player(String name) {
         super();
         this.name = name;
+        this.spriteHeight = 10;
+        this.spriteWidth = 20;
     }
 }
