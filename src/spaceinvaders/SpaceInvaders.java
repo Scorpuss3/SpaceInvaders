@@ -20,10 +20,10 @@ import spaceinvaders.Entities.*;
 public class SpaceInvaders extends JPanel{
     private final int canvasWidth = 300;
     private final int canvasHeight = 400;
-    private final int enemyGridWidth = 200;
-    private final int enemyGridHeight = 200;
     private final int borderWidth = 5;
-    
+    private final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
+    private final int enemyGridHeight = 200;
+    private final int halfEnemyWidth = 15; // Will be implemented somewhere else later
     private static SpaceInvaders game;
     private ArrayList enemies = new ArrayList();
     private Player player;
@@ -36,8 +36,9 @@ public class SpaceInvaders extends JPanel{
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
-            g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 10, 5); //Last two numbers are width, height
+            g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 2*halfEnemyWidth, halfEnemyWidth); //Last two numbers are width, height
         }
+        g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
     }
     
     public void initialiseGame() {
@@ -46,11 +47,10 @@ public class SpaceInvaders extends JPanel{
         for (i = 0; i <=20 ; i++) {
             System.out.println("And here");
             Enemy newEnemy= new Enemy();
-            newEnemy.setX((int) ((i%5)/4)*enemyGridWidth);
-            //System.out.println((i%5)/4);
-            System.out.println(((i%5)/4)*enemyGridWidth);
-            System.out.println(Math.round((i%5)/4)*enemyGridWidth);
-            newEnemy.setY((int) (i/20*enemyGridHeight) + borderWidth);
+            
+            newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ) + borderWidth + halfEnemyWidth);
+            
+            newEnemy.setY((int) ((i-1)/5)*(enemyGridHeight/4) + borderWidth);
             enemies.add(newEnemy);
             System.out.print("New enemy added:" + Float.toString(i));
             System.out.println("At Coordinates: (" + Integer.toString(newEnemy.getX()) + "," + Integer.toString(newEnemy.getY()) + ")");
@@ -59,18 +59,21 @@ public class SpaceInvaders extends JPanel{
     }
     
     public void startGameLoop() throws InterruptedException {
-        int xMod = 0;
+        int xMod = 1;
         int yMod = 0;
-        while (false) {
+        while (true) {
             //TODO Add the actual game logic...
-            if (( (Enemy) enemies.get(1) ).getX() <= borderWidth) {
+            if (( (Enemy) enemies.get(0) ).getX() <= borderWidth + halfEnemyWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
-                //yMod = 1;
-            } else if (( (Enemy) enemies.get(1) ).getX() >= canvasWidth - borderWidth) {
+                yMod = 5;
+            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= (canvasWidth - borderWidth)-halfEnemyWidth) {
                 //Invaders have reached right side of screen...
+                // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                 xMod = -1;
-                //yMod = 1;
+                yMod = 5;
+            } else {
+                yMod = 0;
             }
             System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
             for (Object object : enemies) {
@@ -90,8 +93,10 @@ public class SpaceInvaders extends JPanel{
     public static void createUI() {
         JFrame frame = new JFrame("Space Invaders");
         game = new SpaceInvaders();
+        game.setSize(game.canvasWidth, game.canvasHeight);
         frame.add(game);
-        frame.setSize(game.canvasWidth,game.canvasHeight);
+        frame.setSize(game.canvasWidth+20,game.canvasHeight+39);
+        //TODO ^^ extra parts here can be removed once the random gap is removed... (They compensate)
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
