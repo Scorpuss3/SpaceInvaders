@@ -10,9 +10,18 @@ package spaceinvaders.Entities;
  * @author Acer Laptop
  */
 public class Enemy extends Entity{
+    private static int defaultSpriteWidth;
+    private static int defaultSpriteHeight;
+    
     public Enemy () {
         super();
-        this.spriteWidth = 30;
-        this.spriteHeight = 15;
+    }
+    
+    public static int getGenericWidth() {
+        return defaultSpriteWidth;
+    }
+    
+    public static int getGenericHeight() {
+        return defaultSpriteHeight;
     }
 }
