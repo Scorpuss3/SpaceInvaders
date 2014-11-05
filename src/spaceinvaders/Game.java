@@ -22,11 +22,13 @@ import spaceinvaders.Entities.Enemy;
  */
 public class Game {
     private static SpaceInvaders session;
+    private static boolean playing = true;
+    private static boolean paused = false;
     
     private static void enemyMovementLoop() throws InterruptedException {
         int xMod = 1;
         int yMod = 0;
-        while (true) {
+        while (!paused) {
             if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
@@ -54,13 +56,15 @@ public class Game {
     }
     
     private static void movePlayer() {
-        if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
-                ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
-                 (session.player.getDirection() == 1)) {
-            //Player is at left or right side, and the direction is pointing into the edge.
-            session.player.setDirection(0); //Deactivates any movement keypress
+        if (!paused) {
+            if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
+                    ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
+                     (session.player.getDirection() == 1)) {
+                //Player is at left or right side, and the direction is pointing into the edge.
+                session.player.setDirection(0); //Deactivates any movement keypress
+            }
+            session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
         }
-        session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
     }
     
     public static void setUpKeyboardListener() {
@@ -116,7 +120,7 @@ public class Game {
                 movePlayer();
                 break;
             case "Toggle_Pause" :
-                //Do things
+                paused = !paused;
                 break;
             default :
                 //Do things
@@ -125,10 +129,17 @@ public class Game {
         session.repaint();
     }
     
+    public static boolean isPaused() {
+        return paused;
+    }
+    
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
-        setUpKeyboardListener();
-        enemyMovementLoop();
+        while (playing) {
+            setUpKeyboardListener();
+            enemyMovementLoop();
+        }
+        System.exit(0);
     }
         
 }
