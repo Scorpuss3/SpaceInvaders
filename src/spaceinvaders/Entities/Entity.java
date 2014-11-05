@@ -12,10 +12,12 @@ package spaceinvaders.Entities;
 public class Entity {
     private int xPosition;
     private int yPosition;
+    private boolean isActive;
     
     public Entity() {
         xPosition = 0;
         yPosition = 0;
+        isActive = true;
     }
     
     public void setX(int newX) {
@@ -42,5 +44,13 @@ public class Entity {
     
     public int getY() {
         return yPosition;
+    }
+    
+    public void activate() {
+        isActive = true;
+    }
+    
+    public void deactivate() {
+        isActive = false;
     }
 }
