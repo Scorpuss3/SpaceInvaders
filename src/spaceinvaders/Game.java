@@ -13,7 +13,9 @@ import spaceinvaders.Entities.Enemy;
  * @author nobesj
  */
 public class Game {
-    public static void startGameLoop(SpaceInvaders session) throws InterruptedException {
+    private static SpaceInvaders session;
+    
+    public static void startGameLoop() throws InterruptedException {
         int xMod = 1;
         int yMod = 0;
         while (true) {
@@ -42,8 +44,9 @@ public class Game {
         }
     }
     
-    public static void runAllGameLoops(SpaceInvaders session) throws InterruptedException {
-        startGameLoop(session);
+    public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
+        session = passedSession;
+        startGameLoop();
     }
         
 }
