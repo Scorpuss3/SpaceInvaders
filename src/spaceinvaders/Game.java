@@ -33,17 +33,18 @@ public class Game {
                 //Invaders have reached left side of screen...
                 xMod = 1;
                 yMod = 5;
+                System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
                 Thread.sleep(20);
             } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
                 //Invaders have reached right side of screen...
                 // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                 xMod = -1;
                 yMod = 5;
+                System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
                 Thread.sleep(20);
             } else {
                 yMod = 0;
             }
-            System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
             for (Object object : session.enemies) {
                 Enemy selectedEnemy = (Enemy) object;
                 if (selectedEnemy.isActive()) {
