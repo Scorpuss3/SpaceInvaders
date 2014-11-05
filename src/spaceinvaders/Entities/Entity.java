@@ -12,6 +12,8 @@ package spaceinvaders.Entities;
 public class Entity {
     private int xPosition;
     private int yPosition;
+    protected int spriteWidth;
+    protected int spriteHeight;
     private boolean isActive;
     
     public Entity() {
@@ -56,5 +58,13 @@ public class Entity {
     
     public boolean isActive() {
         return isActive;
+    }
+    
+    public int getWidth() {
+        return spriteWidth;
+    }
+    
+    public int getHeight() {
+        return spriteHeight;
     }
 }
