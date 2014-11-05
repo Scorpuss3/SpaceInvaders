@@ -46,6 +46,8 @@ public class SpaceInvaders extends JPanel{
                 g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 2*halfEnemyWidth, halfEnemyWidth); //Last two numbers are width, height
             }
         }
+        g2d.fillRoundRect(player.getX(),player.getY(),20,10,2,2); //TODO do player config for paint().
+        
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
         g2d.drawRect(0,0,canvasWidth,canvasHeight);
         g2d.drawRect(borderWidth,borderWidth,canvasWidth-2*borderWidth,canvasHeight-2*borderWidth);
