@@ -18,15 +18,15 @@ import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 
 public class SpaceInvaders extends JPanel{
-    private final int canvasWidth = 300;
-    private final int canvasHeight = 400;
-    private final int borderWidth = 5;
-    private final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
-    private final int enemyGridHeight = 200;
-    private final int halfEnemyWidth = 15; // Will be implemented somewhere else later
-    private static SpaceInvaders game;
-    private ArrayList enemies = new ArrayList();
-    private Player player;
+    protected final int canvasWidth = 300;
+    protected final int canvasHeight = 400;
+    protected final int borderWidth = 5;
+    protected final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
+    protected final int enemyGridHeight = 200;
+    protected final int halfEnemyWidth = 15; // Will be implemented somewhere else later
+    protected static SpaceInvaders game;
+    protected ArrayList enemies = new ArrayList();
+    protected Player player;
     
     @Override
     public void paint(Graphics g) {
@@ -62,35 +62,6 @@ public class SpaceInvaders extends JPanel{
         player.setX(canvasWidth/2); player.setY(canvasHeight - borderWidth);
     }
     
-    public void startGameLoop() throws InterruptedException {
-        int xMod = 1;
-        int yMod = 0;
-        while (true) {
-            //TODO Add the actual game logic...
-            if (( (Enemy) enemies.get(0) ).getX() <= borderWidth) {
-                //Invaders have reached left side of screen...
-                xMod = 1;
-                yMod = 5;
-                Thread.sleep(480);
-            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= (canvasWidth - borderWidth)-2*halfEnemyWidth) {
-                //Invaders have reached right side of screen...
-                // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
-                xMod = -1;
-                yMod = 5;
-                Thread.sleep(480);
-            } else {
-                yMod = 0;
-            }
-            System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
-            for (Object object : enemies) {
-                Enemy selectedEnemy = (Enemy) object;
-                selectedEnemy.move(xMod,yMod);
-            }
-            game.repaint();
-            Thread.sleep(20);
-        }
-    }
-    
     public void getUserDetails() {
         //TODO add name collection
         player = new Player("Player 1");
@@ -112,6 +83,6 @@ public class SpaceInvaders extends JPanel{
         createUI();
         game.getUserDetails();
         game.initialiseGame();
-        game.startGameLoop();
+        Game.runAllGameLoops(game);
     }
 }
