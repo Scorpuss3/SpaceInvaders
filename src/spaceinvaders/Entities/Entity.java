@@ -15,6 +15,7 @@ public class Entity {
     protected int spriteWidth;
     protected int spriteHeight;
     private boolean isActive;
+    protected int speed;
     
     public Entity() {
         xPosition = 0;
@@ -66,5 +67,13 @@ public class Entity {
     
     public int getHeight() {
         return spriteHeight;
+    }
+    
+    public int getSpeed() {
+        return speed;
+    }
+    
+    public void setSpeed(int newSpeed) {
+        this.speed = newSpeed;
     }
 }
