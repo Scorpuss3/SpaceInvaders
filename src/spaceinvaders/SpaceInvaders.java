@@ -9,6 +9,7 @@
  */
 package spaceinvaders;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -39,12 +40,14 @@ public class SpaceInvaders extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(Color.blue);
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
                 g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
             }
         }
+        g2d.setColor(Color.red);
         g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
         
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
@@ -52,6 +55,7 @@ public class SpaceInvaders extends JPanel{
         g2d.drawRect(borderWidth,borderWidth,canvasWidth-2*borderWidth,canvasHeight-2*borderWidth);
         
         if (Game.isPaused()) {
+            g2d.setColor(Color.green);
             g2d.drawString("PAUSED",canvasWidth/2-20,canvasHeight/2);
         }
     }
@@ -82,6 +86,7 @@ public class SpaceInvaders extends JPanel{
         JFrame frame = new JFrame("Space Invaders");
         game = new SpaceInvaders();
         game.setSize(game.canvasWidth, game.canvasHeight);
+        game.setBackground(Color.black);
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
