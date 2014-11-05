@@ -12,5 +12,7 @@ package spaceinvaders.Entities;
 public class Enemy extends Entity{
     public Enemy () {
         super();
+        this.spriteWidth = 30;
+        this.spriteHeight = 15;
     }
 }
