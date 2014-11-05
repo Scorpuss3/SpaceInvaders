@@ -73,7 +73,6 @@ public class SpaceInvaders extends JPanel{
         game.setSize(game.canvasWidth, game.canvasHeight);
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
-        //TODO ^^ extra parts here can be removed once the random gap is removed... (They compensate)
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
