@@ -33,7 +33,7 @@ public class Game {
                 xMod = 1;
                 yMod = 5;
                 Thread.sleep(480);
-            } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-2*session.halfEnemyWidth) {
+            } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
                 //Invaders have reached right side of screen...
                 // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                 xMod = -1;
@@ -114,7 +114,7 @@ public class Game {
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
         setUpKeyboardListener();
-        //startGameLoop();
+        startGameLoop();
     }
         
 }
