@@ -9,6 +9,7 @@ Included Features:
 ------------------
 * Enemies that move side-to-side and down over time.
 * Movable Player character.
+* Pause Game
 
 Planned Features:
 -----------------
