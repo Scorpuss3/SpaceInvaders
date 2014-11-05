@@ -36,9 +36,13 @@ public class SpaceInvaders extends JPanel{
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
-            g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 2*halfEnemyWidth, halfEnemyWidth); //Last two numbers are width, height
+            if (selectedEnemy.isActive()) {
+                g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 2*halfEnemyWidth, halfEnemyWidth); //Last two numbers are width, height
+            }
         }
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
+        g2d.drawRect(0,0,canvasWidth,canvasHeight);
+        g2d.drawRect(borderWidth,borderWidth,canvasWidth-2*borderWidth,canvasHeight-2*borderWidth);
     }
     
     public void initialiseGame() {
@@ -63,15 +67,17 @@ public class SpaceInvaders extends JPanel{
         int yMod = 0;
         while (true) {
             //TODO Add the actual game logic...
-            if (( (Enemy) enemies.get(0) ).getX() <= borderWidth + halfEnemyWidth) {
+            if (( (Enemy) enemies.get(0) ).getX() <= borderWidth) {
                 //Invaders have reached left side of screen...
                 xMod = 1;
                 yMod = 5;
-            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= (canvasWidth - borderWidth)-halfEnemyWidth) {
+                Thread.sleep(480);
+            } else if (( (Enemy) enemies.get(enemies.size()-2) ).getX() >= (canvasWidth - borderWidth)-2*halfEnemyWidth) {
                 //Invaders have reached right side of screen...
                 // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                 xMod = -1;
                 yMod = 5;
+                Thread.sleep(480);
             } else {
                 yMod = 0;
             }
@@ -81,7 +87,7 @@ public class SpaceInvaders extends JPanel{
                 selectedEnemy.move(xMod,yMod);
             }
             game.repaint();
-            Thread.sleep(10);
+            Thread.sleep(20);
         }
     }
     
@@ -95,7 +101,7 @@ public class SpaceInvaders extends JPanel{
         game = new SpaceInvaders();
         game.setSize(game.canvasWidth, game.canvasHeight);
         frame.add(game);
-        frame.setSize(game.canvasWidth+20,game.canvasHeight+39);
+        frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
         //TODO ^^ extra parts here can be removed once the random gap is removed... (They compensate)
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
