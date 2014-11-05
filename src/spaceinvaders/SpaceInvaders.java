@@ -29,7 +29,6 @@ public class SpaceInvaders extends JPanel{
     protected final int borderWidth = 5;
     protected final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
     protected final int enemyGridHeight = 200;
-    protected final int halfEnemyWidth = 15; // Will be implemented somewhere else later
     protected static SpaceInvaders game;
     protected ArrayList enemies = new ArrayList();
     protected Player player;
@@ -43,10 +42,10 @@ public class SpaceInvaders extends JPanel{
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
-                g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), 2*halfEnemyWidth, halfEnemyWidth); //Last two numbers are width, height
+                g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
             }
         }
-        g2d.fillRoundRect(player.getX(),player.getY(),20,10,2,2); //TODO do player config for paint().
+        g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
         
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
         g2d.drawRect(0,0,canvasWidth,canvasHeight);
@@ -60,14 +59,14 @@ public class SpaceInvaders extends JPanel{
             System.out.println("And here");
             Enemy newEnemy= new Enemy();
             
-            newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ) + borderWidth + halfEnemyWidth);
+            newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ) + borderWidth + Enemy.getGenericWidth());
             
             newEnemy.setY((int) ((i-1)/5)*(enemyGridHeight/4) + borderWidth);
             enemies.add(newEnemy);
             System.out.print("New enemy added:" + Float.toString(i));
             System.out.println("At Coordinates: (" + Integer.toString(newEnemy.getX()) + "," + Integer.toString(newEnemy.getY()) + ")");
         }
-        player.setX(canvasWidth/2); player.setY(canvasHeight - borderWidth);
+        player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
     }
     
     public void getUserDetails() {
