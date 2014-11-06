@@ -52,7 +52,7 @@ public class SpaceInvaders extends JPanel{
             }
         }
         g2d.setColor(Color.red);
-        //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
+        g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
         
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
         g2d.drawRect(0,0,canvasWidth,canvasHeight);
@@ -69,7 +69,14 @@ public class SpaceInvaders extends JPanel{
         System.out.println("Got HERE");
         for (i = 0; i <=20 ; i++) {
             System.out.println("And here");
-            Enemy newEnemy= new Enemy();
+            Enemy newEnemy;
+            if (i <= 5) {
+                newEnemy= new Enemy(3);
+            } else if ((5 < i) && (i <= 15)) {
+                newEnemy= new Enemy(2);
+            } else {
+                newEnemy= new Enemy();
+            }
             
             newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ) + borderWidth + Enemy.getGenericWidth());
             
