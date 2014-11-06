@@ -26,7 +26,17 @@ public class Enemy extends Entity{
         super();
         try {
             //buffImage = ImageIO.read(new File("Enemy_1.jpg"));
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_1.png"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_1.png"));
+	}catch(Exception e){
+            System.err.println(e);
+        }
+    }
+    
+    public Enemy (int level) {
+        super();
+        try {
+            //buffImage = ImageIO.read(new File("Enemy_1.jpg"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_" + Integer.toString(level) + ".png"));
 	}catch(Exception e){
             System.err.println(e);
         }
