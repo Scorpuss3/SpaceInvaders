@@ -34,6 +34,7 @@ public class Enemy extends Entity{
     
     public Enemy (int level) {
         super();
+        level = 1; //whie other skins are not designed.
         try {
             //buffImage = ImageIO.read(new File("Enemy_1.jpg"));
             currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_" + Integer.toString(level) + ".png"));
