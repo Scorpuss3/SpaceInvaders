@@ -26,7 +26,7 @@ public class Enemy extends Entity{
         super();
         try {
             //buffImage = ImageIO.read(new File("Enemy_1.jpg"));
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("/res/Enemy_1.jpg"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_1.png"));
 	}catch(Exception e){
             System.err.println(e);
         }
