@@ -12,7 +12,9 @@ package spaceinvaders;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -44,11 +46,13 @@ public class SpaceInvaders extends JPanel{
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
-                g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
+                //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
+                g2d.drawImage(selectedEnemy.getImage(),selectedEnemy.getX(),selectedEnemy.getY(),this);
+                System.out.println(selectedEnemy.getImage().getHeight(null));
             }
         }
         g2d.setColor(Color.red);
-        g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
+        //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
         
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
         g2d.drawRect(0,0,canvasWidth,canvasHeight);
