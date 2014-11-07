@@ -5,6 +5,9 @@
  */
 package spaceinvaders.Entities;
 
+import java.awt.Image;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author Acer Laptop
@@ -12,6 +15,7 @@ package spaceinvaders.Entities;
 public class Player extends Entity{
     private final String name;
     private int movementVector = 0; //Int because only vector for x needs to be represented.
+    private Image currentSkin;
     
     public Player(String name) {
         super();
@@ -19,6 +23,12 @@ public class Player extends Entity{
         this.spriteHeight = 10;
         this.spriteWidth = 20;
         this.speed = 5;
+        
+        try {
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/PLayer.png"));
+	}catch(Exception e){
+            System.err.println(e);
+        }
     }
     
     public void setDirection(int newDirection) {
