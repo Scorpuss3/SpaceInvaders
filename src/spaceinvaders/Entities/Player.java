@@ -23,6 +23,8 @@ public class Player extends Entity{
         this.spriteHeight = 10;
         this.spriteWidth = 20;
         this.speed = 5;
+        this.health = 3;
+        this.bulletDmg = 1;
         
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/PLayer.png"));
