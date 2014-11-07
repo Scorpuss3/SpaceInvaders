@@ -24,12 +24,36 @@ public class Enemy extends Entity{
 	}catch(Exception e){
             System.err.println(e);
         }
+        this.health = 2;
     }
     
     public Enemy (int level) {
         super();
+        String skinName;
+        switch (level) {
+            case 1:
+                skinName = "Skins/Enemy_Level_1.png";
+                this.health = 2;
+                this.bulletDmg = 1;
+                break;
+            case 2:
+                skinName = "Skins/Enemy_Level_2.png";
+                this.health = 2;
+                this.bulletDmg = 1;
+                break;
+            case 3:
+                skinName = "Skins/Enemy_Level_3.png";
+                this.health = 4;
+                this.bulletDmg = 1;
+                break;
+            default:
+                skinName = "Skins/Enemy_Level_1.png";
+                this.health = 2;
+                this.bulletDmg = 1;
+                break;
+        }
         try {
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_" + Integer.toString(level) + ".png"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream(skinName));
 	}catch(Exception e){
             System.err.println(e);
         }
