@@ -16,6 +16,8 @@ public class Entity {
     protected int spriteHeight;
     private boolean isActive;
     protected int speed;
+    protected int health;
+    protected int bulletDmg;
     
     public Entity() {
         xPosition = 0;
@@ -75,5 +77,13 @@ public class Entity {
     
     public void setSpeed(int newSpeed) {
         this.speed = newSpeed;
+    }
+    
+    public int getHealth() {
+        return health;
+    }
+    
+    public void setHealth(int newHealth) {
+        health = newHealth;
     }
 }
