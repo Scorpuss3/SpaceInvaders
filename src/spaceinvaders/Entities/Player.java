@@ -38,4 +38,8 @@ public class Player extends Entity{
     public int getDirection() {
         return movementVector;
     }
+    
+    public Image getImage() {
+        return currentSkin;
+    }
 }
