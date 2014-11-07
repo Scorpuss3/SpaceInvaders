@@ -48,11 +48,11 @@ public class SpaceInvaders extends JPanel{
             if (selectedEnemy.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
                 g2d.drawImage(selectedEnemy.getImage(),selectedEnemy.getX(),selectedEnemy.getY(),this);
-                System.out.println(selectedEnemy.getImage().getHeight(null));
             }
         }
         g2d.setColor(Color.red);
-        g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
+        //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
+        g2d.drawImage(player.getImage(),player.getX(),player.getY(),this);
         
         g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
         g2d.drawRect(0,0,canvasWidth,canvasHeight);
