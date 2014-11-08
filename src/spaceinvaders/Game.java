@@ -60,7 +60,6 @@ public class Game {
                 try {
                     Thread.sleep(totalPause);
                 } catch (InterruptedException e){
-                    //Do nothing...
                 }
             }
         }
@@ -86,8 +85,7 @@ public class Game {
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
-                    //Do nothing...
-                }            
+                }
             }
         }
         
@@ -100,7 +98,6 @@ public class Game {
     public static void setUpKeyboardListener() {
         ActionMap actionMap = session.getActionMap();
         InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        //Action must be a javax.swing.Action object
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "Fire");
         actionMap.put("Fire", new AbstractAction() {
@@ -163,7 +160,6 @@ public class Game {
                 paused = !paused;
                 break;
             default :
-                //Do things
                 break;
         }
         session.repaint();
@@ -180,6 +176,5 @@ public class Game {
         pm.start();
         EnemyMovement em = new EnemyMovement();
         em.start();
-        //System.exit(0);
     }
 }
