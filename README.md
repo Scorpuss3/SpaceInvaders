@@ -10,10 +10,10 @@ Included Features:
 * Enemies that move side-to-side and down over time.
 * Movable Player character.
 * Pause Game
+* Multiple Enemy Types, with varied characteristics.
 
 Planned Features:
 -----------------
-* Multiple Enemy Types, with varied characteristics.
 * 'Bonus' enemies (Quick to disappear, high scoring).
 * Boss Fights
 * Better graphics for all sprites. Perhaps animated.
