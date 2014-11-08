@@ -22,7 +22,7 @@ public class Player extends Entity{
         this.name = name;
         this.spriteHeight = 10;
         this.spriteWidth = 20;
-        this.speed = 5;
+        this.speed = 3; //Default is 3.
         this.health = 3;
         this.bulletDmg = 1;
         this.faction = Entity.entityFaction.PLAYER;
