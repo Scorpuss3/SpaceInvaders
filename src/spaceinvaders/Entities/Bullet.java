@@ -22,13 +22,14 @@ public class Bullet extends Entity{
         this.owner = passedOwner;
         damage = owner.bulletDmg;
         this.direction = direction;
-        this.setX(owner.getX());
+        this.setX(owner.getX()+ owner.getWidth()/2 -1);
         this.setY(owner.getY());
         System.out.println("Bullet created at: " + Integer.toString(this.getX()) + "," + Integer.toString(this.getY()));
         
         String skinName;
         if (owner.getFaction() == Entity.entityFaction.ENEMY) { // Might not work...
             skinName = "Skins/Bullet_Enemy.png";
+            this.setY(owner.getY() + owner.getHeight());
         } else if (owner.getFaction() == Entity.entityFaction.PLAYER) {
             skinName = "Skins/Bullet_Player.png";
         } else {
