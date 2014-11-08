@@ -25,6 +25,7 @@ public class Player extends Entity{
         this.speed = 5;
         this.health = 3;
         this.bulletDmg = 1;
+        this.faction = Entity.entityFaction.PLAYER;
         
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player.png"));
