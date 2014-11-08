@@ -13,18 +13,22 @@ import javax.imageio.ImageIO;
  * @author Acer Laptop
  */
 public class Bullet extends Entity{
+    private Entity owner;
     private final int damage;
     private final int direction; // + is down, - is up.
     private Image currentSkin;
     
-    public Bullet(Entity owner, int direction) {
+    public Bullet(Entity passedOwner, int direction) {
+        this.owner = passedOwner;
         damage = owner.bulletDmg;
         this.direction = direction;
+        this.setX(owner.getX());
+        this.setX(owner.getY());
         
         String skinName;
-        if (owner.getClass() == new Enemy().getClass()) { // Might not work...
+        if (owner.getFaction() == Entity.entityFaction.ENEMY) { // Might not work...
             skinName = "Skins/Bullet_Enemy.png";
-        } else if (owner.getClass() == new Player("").getClass()) {
+        } else if (owner.getFaction() == Entity.entityFaction.PLAYER) {
             skinName = "Skins/Bullet_Player.png";
         } else {
             skinName = "Skins/Player.png";
@@ -38,5 +42,9 @@ public class Bullet extends Entity{
     
     public Image getImage() {
         return currentSkin;
+    }
+    
+    public int getDirection() {
+        return direction;
     }
 }
