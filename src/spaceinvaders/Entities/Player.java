@@ -27,7 +27,7 @@ public class Player extends Entity{
         this.bulletDmg = 1;
         
         try {
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/PLayer.png"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player.png"));
 	}catch(Exception e){
             System.err.println(e);
         }
