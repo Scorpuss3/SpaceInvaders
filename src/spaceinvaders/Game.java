@@ -154,6 +154,7 @@ public class Game {
                 for (Object object : session.playerBullets) {
                     Bullet selectedBullet = (Bullet) object;
                     for (Object eobject : session.enemies) {
+                        System.out.println("NOPE"); // Strangely, not printing....
                         Enemy selectedEnemy = (Enemy) eobject;
                         if (selectedBullet.intersects(selectedEnemy)) {
                             selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
