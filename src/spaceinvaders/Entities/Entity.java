@@ -5,6 +5,8 @@
  */
 package spaceinvaders.Entities;
 
+import java.awt.Rectangle;
+
 /**
  *
  * @author Acer Laptop
@@ -90,9 +92,20 @@ public class Entity {
     
     public void setHealth(int newHealth) {
         health = newHealth;
+        if (this.faction == entityFaction.PLAYER) {
+            System.out.println("Player health now" + Integer.toString(newHealth));
+        } else {
+            System.out.println("Hit Enemy.");
+        }
     }
     
     public entityFaction getFaction() {
         return faction;
+    }
+    
+    public boolean intersects(Entity otherEntity) {
+        Rectangle local = new Rectangle(this.getX(),this.getY(),this.getWidth(),this.getHeight());
+        Rectangle other = new Rectangle(otherEntity.getX(),otherEntity.getY(),otherEntity.getWidth(),otherEntity.getHeight());
+        return local.getBounds().intersects(other.getBounds());
     }
 }
