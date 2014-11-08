@@ -146,6 +146,42 @@ public class Game {
         }
     }
     
+    static class SpriteCollisionDetection implements Runnable {
+        private Thread cdt;
+        @Override
+        public void run() {
+            while (!paused) {
+                for (Object object : session.playerBullets) {
+                    Bullet selectedBullet = (Bullet) object;
+                    for (Object eobject : session.enemies) {
+                        Enemy selectedEnemy = (Enemy) eobject;
+                        if (selectedBullet.intersects(selectedEnemy)) {
+                            selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
+                            session.enemyBullets.remove(selectedBullet);
+                            selectedBullet.deactivate();
+                            selectedBullet = null;
+                        }
+                    }
+                }
+                for (Object object : session.enemyBullets) {
+                    Bullet selectedBullet = (Bullet) object;
+                    if (session.player.intersects(selectedBullet)) {
+                        session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
+                        session.playerBullets.remove(selectedBullet);
+                        selectedBullet.deactivate();
+                        selectedBullet = null;
+                    }
+                }
+                // No delay, collisions must be detected as early as they happen...
+            }
+        }
+        
+        public void start() {
+            cdt = new Thread(this, "spriteCollisionDetectionThread");
+            cdt.start();
+        }
+    }
+    
     public static void setUpKeyboardListener() {
         ActionMap actionMap = session.getActionMap();
         InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -216,6 +252,11 @@ public class Game {
         session.repaint();
     }
     
+    public static void handleBulletCollision(Bullet bullet, Entity entity) {
+        entity.setHealth(entity.getHealth()-bullet.getDamage());
+        bullet.deactivate();
+    }
+    
     public static boolean isPaused() {
         return paused;
     }
@@ -232,5 +273,7 @@ public class Game {
         ef.start();
         BulletMovement bm = new BulletMovement();
         bm.start();
+        SpriteCollisionDetection cd = new SpriteCollisionDetection();
+        cd.start();
     }
 }
