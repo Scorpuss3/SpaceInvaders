@@ -11,12 +11,12 @@ Included Features:
 * Movable Player character.
 * Pause Game
 * Multiple Enemy Types, with varied characteristics.
+* Custom graphics for sprites.
 
 Planned Features:
 -----------------
 * 'Bonus' enemies (Quick to disappear, high scoring).
 * Boss Fights
-* Better graphics for all sprites. Perhaps animated.
 * Better looking background.
 
 Current Status:
