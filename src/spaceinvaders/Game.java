@@ -25,46 +25,75 @@ public class Game {
     private static boolean playing = true;
     private static boolean paused = false;
     
-    private static void enemyMovementLoop() throws InterruptedException {
-        int xMod = 1;
-        int yMod = 0;
-        while (!paused) {
-            if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
-                //Invaders have reached left side of screen...
-                xMod = 1;
-                yMod = 5;
-                System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
-                Thread.sleep(20);
-            } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
-                //Invaders have reached right side of screen...
-                // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
-                xMod = -1;
-                yMod = 5;
-                System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
-                Thread.sleep(20);
-            } else {
-                yMod = 0;
-            }
-            for (Object object : session.enemies) {
-                Enemy selectedEnemy = (Enemy) object;
-                if (selectedEnemy.isActive()) {
-                    selectedEnemy.move(xMod,yMod);
+    static class EnemyMovement implements Runnable {
+        private Thread et;
+        @Override
+        public void run() {
+            int xMod = 1;
+            int yMod = 0;
+            while (!paused) {
+                int totalPause = 0;
+                if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
+                    //Invaders have reached left side of screen...
+                    xMod = 1;
+                    yMod = 5;
+                    System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
+                    totalPause += 20; 
+                } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
+                    //Invaders have reached right side of screen...
+                    // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
+                    xMod = -1;
+                    yMod = 5;
+                    System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
+                    totalPause += 20; 
+                } else {
+                    yMod = 0;
+                }
+                for (Object object : session.enemies) {
+                    Enemy selectedEnemy = (Enemy) object;
+                    if (selectedEnemy.isActive()) {
+                        selectedEnemy.move(xMod,yMod);
+                    }
+                }
+                session.repaint();
+                totalPause += 20;
+                try {
+                    Thread.sleep(totalPause);
+                } catch (InterruptedException e){
+                    //Do nothing...
                 }
             }
-            session.repaint();
-            Thread.sleep(20);
+        }
+        
+        public void start() {
+            et = new Thread(this,"enemyThread");
+            et.start();
         }
     }
     
-    private static void movePlayer() {
-        if (!paused) {
-            if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
-                    ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
-                     (session.player.getDirection() == 1)) {
-                //Player is at left or right side, and the direction is pointing into the edge.
-                session.player.setDirection(0); //Deactivates any movement keypress
+    static class PlayerMovement implements Runnable {
+        private Thread pt;
+        @Override
+        public void run() {
+            while (!paused) {
+                if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
+                        ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
+                         (session.player.getDirection() == 1)) {
+                    //Player is at left or right side, and the direction is pointing into the edge.
+                    session.player.setDirection(0); //Deactivates any movement keypress
+                }
+                session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    //Do nothing...
+                }            
             }
-            session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
+        }
+        
+        public void start() {
+            pt = new Thread(this, "playerThread");
+            pt.start();
         }
     }
     
@@ -81,7 +110,7 @@ public class Game {
             }
         });
         
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "Left");
+        inputMap.put(KeyStroke.getKeyStroke("pressed LEFT"), "Left");
         actionMap.put("Left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -89,11 +118,20 @@ public class Game {
             }
         });
         
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "Right");
+        inputMap.put(KeyStroke.getKeyStroke("pressed RIGHT"), "Right");
         actionMap.put("Right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 keyAction("Right");
+            }
+        });
+        
+        inputMap.put(KeyStroke.getKeyStroke("released LEFT"), "ArrowKeyReleased");
+        inputMap.put(KeyStroke.getKeyStroke("released RIGHT"), "ArrowKeyReleased");
+        actionMap.put("ArrowKeyReleased", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("ArrowKeyReleased");
             }
         });
         
@@ -114,11 +152,12 @@ public class Game {
                 break;
             case "Left" :
                 session.player.setDirection(-1);
-                movePlayer();
                 break;
             case "Right" :
                 session.player.setDirection(1);
-                movePlayer();
+                break;
+            case "ArrowKeyReleased" :
+                session.player.setDirection(0);
                 break;
             case "Toggle_Pause" :
                 paused = !paused;
@@ -136,11 +175,11 @@ public class Game {
     
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
-        while (playing) {
-            setUpKeyboardListener();
-            enemyMovementLoop();
-        }
-        System.exit(0);
+        setUpKeyboardListener();
+        PlayerMovement pm = new PlayerMovement();
+        pm.start();
+        EnemyMovement em = new EnemyMovement();
+        em.start();
+        //System.exit(0);
     }
-        
 }
