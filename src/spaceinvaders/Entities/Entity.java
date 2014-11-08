@@ -18,6 +18,11 @@ public class Entity {
     protected int speed;
     protected int health;
     protected int bulletDmg;
+    protected entityFaction faction;
+    
+    public enum entityFaction {
+        PLAYER, ENEMY
+    }
     
     public Entity() {
         xPosition = 0;
@@ -85,5 +90,9 @@ public class Entity {
     
     public void setHealth(int newHealth) {
         health = newHealth;
+    }
+    
+    public entityFaction getFaction() {
+        return faction;
     }
 }
