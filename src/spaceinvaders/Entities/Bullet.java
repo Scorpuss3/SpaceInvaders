@@ -23,7 +23,8 @@ public class Bullet extends Entity{
         damage = owner.bulletDmg;
         this.direction = direction;
         this.setX(owner.getX());
-        this.setX(owner.getY());
+        this.setY(owner.getY());
+        System.out.println("Bullet created at: " + Integer.toString(this.getX()) + "," + Integer.toString(this.getY()));
         
         String skinName;
         if (owner.getFaction() == Entity.entityFaction.ENEMY) { // Might not work...
