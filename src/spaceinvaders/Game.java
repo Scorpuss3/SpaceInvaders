@@ -83,7 +83,7 @@ public class Game {
                 }
                 session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(session.player.getSpeed());
                 } catch (InterruptedException e) {
                 }
             }
