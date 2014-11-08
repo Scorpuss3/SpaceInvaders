@@ -104,7 +104,7 @@ public class Game {
                     Enemy selectedEnemy = (Enemy) object;
                     double randomDouble = Math.random();
                     if (randomDouble <= selectedEnemy.getProbability()) {
-                        session.bullets.add(new Bullet(selectedEnemy,1));
+                        session.enemyBullets.add(new Bullet(selectedEnemy,1));
                     }
                 }
                 try {
@@ -125,7 +125,11 @@ public class Game {
         @Override
         public void run() {
             while (!paused) {
-                for (Object object : session.bullets) {
+                for (Object object : session.enemyBullets) {
+                    Bullet selectedBullet = (Bullet) object;
+                    selectedBullet.move(0, selectedBullet.getDirection());
+                }
+                for (Object object : session.playerBullets) {
                     Bullet selectedBullet = (Bullet) object;
                     selectedBullet.move(0, selectedBullet.getDirection());
                 }
@@ -192,7 +196,7 @@ public class Game {
         System.out.println("Got Command: " + actionString);
         switch (actionString) {
             case "Fire" :
-                session.bullets.add(new Bullet(session.player,-1));
+                session.playerBullets.add(new Bullet(session.player,-1));
                 break;
             case "Left" :
                 session.player.setDirection(-1);
