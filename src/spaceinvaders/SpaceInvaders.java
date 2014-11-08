@@ -26,6 +26,7 @@ public class SpaceInvaders extends JPanel{
     protected final int enemyGridHeight = 200;
     protected static SpaceInvaders game;
     protected ArrayList enemies = new ArrayList();
+    protected ArrayList bullets = new ArrayList();
     protected Player player;
     
     @Override
@@ -42,6 +43,15 @@ public class SpaceInvaders extends JPanel{
                 g2d.drawImage(selectedEnemy.getImage(),selectedEnemy.getX(),selectedEnemy.getY(),this);
             }
         }
+        
+        for (Object object : bullets) {
+            Bullet selectedBullet = (Bullet) object;
+            if (selectedBullet.isActive()) {
+                //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
+                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX(),selectedBullet.getY(),this);
+            }
+        }
+        
         g2d.setColor(Color.red);
         //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
         g2d.drawImage(player.getImage(),player.getX(),player.getY(),this);
