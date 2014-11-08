@@ -16,6 +16,7 @@ public class Enemy extends Entity{
     private static int defaultSpriteWidth = 30;
     private static int defaultSpriteHeight = 15;
     private Image currentSkin;
+    private double shotProbability; // Out of 1 (1 means certain shot).
     
     public Enemy () {
         super();
@@ -25,31 +26,39 @@ public class Enemy extends Entity{
             System.err.println(e);
         }
         this.health = 2;
+        this.bulletDmg = 1;
+        this.shotProbability = 0.1;
+        this.faction = Entity.entityFaction.ENEMY;
     }
     
     public Enemy (int level) {
         super();
+        this.faction = Entity.entityFaction.ENEMY;
         String skinName;
         switch (level) {
             case 1:
                 skinName = "Skins/Enemy_Level_1.png";
                 this.health = 2;
                 this.bulletDmg = 1;
+                this.shotProbability = 0.1;
                 break;
             case 2:
                 skinName = "Skins/Enemy_Level_2.png";
                 this.health = 2;
                 this.bulletDmg = 1;
+                this.shotProbability = 0.2;
                 break;
             case 3:
                 skinName = "Skins/Enemy_Level_3.png";
                 this.health = 4;
                 this.bulletDmg = 1;
+                this.shotProbability = 0.2;
                 break;
             default:
                 skinName = "Skins/Enemy_Level_1.png";
                 this.health = 2;
                 this.bulletDmg = 1;
+                this.shotProbability = 0.1;
                 break;
         }
         try {
@@ -69,5 +78,13 @@ public class Enemy extends Entity{
     
     public Image getImage() {
         return currentSkin;
+    }
+    
+    public double getProbability() {
+        return shotProbability;
+    }
+    
+    public int getBulletDamage() {
+        return bulletDmg;
     }
 }
