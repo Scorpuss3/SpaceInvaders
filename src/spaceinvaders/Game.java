@@ -14,7 +14,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import spaceinvaders.Entities.Enemy;
+import spaceinvaders.Entities.*;
 
 /**
  *
@@ -65,7 +65,7 @@ public class Game {
         }
         
         public void start() {
-            et = new Thread(this,"enemyThread");
+            et = new Thread(this,"enemyMovementThread");
             et.start();
         }
     }
@@ -90,8 +90,55 @@ public class Game {
         }
         
         public void start() {
-            pt = new Thread(this, "playerThread");
+            pt = new Thread(this, "playerMovementThread");
             pt.start();
+        }
+    }
+    
+    static class EnemyFiring implements Runnable {
+        private Thread eft;
+        @Override
+        public void run() {
+            while (!paused) {
+                for (Object object : session.enemies) {
+                    Enemy selectedEnemy = (Enemy) object;
+                    double randomDouble = Math.random();
+                    if (randomDouble <= selectedEnemy.getProbability()) {
+                        session.bullets.add(new Bullet(selectedEnemy,1));
+                    }
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                }
+            }
+        }
+        
+        public void start() {
+            eft = new Thread(this, "enemyFiringThread");
+            eft.start();
+        }
+    }
+    
+    static class BulletMovement implements Runnable {
+        private Thread bt;
+        @Override
+        public void run() {
+            while (!paused) {
+                for (Object object : session.bullets) {
+                    Bullet selectedBullet = (Bullet) object;
+                    selectedBullet.move(0, selectedBullet.getDirection());
+                }
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                }
+            }
+        }
+        
+        public void start() {
+            bt = new Thread(this, "bulletMovementThread");
+            bt.start();
         }
     }
     
@@ -145,7 +192,7 @@ public class Game {
         System.out.println("Got Command: " + actionString);
         switch (actionString) {
             case "Fire" :
-                //Do things
+                session.bullets.add(new Bullet(session.player,-1));
                 break;
             case "Left" :
                 session.player.setDirection(-1);
@@ -172,9 +219,14 @@ public class Game {
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
         setUpKeyboardListener();
+        
         PlayerMovement pm = new PlayerMovement();
         pm.start();
         EnemyMovement em = new EnemyMovement();
         em.start();
+        EnemyFiring ef = new EnemyFiring();
+        ef.start();
+        BulletMovement bm = new BulletMovement();
+        bm.start();
     }
 }
