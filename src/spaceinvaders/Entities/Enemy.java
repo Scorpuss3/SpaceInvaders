@@ -27,7 +27,7 @@ public class Enemy extends Entity{
         }
         this.health = 2;
         this.bulletDmg = 1;
-        this.shotProbability = 0.1;
+        this.shotProbability = 0.0;
         this.faction = Entity.entityFaction.ENEMY;
     }
     
@@ -40,25 +40,25 @@ public class Enemy extends Entity{
                 skinName = "Skins/Enemy_Level_1.png";
                 this.health = 2;
                 this.bulletDmg = 1;
-                this.shotProbability = 0.1;
+                this.shotProbability = 0.0;
                 break;
             case 2:
                 skinName = "Skins/Enemy_Level_2.png";
                 this.health = 2;
                 this.bulletDmg = 1;
-                this.shotProbability = 0.2;
+                this.shotProbability = 0.01;
                 break;
             case 3:
                 skinName = "Skins/Enemy_Level_3.png";
                 this.health = 4;
                 this.bulletDmg = 1;
-                this.shotProbability = 0.2;
+                this.shotProbability = 0.02;
                 break;
             default:
                 skinName = "Skins/Enemy_Level_1.png";
                 this.health = 2;
                 this.bulletDmg = 1;
-                this.shotProbability = 0.1;
+                this.shotProbability = 0.01;
                 break;
         }
         try {
