@@ -24,7 +24,6 @@ public class Bullet extends Entity{
         this.direction = direction;
         this.setX(owner.getX()+ owner.getWidth()/2 -1);
         this.setY(owner.getY());
-        System.out.println("Bullet created at: " + Integer.toString(this.getX()) + "," + Integer.toString(this.getY()));
         
         String skinName;
         if (owner.getFaction() == Entity.entityFaction.ENEMY) { // Might not work...
@@ -48,5 +47,9 @@ public class Bullet extends Entity{
     
     public int getDirection() {
         return direction;
+    }
+    
+    public int getDamage() {
+        return damage;
     }
 }
