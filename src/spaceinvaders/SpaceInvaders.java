@@ -21,11 +21,11 @@ import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 
 public class SpaceInvaders extends JPanel{
-    protected int canvasWidth = 300;
-    protected int canvasHeight = 400;
+    protected int canvasWidth = 600;
+    protected int canvasHeight = 500;
     protected final int borderWidth = 5;
     protected final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
-    protected final int enemyGridHeight = 200;
+    protected final int enemyGridHeight = 100;
     protected static SpaceInvaders game;
     protected ArrayList enemies = new ArrayList();
     protected ArrayList enemyBullets = new ArrayList();
@@ -116,8 +116,16 @@ public class SpaceInvaders extends JPanel{
         int height = gd.getDisplayMode().getHeight();
         frame.setSize(width,height);
         frame.setUndecorated(true);
-        widthMultiplier = width / game.canvasWidth;
-        heightMultiplier = height / game.canvasHeight;
+        //If statement keps aspect ratio:
+        if (width / game.canvasWidth <= height / game.canvasHeight) {
+            // Aspect dictated by the width difference.
+            widthMultiplier = width / game.canvasWidth;
+            heightMultiplier = widthMultiplier;
+        } else {
+            // Aspect dictated by the height difference.
+            heightMultiplier = height / game.canvasHeight;
+            widthMultiplier = heightMultiplier;
+        }
         //game.canvasWidth = width-1;
         //game.canvasHeight = height-1;
         //game.setSize(game.canvasWidth, game.canvasHeight);
