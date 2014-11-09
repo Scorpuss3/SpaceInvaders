@@ -31,6 +31,8 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
     protected Player player;
+    public static int widthMultiplier = 1;
+    public static int heightMultiplier = 1;
     
     @Override
     public void paint(Graphics g) {
@@ -43,7 +45,7 @@ public class SpaceInvaders extends JPanel{
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
-                g2d.drawImage(selectedEnemy.getImage(),selectedEnemy.getX(),selectedEnemy.getY(),this);
+                g2d.drawImage(selectedEnemy.getImage(),selectedEnemy.getX()*widthMultiplier,selectedEnemy.getY()*heightMultiplier,this);
             }
         }
         
@@ -51,7 +53,7 @@ public class SpaceInvaders extends JPanel{
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
-                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX(),selectedBullet.getY(),this);
+                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX()*widthMultiplier,selectedBullet.getY()*heightMultiplier,this);
             }
         }
         
@@ -59,17 +61,17 @@ public class SpaceInvaders extends JPanel{
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
-                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX(),selectedBullet.getY(),this);
+                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX()*widthMultiplier,selectedBullet.getY()*heightMultiplier,this);
             }
         }
         
         g2d.setColor(Color.red);
         //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
-        g2d.drawImage(player.getImage(),player.getX(),player.getY(),this);
+        g2d.drawImage(player.getImage(),player.getX()*widthMultiplier,player.getY()*heightMultiplier,this);
         
-        g2d.fillRect(canvasWidth, canvasHeight, 2, 2);
-        g2d.drawRect(0,0,canvasWidth,canvasHeight);
-        g2d.drawRect(borderWidth,borderWidth,canvasWidth-2*borderWidth,canvasHeight-2*borderWidth);
+        //g2d.fillRect(canvasWidth*widthMultiplier, canvasHeight*heightMultiplier, 2, 2);
+        g2d.drawRect(0,0,canvasWidth*widthMultiplier,canvasHeight*heightMultiplier);
+        g2d.drawRect(borderWidth,borderWidth,canvasWidth*widthMultiplier-2*borderWidth,canvasHeight*heightMultiplier-2*borderWidth);
         
         if (Game.isPaused()) {
             g2d.setColor(Color.green);
@@ -112,9 +114,12 @@ public class SpaceInvaders extends JPanel{
         int height = gd.getDisplayMode().getHeight();
         frame.setSize(width,height);
         frame.setUndecorated(true);
-        game.canvasWidth = width-1;
-        game.canvasHeight = height-1;
-        game.setSize(game.canvasWidth, game.canvasHeight);
+        widthMultiplier = width / game.canvasWidth;
+        heightMultiplier = height / game.canvasHeight;
+        //game.canvasWidth = width-1;
+        //game.canvasHeight = height-1;
+        //game.setSize(game.canvasWidth, game.canvasHeight);
+        game.setSize(game.canvasWidth*widthMultiplier, game.canvasHeight*heightMultiplier);
     }
     
     public static void createUI() {
