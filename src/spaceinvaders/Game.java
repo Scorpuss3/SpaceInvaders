@@ -29,37 +29,39 @@ public class Game {
         private Thread et;
         @Override
         public void run() {
-            int xMod = 1;
-            int yMod = 0;
-            while (!paused) {
-                int totalPause = 0;
-                if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
-                    //Invaders have reached left side of screen...
-                    xMod = 1;
-                    yMod = 5;
-                    System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
-                    totalPause += 20; 
-                } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
-                    //Invaders have reached right side of screen...
-                    // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
-                    xMod = -1;
-                    yMod = 5;
-                    System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
-                    totalPause += 20; 
-                } else {
-                    yMod = 0;
-                }
-                for (Object object : session.enemies) {
-                    Enemy selectedEnemy = (Enemy) object;
-                    if (selectedEnemy.isActive()) {
-                        selectedEnemy.move(xMod,yMod);
+            while (playing)  {
+                int xMod = 1;
+                int yMod = 0;
+                while (!paused) {
+                    int totalPause = 0;
+                    if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
+                        //Invaders have reached left side of screen...
+                        xMod = 1;
+                        yMod = 5;
+                        System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
+                        totalPause += 20; 
+                    } else if (( (Enemy) session.enemies.get(session.enemies.size()-2) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
+                        //Invaders have reached right side of screen...
+                        // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
+                        xMod = -1;
+                        yMod = 5;
+                        System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
+                        totalPause += 20; 
+                    } else {
+                        yMod = 0;
                     }
-                }
-                session.repaint();
-                totalPause += 20;
-                try {
-                    Thread.sleep(totalPause);
-                } catch (InterruptedException e){
+                    for (Object object : session.enemies) {
+                        Enemy selectedEnemy = (Enemy) object;
+                        if (selectedEnemy.isActive()) {
+                            selectedEnemy.move(xMod,yMod);
+                        }
+                    }
+                    session.repaint();
+                    totalPause += 20;
+                    try {
+                        Thread.sleep(totalPause);
+                    } catch (InterruptedException e){
+                    }
                 }
             }
         }
@@ -74,17 +76,19 @@ public class Game {
         private Thread pt;
         @Override
         public void run() {
-            while (!paused) {
-                if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
-                        ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
-                         (session.player.getDirection() == 1)) {
-                    //Player is at left or right side, and the direction is pointing into the edge.
-                    session.player.setDirection(0); //Deactivates any movement keypress
-                }
-                session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
+            while (playing) {
+                while (!paused) {
+                    if ( ((session.player.getX() <= session.borderWidth) && session.player.getDirection() == -1) ||
+                            ((session.player.getX()+session.player.getWidth() >= session.canvasWidth - 2*session.borderWidth)) &&
+                             (session.player.getDirection() == 1)) {
+                        //Player is at left or right side, and the direction is pointing into the edge.
+                        session.player.setDirection(0); //Deactivates any movement keypress
+                    }
+                    session.player.setX( session.player.getX() + session.player.getDirection()*session.player.getSpeed() );
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                    }
                 }
             }
         }
@@ -99,17 +103,19 @@ public class Game {
         private Thread eft;
         @Override
         public void run() {
-            while (!paused) {
-                for (Object object : session.enemies) {
-                    Enemy selectedEnemy = (Enemy) object;
-                    double randomDouble = Math.random();
-                    if (randomDouble <= selectedEnemy.getProbability()) {
-                        session.enemyBullets.add(new Bullet(selectedEnemy,1));
+            while (playing) {
+                while (!paused) {
+                    for (Object object : session.enemies) {
+                        Enemy selectedEnemy = (Enemy) object;
+                        double randomDouble = Math.random();
+                        if (randomDouble <= selectedEnemy.getProbability()) {
+                            session.enemyBullets.add(new Bullet(selectedEnemy,1));
+                        }
                     }
-                }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                    }
                 }
             }
         }
@@ -124,18 +130,20 @@ public class Game {
         private Thread bt;
         @Override
         public void run() {
-            while (!paused) {
-                for (Object object : session.enemyBullets) {
-                    Bullet selectedBullet = (Bullet) object;
-                    selectedBullet.move(0, selectedBullet.getDirection());
-                }
-                for (Object object : session.playerBullets) {
-                    Bullet selectedBullet = (Bullet) object;
-                    selectedBullet.move(0, selectedBullet.getDirection());
-                }
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
+            while (playing) {
+                while (!paused) {
+                    for (Object object : session.enemyBullets) {
+                        Bullet selectedBullet = (Bullet) object;
+                        selectedBullet.move(0, selectedBullet.getDirection());
+                    }
+                    for (Object object : session.playerBullets) {
+                        Bullet selectedBullet = (Bullet) object;
+                        selectedBullet.move(0, selectedBullet.getDirection());
+                    }
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                    }
                 }
             }
         }
@@ -150,30 +158,32 @@ public class Game {
         private Thread cdt;
         @Override
         public void run() {
-            while (!paused) {
-                for (Object object : session.playerBullets) {
-                    Bullet selectedBullet = (Bullet) object;
-                    for (Object eobject : session.enemies) {
-                        System.out.println("NOPE"); // Strangely, not printing....
-                        Enemy selectedEnemy = (Enemy) eobject;
-                        if (selectedBullet.intersects(selectedEnemy)) {
-                            selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
-                            session.enemyBullets.remove(selectedBullet);
+            while (playing) {
+                while (!paused) {
+                    for (Object object : session.playerBullets) {
+                        Bullet selectedBullet = (Bullet) object;
+                        for (Object eobject : session.enemies) {
+                            System.out.println("NOPE"); // Strangely, not printing....
+                            Enemy selectedEnemy = (Enemy) eobject;
+                            if (selectedBullet.intersects(selectedEnemy)) {
+                                selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
+                                session.enemyBullets.remove(selectedBullet);
+                                selectedBullet.deactivate();
+                                selectedBullet = null;
+                            }
+                        }
+                    }
+                    for (Object object : session.enemyBullets) {
+                        Bullet selectedBullet = (Bullet) object;
+                        if (session.player.intersects(selectedBullet)) {
+                            session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
+                            session.playerBullets.remove(selectedBullet);
                             selectedBullet.deactivate();
                             selectedBullet = null;
                         }
                     }
+                    // No delay, collisions must be detected as early as they happen...
                 }
-                for (Object object : session.enemyBullets) {
-                    Bullet selectedBullet = (Bullet) object;
-                    if (session.player.intersects(selectedBullet)) {
-                        session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
-                        session.playerBullets.remove(selectedBullet);
-                        selectedBullet.deactivate();
-                        selectedBullet = null;
-                    }
-                }
-                // No delay, collisions must be detected as early as they happen...
             }
         }
         
