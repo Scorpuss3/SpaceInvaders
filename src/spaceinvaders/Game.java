@@ -160,8 +160,9 @@ public class Game {
         public void run() {
             while (playing) {
                 while (!paused) {
-                    for (Object object : session.playerBullets) {
+                    for (Object object : session.playerBullets) { 
                         Bullet selectedBullet = (Bullet) object;
+                        System.out.println("CHEEEEEE"); //Also not printed...
                         for (Object eobject : session.enemies) {
                             System.out.println("NOPE"); // Strangely, not printing....
                             Enemy selectedEnemy = (Enemy) eobject;
