@@ -12,6 +12,8 @@ package spaceinvaders;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -19,8 +21,8 @@ import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 
 public class SpaceInvaders extends JPanel{
-    protected final int canvasWidth = 300;
-    protected final int canvasHeight = 400;
+    protected int canvasWidth = 300;
+    protected int canvasHeight = 400;
     protected final int borderWidth = 5;
     protected final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
     protected final int enemyGridHeight = 200;
@@ -104,6 +106,17 @@ public class SpaceInvaders extends JPanel{
         player = new Player("Player 1");
     }
     
+    public static void setUpFullScreen(JFrame frame, SpaceInvaders game) {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        frame.setSize(width,height);
+        frame.setUndecorated(true);
+        game.canvasWidth = width-1;
+        game.canvasHeight = height-1;
+        game.setSize(game.canvasWidth, game.canvasHeight);
+    }
+    
     public static void createUI() {
         JFrame frame = new JFrame("Space Invaders");
         game = new SpaceInvaders();
@@ -111,6 +124,7 @@ public class SpaceInvaders extends JPanel{
         game.setBackground(Color.black);
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
+        //setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
