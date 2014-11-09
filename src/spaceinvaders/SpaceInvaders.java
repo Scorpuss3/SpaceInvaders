@@ -31,8 +31,9 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
     protected Player player;
-    public static int widthMultiplier = 1;
-    public static int heightMultiplier = 1;
+    //public static int widthMultiplier = 1;
+    //public static int heightMultiplier = 1;
+    public static float aspectMultiplier = 1;
     
     @Override
     public void paint(Graphics g) {
@@ -45,7 +46,7 @@ public class SpaceInvaders extends JPanel{
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
-                g2d.drawImage(selectedEnemy.getImage(),selectedEnemy.getX()*widthMultiplier,selectedEnemy.getY()*heightMultiplier, selectedEnemy.getImage().getWidth(null)*widthMultiplier,selectedEnemy.getImage().getHeight(null)*heightMultiplier ,this);
+                g2d.drawImage(selectedEnemy.getImage(),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier), (int) (selectedEnemy.getImage().getWidth(null)*aspectMultiplier),(int) (selectedEnemy.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
@@ -53,7 +54,7 @@ public class SpaceInvaders extends JPanel{
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
-                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX()*widthMultiplier,selectedBullet.getY()*heightMultiplier, selectedBullet.getImage().getWidth(null)*widthMultiplier,selectedBullet.getImage().getHeight(null)*heightMultiplier ,this);
+                g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
@@ -61,19 +62,19 @@ public class SpaceInvaders extends JPanel{
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
-                g2d.drawImage(selectedBullet.getImage(),selectedBullet.getX()*widthMultiplier,selectedBullet.getY()*heightMultiplier, selectedBullet.getImage().getWidth(null)*widthMultiplier,selectedBullet.getImage().getHeight(null)*heightMultiplier ,this);
+                g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
         g2d.setColor(Color.red);
         //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
-        g2d.drawImage(player.getImage(),player.getX()*widthMultiplier,player.getY()*heightMultiplier, player.getImage().getWidth(null)*widthMultiplier,player.getImage().getHeight(null)*heightMultiplier ,this);
+        g2d.drawImage(player.getImage(),(int) (player.getX()*aspectMultiplier),(int) (player.getY()*aspectMultiplier), (int) (player.getImage().getWidth(null)*aspectMultiplier),(int) (player.getImage().getHeight(null)*aspectMultiplier) ,this);
         // drawImage (image, x, y, new height, new width, null)
         // drawImage (image, x, y, null)
         
         //g2d.fillRect(canvasWidth*widthMultiplier, canvasHeight*heightMultiplier, 2, 2);
-        g2d.drawRect(0,0,canvasWidth*widthMultiplier,canvasHeight*heightMultiplier);
-        g2d.drawRect(borderWidth,borderWidth,canvasWidth*widthMultiplier-2*borderWidth,canvasHeight*heightMultiplier-2*borderWidth);
+        g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeight*aspectMultiplier));
+        g2d.drawRect(borderWidth,borderWidth,(int) (canvasWidth*aspectMultiplier-2*borderWidth),(int) (canvasHeight*aspectMultiplier-2*borderWidth));
         
         if (Game.isPaused()) {
             g2d.setColor(Color.green);
@@ -117,21 +118,19 @@ public class SpaceInvaders extends JPanel{
         frame.setSize(width,height);
         frame.setUndecorated(true);
         //If statement keps aspect ratio:
-        if (width / game.canvasWidth <= height / game.canvasHeight) {
+        if ((float)width / game.canvasWidth <= (float)height / game.canvasHeight) {
             // Aspect dictated by the width difference.
-            widthMultiplier = width / game.canvasWidth;
-            heightMultiplier = widthMultiplier;
+            aspectMultiplier = (float)width / game.canvasWidth;
         } else {
             // Aspect dictated by the height difference.
-            heightMultiplier = height / game.canvasHeight;
-            widthMultiplier = heightMultiplier;
+            aspectMultiplier = (float)height / game.canvasHeight;
         }
         //game.canvasWidth = width-1;
         //game.canvasHeight = height-1;
         //game.setSize(game.canvasWidth, game.canvasHeight);
-        game.setSize(game.canvasWidth*widthMultiplier, game.canvasHeight*heightMultiplier);
-        System.out.print("Width: " + Integer.toString(game.canvasWidth*widthMultiplier));
-        System.out.println("   Height: " + Integer.toString(game.canvasHeight*heightMultiplier));
+        game.setSize(game.canvasWidth*(int)aspectMultiplier, game.canvasHeight*(int)aspectMultiplier);
+        System.out.print("Width: " + Float.toString(game.canvasWidth*aspectMultiplier));
+        System.out.println("   Height: " + Float.toString(game.canvasHeight*aspectMultiplier));
     }
     
     public static void createUI() {
