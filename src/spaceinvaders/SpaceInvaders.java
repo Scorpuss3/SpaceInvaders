@@ -73,7 +73,7 @@ public class SpaceInvaders extends JPanel{
         // drawImage (image, x, y, null)
         
         //g2d.fillRect(canvasWidth*widthMultiplier, canvasHeight*heightMultiplier, 2, 2);
-        g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeight*aspectMultiplier));
+        g2d.drawRect(2,2,(int) (canvasWidth*aspectMultiplier) -4,(int) (canvasHeight*aspectMultiplier) -4);
         g2d.drawRect(borderWidth,borderWidth,(int) (canvasWidth*aspectMultiplier-2*borderWidth),(int) (canvasHeight*aspectMultiplier-2*borderWidth));
         
         if (Game.isPaused()) {
