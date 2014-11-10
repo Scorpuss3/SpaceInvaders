@@ -31,8 +31,6 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
     protected Player player;
-    //public static int widthMultiplier = 1;
-    //public static int heightMultiplier = 1;
     public static float aspectMultiplier = 1;
     
     @Override
@@ -45,16 +43,14 @@ public class SpaceInvaders extends JPanel{
         for (Object object : enemies) {
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
-                //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
                 g2d.drawImage(selectedEnemy.getImage(),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier), (int) (selectedEnemy.getImage().getWidth(null)*aspectMultiplier),(int) (selectedEnemy.getImage().getHeight(null)*aspectMultiplier) ,this);
-                g2d.drawString(Integer.toString(selectedEnemy.getHealth()),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier));
+                //g2d.drawString(Integer.toString(selectedEnemy.getHealth()),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier));
             }
         }
         
         for (Object object : enemyBullets) {
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
-                //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
@@ -62,7 +58,6 @@ public class SpaceInvaders extends JPanel{
         for (Object object : playerBullets) {
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
-                //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
