@@ -56,7 +56,7 @@ public class Player extends Entity{
         tempSkinActive = true;
         if (name == tempSkin.FIRING) {
             try {
-                currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
+                currentSkin = ImageIO.read(getClass().getResourceAsStream("Player_Firing.png"));
             }catch(Exception e){
                 System.err.println(e);
             }
