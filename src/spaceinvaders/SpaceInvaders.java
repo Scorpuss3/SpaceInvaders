@@ -47,6 +47,7 @@ public class SpaceInvaders extends JPanel{
             if (selectedEnemy.isActive()) {
                 //g2d.fillOval(selectedEnemy.getX(), selectedEnemy.getY(), Enemy.getGenericWidth(), Enemy.getGenericHeight()); //Last two numbers are width, height
                 g2d.drawImage(selectedEnemy.getImage(),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier), (int) (selectedEnemy.getImage().getWidth(null)*aspectMultiplier),(int) (selectedEnemy.getImage().getHeight(null)*aspectMultiplier) ,this);
+                g2d.drawString(Integer.toString(selectedEnemy.getHealth()),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier));
             }
         }
         
@@ -140,7 +141,7 @@ public class SpaceInvaders extends JPanel{
         game.setBackground(Color.black);
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
-        setUpFullScreen(frame, game);
+        //setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
