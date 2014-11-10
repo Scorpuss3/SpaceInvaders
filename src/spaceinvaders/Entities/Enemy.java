@@ -104,7 +104,7 @@ public class Enemy extends Entity{
         tempSkinActive = true;
         if (name == tempSkin.FIRING) {
             try {
-                currentSkin = ImageIO.read(getClass().getResourceAsStream("Enemy_Level_" + Integer.toString(diffLevel) + "_Firing.png"));
+                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_" + Integer.toString(diffLevel) + "_Firing.png"));
             }catch(Exception e){
                 System.err.println(e);
             }
