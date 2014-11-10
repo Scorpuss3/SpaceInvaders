@@ -19,6 +19,8 @@ public class Bullet extends Entity{
     private Image currentSkin;
     
     public Bullet(Entity passedOwner, int direction) {
+        this.spriteWidth = 2;
+        this.spriteHeight = 2;
         this.owner = passedOwner;
         damage = owner.bulletDmg;
         this.direction = direction;
