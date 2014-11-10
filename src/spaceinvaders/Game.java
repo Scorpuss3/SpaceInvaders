@@ -13,6 +13,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import spaceinvaders.Entities.*;
 
@@ -198,6 +199,35 @@ public class Game {
         }
     }
     
+    static class GameEndHandler implements Runnable {
+        private Thread geht;
+        @Override
+        public void run() {
+            while (playing) {
+                while (!paused) {
+                    if (!session.player.isActive()) {
+                        paused = true;
+                        playing = false;
+                        JOptionPane.showMessageDialog(session,"YOU LOSE");
+                        System.exit(0);
+                    } else {
+                        System.out.println("Player is active");
+                    }
+                }
+                try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                    }
+            }
+        }
+        
+        
+        public void start() {
+            geht = new Thread(this, "gameEndHandlingThread");
+            geht.start();
+        }
+    }
+    
     public static void setUpKeyboardListener() {
         ActionMap actionMap = session.getActionMap();
         InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -291,5 +321,7 @@ public class Game {
         bm.start();
         SpriteCollisionDetection cd = new SpriteCollisionDetection();
         cd.start();
+        GameEndHandler geh = new GameEndHandler();
+        geh.start();
     }
 }
