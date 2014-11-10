@@ -20,6 +20,8 @@ public class Enemy extends Entity{
     
     public Enemy () {
         super();
+        this.spriteWidth = defaultSpriteWidth;
+        this.spriteHeight = defaultSpriteHeight;
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_1.png"));
 	}catch(Exception e){
