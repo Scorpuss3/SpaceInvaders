@@ -162,28 +162,32 @@ public class Game {
                 while (!paused) {
                     for (Object object : session.playerBullets) { 
                         Bullet selectedBullet = (Bullet) object;
-                        System.out.println("CHEEEEEE"); //Also not printed...
                         for (Object eobject : session.enemies) {
-                            System.out.println("NOPE"); // Strangely, not printing....
                             Enemy selectedEnemy = (Enemy) eobject;
                             if (selectedBullet.intersects(selectedEnemy)) {
                                 selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
-                                session.enemyBullets.remove(selectedBullet);
                                 selectedBullet.deactivate();
-                                selectedBullet = null;
                             }
                         }
                     }
                     for (Object object : session.enemyBullets) {
                         Bullet selectedBullet = (Bullet) object;
-                        if (session.player.intersects(selectedBullet)) {
+                        if (session.player.intersects(selectedBullet) && selectedBullet.isActive()) {
+                            // Collision with Player...
+                            System.out.println("Collision Has Been Detected");
                             session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
-                            session.playerBullets.remove(selectedBullet);
                             selectedBullet.deactivate();
-                            selectedBullet = null;
+                        }
+                        if (selectedBullet.getX() >= session.canvasHeight - session.borderWidth) {
+                            // Collision with bottom border...
+                            selectedBullet.deactivate();
                         }
                     }
-                    // No delay, collisions must be detected as early as they happen...
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                    }
+                    // Added delay, may not be needed...
                 }
             }
         }
