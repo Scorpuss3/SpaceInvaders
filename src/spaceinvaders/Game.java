@@ -165,10 +165,14 @@ public class Game {
                         Bullet selectedBullet = (Bullet) object;
                         for (Object eobject : session.enemies) {
                             Enemy selectedEnemy = (Enemy) eobject;
-                            if (selectedBullet.intersects(selectedEnemy)) {
+                            if (selectedBullet.intersects(selectedEnemy) && selectedBullet.isActive()) {
                                 selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
                                 selectedBullet.deactivate();
                             }
+                        }
+                        if (selectedBullet.getX() <= session.borderWidth) {
+                            // Collision with bottom border...
+                            selectedBullet.deactivate();
                         }
                     }
                     for (Object object : session.enemyBullets) {
@@ -210,8 +214,6 @@ public class Game {
                         playing = false;
                         JOptionPane.showMessageDialog(session,"YOU LOSE");
                         System.exit(0);
-                    } else {
-                        System.out.println("Player is active");
                     }
                 }
                 try {
