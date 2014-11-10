@@ -97,6 +97,9 @@ public class Entity {
         } else {
             System.out.println("Hit Enemy.");
         }
+        if (health == 0) {
+            deactivate();
+        }
     }
     
     public entityFaction getFaction() {
