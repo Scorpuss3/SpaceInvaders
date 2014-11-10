@@ -241,6 +241,7 @@ public class Game {
                     for (Object object : session.enemies) {
                         Enemy selectedEnemy = (Enemy) object;
                         if (selectedEnemy.isTempSkinActive()) {
+                            System.out.println("Found temp enemy costume...");
                             resetSkin(selectedEnemy);
                         }
                     }
@@ -264,7 +265,7 @@ public class Game {
                 Player selectedPlayer = (Player) entity;
                 selectedPlayer.resetSkin();
             } else {
-                Player selectedEnemy = (Player) entity;
+                Enemy selectedEnemy = (Enemy) entity;
                 selectedEnemy.resetSkin();
             }
         }
