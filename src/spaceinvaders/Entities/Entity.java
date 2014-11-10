@@ -98,7 +98,8 @@ public class Entity {
             System.out.println("Enemy health now " + Integer.toString(newHealth));
         }
         if (health == 0) {
-            deactivate();
+            System.out.println("Deactivated.");
+            this.deactivate();
         }
     }
     
