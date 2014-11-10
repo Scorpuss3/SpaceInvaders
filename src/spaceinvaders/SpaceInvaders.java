@@ -17,6 +17,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 
@@ -79,11 +80,10 @@ public class SpaceInvaders extends JPanel{
         }
     }
     
-    public void initialiseGame() {
+    public void initialiseGame(LoadingBar loadPanel) {
         float i;
-        System.out.println("Got HERE");
         for (i = 0; i <=20 ; i++) {
-            System.out.println("And here");
+            loadPanel.increment();
             Enemy newEnemy;
             if (i <= 5) {
                 newEnemy= new Enemy(3);
@@ -97,9 +97,10 @@ public class SpaceInvaders extends JPanel{
             
             newEnemy.setY((int) ((i-1)/5)*(enemyGridHeight/4) + borderWidth);
             enemies.add(newEnemy);
-            System.out.print("New enemy added:" + Float.toString(i));
-            System.out.println("At Coordinates: (" + Integer.toString(newEnemy.getX()) + "," + Integer.toString(newEnemy.getY()) + ")");
+            //System.out.print("New enemy added:" + Float.toString(i));
+            //System.out.println("At Coordinates: (" + Integer.toString(newEnemy.getX()) + "," + Integer.toString(newEnemy.getY()) + ")");
         }
+        loadPanel.increment();
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
     }
     
@@ -130,7 +131,7 @@ public class SpaceInvaders extends JPanel{
         System.out.println("   Height: " + Float.toString(game.canvasHeight*aspectMultiplier));
     }
     
-    public static void createUI() {
+    public static JFrame createUI() {
         JFrame frame = new JFrame("Space Invaders");
         game = new SpaceInvaders();
         game.setSize(game.canvasWidth, game.canvasHeight);
@@ -140,13 +141,29 @@ public class SpaceInvaders extends JPanel{
         //setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setVisible(true);
+        //frame.setVisible(true);
+        return frame;
+    }
+    
+    public static LoadingBar setUpLoadingScreen() {
+        JFrame load = new JFrame();
+        load.setSize(200,50);
+        load.setUndecorated(true);
+        LoadingBar loadBar = new LoadingBar();
+        loadBar.setSize(200,50);
+        load.add(loadBar);
+        load.setVisible(true);
+        return loadBar;
     }
     
     public static void main(String[] args) throws InterruptedException {
-        createUI();
+        JFrame frame = createUI();
         game.getUserDetails();
-        game.initialiseGame();
+        LoadingBar loadBar = setUpLoadingScreen();
+        game.initialiseGame(loadBar);
+        loadBar.getParent().setVisible(false);
+        frame.setVisible(true);
+        
         Game.runAllGameLoops(game);
     }
 }
