@@ -16,6 +16,12 @@ public class Player extends Entity{
     private final String name;
     private int movementVector = 0; //Int because only vector for x needs to be represented.
     private Image currentSkin;
+    private String defaultSkin = "Skins/Player.png";
+    
+    public enum tempSkin {
+        FIRING
+    }
+    private boolean tempSkinActive = false;
     
     public Player(String name) {
         super();
@@ -44,5 +50,29 @@ public class Player extends Entity{
     
     public Image getImage() {
         return currentSkin;
+    }
+    
+    public void setTempSkin(tempSkin name) {
+        tempSkinActive = true;
+        if (name == tempSkin.FIRING) {
+            try {
+                currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
+            }catch(Exception e){
+                System.err.println(e);
+            }
+        }
+    }
+    
+    public void resetSkin() {
+        tempSkinActive = false;
+        try {
+            currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
+        }catch(Exception e){
+            System.err.println(e);
+        }
+    }
+    
+    public boolean isTempSkinActive() {
+        return tempSkinActive;
     }
 }
