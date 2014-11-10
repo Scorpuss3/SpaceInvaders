@@ -95,7 +95,7 @@ public class Entity {
         if (this.faction == entityFaction.PLAYER) {
             System.out.println("Player health now " + Integer.toString(newHealth));
         } else {
-            System.out.println("Hit Enemy.");
+            System.out.println("Enemy health now " + Integer.toString(newHealth));
         }
         if (health == 0) {
             deactivate();
