@@ -209,17 +209,18 @@ public class Game {
         public void run() {
             while (playing) {
                 while (!paused) {
-                    if (!session.player.isActive()) {
+                    if (! session.player.isActive()) {
+                        System.out.println("m");
                         paused = true;
                         playing = false;
                         JOptionPane.showMessageDialog(session,"YOU LOSE");
                         System.exit(0);
                     }
-                }
-                try {
+                    try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                     }
+                }  
             }
         }
         
