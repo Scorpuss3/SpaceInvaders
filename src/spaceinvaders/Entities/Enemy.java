@@ -35,6 +35,8 @@ public class Enemy extends Entity{
     
     public Enemy (int level) {
         super();
+        this.spriteWidth = defaultSpriteWidth;
+        this.spriteHeight = defaultSpriteHeight;
         this.faction = Entity.entityFaction.ENEMY;
         String skinName;
         switch (level) {
