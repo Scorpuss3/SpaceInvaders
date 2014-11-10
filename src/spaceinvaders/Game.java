@@ -109,7 +109,7 @@ public class Game {
                     for (Object object : session.enemies) {
                         Enemy selectedEnemy = (Enemy) object;
                         double randomDouble = Math.random();
-                        if (randomDouble <= selectedEnemy.getProbability()) {
+                        if (randomDouble <= selectedEnemy.getProbability() && selectedEnemy.isActive()) {
                             selectedEnemy.setTempSkin(Enemy.tempSkin.FIRING);
                             session.enemyBullets.add(new Bullet(selectedEnemy,1));
                         }
@@ -166,7 +166,7 @@ public class Game {
                         Bullet selectedBullet = (Bullet) object;
                         for (Object eobject : session.enemies) {
                             Enemy selectedEnemy = (Enemy) eobject;
-                            if (selectedBullet.intersects(selectedEnemy) && selectedBullet.isActive()) {
+                            if (selectedBullet.intersects(selectedEnemy) && selectedBullet.isActive() && selectedEnemy.isActive()) {
                                 selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
                                 selectedBullet.deactivate();
                             }
