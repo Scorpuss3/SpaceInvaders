@@ -33,6 +33,7 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList playerBullets = new ArrayList();
     protected Player player;
     public static float aspectMultiplier = 1;
+    private static JFrame loadFrame;
     
     @Override
     public void paint(Graphics g) {
@@ -141,18 +142,19 @@ public class SpaceInvaders extends JPanel{
         //setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        //frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         return frame;
     }
     
     public static LoadingBar setUpLoadingScreen() {
-        JFrame load = new JFrame();
-        load.setSize(200,50);
-        load.setUndecorated(true);
+        loadFrame = new JFrame();
+        loadFrame.setSize(200,50);
+        loadFrame.setUndecorated(true);
         LoadingBar loadBar = new LoadingBar();
         loadBar.setSize(200,50);
-        load.add(loadBar);
-        load.setVisible(true);
+        loadFrame.add(loadBar);
+        loadFrame.setLocationRelativeTo(null);
+        loadFrame.setVisible(true);
         return loadBar;
     }
     
@@ -161,6 +163,8 @@ public class SpaceInvaders extends JPanel{
         game.getUserDetails();
         LoadingBar loadBar = setUpLoadingScreen();
         game.initialiseGame(loadBar);
+        
+        loadFrame.setVisible(false);
         loadBar.getParent().setVisible(false);
         frame.setVisible(true);
         
