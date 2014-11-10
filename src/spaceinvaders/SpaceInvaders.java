@@ -36,11 +36,12 @@ public class SpaceInvaders extends JPanel{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        SpaceInvaders freezeFrame = this;
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.blue);
-        for (Object object : enemies) {
+        for (Object object : freezeFrame.enemies) {
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
                 g2d.drawImage(selectedEnemy.getImage(),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier), (int) (selectedEnemy.getImage().getWidth(null)*aspectMultiplier),(int) (selectedEnemy.getImage().getHeight(null)*aspectMultiplier) ,this);
@@ -48,14 +49,14 @@ public class SpaceInvaders extends JPanel{
             }
         }
         
-        for (Object object : enemyBullets) {
+        for (Object object : freezeFrame.enemyBullets) {
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
-        for (Object object : playerBullets) {
+        for (Object object : freezeFrame.playerBullets) {
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
@@ -64,7 +65,7 @@ public class SpaceInvaders extends JPanel{
         
         g2d.setColor(Color.red);
         //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
-        g2d.drawImage(player.getImage(),(int) (player.getX()*aspectMultiplier),(int) (player.getY()*aspectMultiplier), (int) (player.getImage().getWidth(null)*aspectMultiplier),(int) (player.getImage().getHeight(null)*aspectMultiplier) ,this);
+        g2d.drawImage(freezeFrame.player.getImage(),(int) (player.getX()*aspectMultiplier),(int) (player.getY()*aspectMultiplier), (int) (player.getImage().getWidth(null)*aspectMultiplier),(int) (player.getImage().getHeight(null)*aspectMultiplier) ,this);
         // drawImage (image, x, y, new height, new width, null)
         // drawImage (image, x, y, null)
         
