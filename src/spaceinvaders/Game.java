@@ -110,6 +110,7 @@ public class Game {
                         Enemy selectedEnemy = (Enemy) object;
                         double randomDouble = Math.random();
                         if (randomDouble <= selectedEnemy.getProbability()) {
+                            selectedEnemy.setTempSkin(Enemy.tempSkin.FIRING);
                             session.enemyBullets.add(new Bullet(selectedEnemy,1));
                         }
                     }
@@ -231,6 +232,49 @@ public class Game {
         }
     }
     
+    static class TempSkinManager implements Runnable {
+        private Thread tst;
+        @Override
+        public void run() {
+            while (playing) {
+                while (!paused) {
+                    for (Object object : session.enemies) {
+                        Enemy selectedEnemy = (Enemy) object;
+                        if (selectedEnemy.isTempSkinActive()) {
+                            resetSkin(selectedEnemy);
+                        }
+                    }
+                    if (session.player.isTempSkinActive()) {
+                        resetSkin(session.player);
+                    }
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                    }
+                }  
+            }
+        }
+        
+        private void resetSkin(Entity entity) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+            }
+            if (entity.getFaction() == Entity.entityFaction.PLAYER) {
+                Player selectedPlayer = (Player) entity;
+                selectedPlayer.resetSkin();
+            } else {
+                Player selectedEnemy = (Player) entity;
+                selectedEnemy.resetSkin();
+            }
+        }
+        
+        public void start() {
+            tst = new Thread(this, "TempSkinManagingThread");
+            tst.start();
+        }
+    }
+    
     public static void setUpKeyboardListener() {
         ActionMap actionMap = session.getActionMap();
         InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -281,6 +325,7 @@ public class Game {
         System.out.println("Got Command: " + actionString);
         switch (actionString) {
             case "Fire" :
+                session.player.setTempSkin(Player.tempSkin.FIRING);
                 session.playerBullets.add(new Bullet(session.player,-1));
                 break;
             case "Left" :
@@ -326,5 +371,7 @@ public class Game {
         cd.start();
         GameEndHandler geh = new GameEndHandler();
         geh.start();
+        TempSkinManager tsm = new TempSkinManager();
+        tsm.start();
     }
 }
