@@ -93,7 +93,7 @@ public class Entity {
     public void setHealth(int newHealth) {
         health = newHealth;
         if (this.faction == entityFaction.PLAYER) {
-            System.out.println("Player health now" + Integer.toString(newHealth));
+            System.out.println("Player health now " + Integer.toString(newHealth));
         } else {
             System.out.println("Hit Enemy.");
         }
