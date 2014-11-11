@@ -72,12 +72,10 @@ public class SpaceInvaders extends JPanel{
         }
         
         g2d.setColor(Color.red);
-        //g2d.fillRoundRect(player.getX(),player.getY(),player.getWidth(),player.getHeight(),2,2); //TODO do player config for paint().
         g2d.drawImage(freezeFrame.player.getImage(),(int) (player.getX()*aspectMultiplier),(int) (player.getY()*aspectMultiplier), (int) (player.getImage().getWidth(null)*aspectMultiplier),(int) (player.getImage().getHeight(null)*aspectMultiplier) ,this);
         // drawImage (image, x, y, new height, new width, null)
         // drawImage (image, x, y, null)
         
-        //g2d.fillRect(canvasWidth*widthMultiplier, canvasHeight*heightMultiplier, 2, 2);
         g2d.drawRect(2,2,(int) (canvasWidth*aspectMultiplier) -4,(int) (canvasHeight*aspectMultiplier) -4);
         g2d.drawRect(borderWidth,borderWidth,(int) (canvasWidth*aspectMultiplier-2*borderWidth),(int) (canvasHeight*aspectMultiplier-2*borderWidth));
         
@@ -134,9 +132,6 @@ public class SpaceInvaders extends JPanel{
             // Aspect dictated by the height difference.
             aspectMultiplier = (float)height / game.canvasHeight;
         }
-        //game.canvasWidth = width-1;
-        //game.canvasHeight = height-1;
-        //game.setSize(game.canvasWidth, game.canvasHeight);
         game.setSize(game.canvasWidth*(int)aspectMultiplier, game.canvasHeight*(int)aspectMultiplier);
         System.out.print("Width: " + Float.toString(game.canvasWidth*aspectMultiplier));
         System.out.println("   Height: " + Float.toString(game.canvasHeight*aspectMultiplier));
