@@ -17,7 +17,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 import spaceinvaders.Levels.LevelSet;
