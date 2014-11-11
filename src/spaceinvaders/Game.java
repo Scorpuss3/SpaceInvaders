@@ -136,11 +136,11 @@ public class Game {
                 while (!paused) {
                     for (Object object : session.enemyBullets) {
                         Bullet selectedBullet = (Bullet) object;
-                        selectedBullet.move(0, selectedBullet.getDirection());
+                        selectedBullet.move(0, selectedBullet.getDirection()*selectedBullet.getSpeed());
                     }
                     for (Object object : session.playerBullets) {
                         Bullet selectedBullet = (Bullet) object;
-                        selectedBullet.move(0, selectedBullet.getDirection());
+                        selectedBullet.move(0, selectedBullet.getDirection()*selectedBullet.getSpeed());
                     }
                     try {
                         Thread.sleep(20);
