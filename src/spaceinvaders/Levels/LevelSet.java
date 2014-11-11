@@ -22,6 +22,8 @@ public class LevelSet {
     public int numInRow;
     public int numInColumn;
     public int[] rowLevels;
+    public int enemyGridHeight;
+    public int enemyGridWidth;
     private LoadingBar loadPanel;
     
     public LevelSet(int levelToLoad, LoadingBar loadPanel) {
@@ -32,13 +34,15 @@ public class LevelSet {
         totalEnemies = Integer.parseInt((String) fileLines.get(0));//20
         numInRow = Integer.parseInt((String) fileLines.get(1));//5
         numInColumn = Integer.parseInt((String) fileLines.get(2));//4
+        enemyGridHeight = Integer.parseInt((String) fileLines.get(3));
+        enemyGridWidth = Integer.parseInt((String) fileLines.get(4));
         rowLevels = new int[numInColumn];
         //rowLevels[0] = 3;
         //rowLevels[1] = 2;
         //rowLevels[2] = 2;
         //rowLevels[3] = 1;
         int i;
-        int line = 3;
+        int line = 5;
         for (i = 0; i <= numInColumn-1 ; i++) {
             rowLevels[i] = Integer.parseInt((String) fileLines.get(line));
             line++;
