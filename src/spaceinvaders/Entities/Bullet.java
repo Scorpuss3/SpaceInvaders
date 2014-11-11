@@ -29,9 +29,14 @@ public class Bullet extends Entity{
         
         String skinName;
         if (owner.getFaction() == Entity.entityFaction.ENEMY) { // Might not work...
-            skinName = "Skins/Bullet_Enemy.png";
+            Enemy enemyOwner = (Enemy) owner;
+            this.speed = enemyOwner.getBulletSpeed();
+            //skinName = "Skins/Bullet_Enemy.png";
+            skinName = enemyOwner.getSkinName();
             this.setY(owner.getY() + owner.getHeight());
         } else if (owner.getFaction() == Entity.entityFaction.PLAYER) {
+            Player playerOwner = (Player) owner;
+            this.speed = playerOwner.getBulletSpeed();
             skinName = "Skins/Bullet_Player.png";
         } else {
             skinName = "Skins/Player.png";
