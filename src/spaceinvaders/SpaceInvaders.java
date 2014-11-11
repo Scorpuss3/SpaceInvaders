@@ -85,8 +85,7 @@ public class SpaceInvaders extends JPanel{
     }
     
     public void initialiseGame(LoadingBar loadPanel, int levelToLoad) {
-        currentLevelSet = new LevelSet(levelToLoad);
-        int totalEnemies = currentLevelSet.totalEnemies;
+        currentLevelSet = new LevelSet(levelToLoad, loadPanel);
         int numInRow = currentLevelSet.numInRow;
         int numInColumn = currentLevelSet.numInColumn;
         int[] enemyLevelMap = currentLevelSet.rowLevels;
@@ -95,8 +94,6 @@ public class SpaceInvaders extends JPanel{
         for (row = 1 ; row <= numInColumn ; row++) {
             System.out.println(row);
             for (i = 1; i <=numInRow ; i++) {
-                loadPanel.increment();
-                
                 Enemy newEnemy;
                 newEnemy= new Enemy(enemyLevelMap[(int) (row-1)]);
 
@@ -105,10 +102,12 @@ public class SpaceInvaders extends JPanel{
                 newEnemy.setY(((int) ((row / numInColumn)*enemyGridHeight)) + borderWidth);
                 System.out.println("Y was set to: " + Integer.toString(newEnemy.getY()));
                 enemies.add(newEnemy);
+                
+                loadPanel.increment();
             }
         }
-        loadPanel.increment();
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
+        loadPanel.increment();
     }
     
     public void getUserDetails() {
@@ -170,13 +169,15 @@ public class SpaceInvaders extends JPanel{
             if (loadedLevel != level) {
                 loadedLevel = level;
                 
-                JFrame frame = createUI();
-                game.getUserDetails();
+                
                 LoadingBar loadBar = setUpLoadingScreen();
+                JFrame frame = createUI();
+                loadBar.increment();
+                game.getUserDetails();
+                loadBar.increment();
                 game.initialiseGame(loadBar, level);
 
                 loadFrame.setVisible(false);
-                loadBar.getParent().setVisible(false);
                 frame.setVisible(true);
 
                 Game.runAllGameLoops(game);
