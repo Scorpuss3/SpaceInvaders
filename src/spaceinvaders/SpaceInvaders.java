@@ -34,8 +34,11 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList playerBullets = new ArrayList();
     protected Player player;
     public static float aspectMultiplier = 1;
-    private static JFrame loadFrame;
-    public static int level = 1;
+    private static JFrame frame, loadFrame;
+    public static volatile int level = 1;
+    //Essentially, volatile is used to indicate that a variable's value will be modified by different threads.
+    // needed here to keep the main loop running- otherwise, the program sees no edit to 'level' in the future,
+    // because it it only looking for references in this class.
     public static LevelSet currentLevelSet;
     
     @Override
@@ -137,8 +140,8 @@ public class SpaceInvaders extends JPanel{
         System.out.println("   Height: " + Float.toString(game.canvasHeight*aspectMultiplier));
     }
     
-    public static JFrame createUI() {
-        JFrame frame = new JFrame("Space Invaders");
+    public static void createUI() {
+        frame = new JFrame("Space Invaders");
         game = new SpaceInvaders();
         game.setSize(game.canvasWidth, game.canvasHeight);
         game.setBackground(Color.black);
@@ -148,7 +151,6 @@ public class SpaceInvaders extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        return frame;
     }
     
     public static LoadingBar setUpLoadingScreen() {
@@ -168,10 +170,12 @@ public class SpaceInvaders extends JPanel{
         while (true) {
             if (loadedLevel != level) {
                 loadedLevel = level;
-                
+                if (level > 1) {
+                    frame.setVisible(false);
+                }
                 
                 LoadingBar loadBar = setUpLoadingScreen();
-                JFrame frame = createUI();
+                createUI();
                 loadBar.increment();
                 game.getUserDetails();
                 loadBar.increment();
