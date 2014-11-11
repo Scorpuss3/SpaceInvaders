@@ -34,6 +34,7 @@ public class SpaceInvaders extends JPanel{
     protected Player player;
     public static float aspectMultiplier = 1;
     private static JFrame loadFrame;
+    public static int level = 1;
     
     @Override
     public void paint(Graphics g) {
@@ -159,15 +160,22 @@ public class SpaceInvaders extends JPanel{
     }
     
     public static void main(String[] args) throws InterruptedException {
-        JFrame frame = createUI();
-        game.getUserDetails();
-        LoadingBar loadBar = setUpLoadingScreen();
-        game.initialiseGame(loadBar);
-        
-        loadFrame.setVisible(false);
-        loadBar.getParent().setVisible(false);
-        frame.setVisible(true);
-        
-        Game.runAllGameLoops(game);
+        int loadedLevel = 0;
+        while (true) {
+            if (loadedLevel != level) {
+                loadedLevel = level;
+                
+                JFrame frame = createUI();
+                game.getUserDetails();
+                LoadingBar loadBar = setUpLoadingScreen();
+                game.initialiseGame(loadBar);
+
+                loadFrame.setVisible(false);
+                loadBar.getParent().setVisible(false);
+                frame.setVisible(true);
+
+                Game.runAllGameLoops(game);
+            }
+        }
     }
 }
