@@ -19,6 +19,8 @@ public class Enemy extends Entity{
     private double shotProbability; // Out of 1 (1 means certain shot).
     private String defaultSkin;
     private int diffLevel;
+    private int bulletSpeed;
+    private String skinName;
     
     public enum tempSkin {
         FIRING
@@ -37,8 +39,10 @@ public class Enemy extends Entity{
         }
         this.health = 1;
         this.bulletDmg = 1;
+        this.bulletSpeed = 2;
         this.shotProbability = 0.0;
         this.faction = Entity.entityFaction.ENEMY;
+        this.skinName = "Skins/Bullet_Enemy.png";
     }
     
     public Enemy (int level) {
@@ -52,24 +56,31 @@ public class Enemy extends Entity{
                 defaultSkin = "Skins/Enemy_Level_1.png";
                 this.health = 1;
                 this.bulletDmg = 1;
+                this.bulletSpeed = 2;
                 this.shotProbability = 0.0;
+                this.skinName = "Skins/Bullet_Enemy.png";
                 break;
             case 2:
                 defaultSkin = "Skins/Enemy_Level_2.png";
                 this.health = 2;
                 this.bulletDmg = 1;
+                this.bulletSpeed = 2;
                 this.shotProbability = 0.01;
+                this.skinName = "Skins/Bullet_Enemy.png";
                 break;
             case 3:
                 defaultSkin = "Skins/Enemy_Level_3.png";
                 this.health = 4;
                 this.bulletDmg = 1;
+                this.bulletSpeed = 3;
                 this.shotProbability = 0.02;
+                this.skinName = "Skins/Bullet_Enemy_Special.png";
                 break;
             default:
                 defaultSkin = "Skins/Enemy_Level_1.png";
                 this.health = 2;
                 this.bulletDmg = 1;
+                this.bulletSpeed = 2;
                 this.shotProbability = 0.01;
                 break;
         }
@@ -100,6 +111,10 @@ public class Enemy extends Entity{
         return bulletDmg;
     }
     
+    public String getSkinName() {
+        return skinName;
+    }
+    
     public void setTempSkin(tempSkin name) {
         tempSkinActive = true;
         if (name == tempSkin.FIRING) {
@@ -122,5 +137,9 @@ public class Enemy extends Entity{
     
     public boolean isTempSkinActive() {
         return tempSkinActive;
+    }
+    
+    public int getBulletSpeed() {
+        return bulletSpeed;
     }
 }
