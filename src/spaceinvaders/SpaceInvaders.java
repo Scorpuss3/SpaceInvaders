@@ -26,8 +26,8 @@ public class SpaceInvaders extends JPanel{
     protected int canvasWidth = 600;
     protected int canvasHeight = 500;
     protected final int borderWidth = 5;
-    protected final int enemyGridWidth = (canvasWidth - 2*borderWidth) - 80 ;
-    protected final int enemyGridHeight = 100;
+    protected int enemyGridWidth;// = (canvasWidth - 2*borderWidth) - 80 ;(Also make final)
+    protected int enemyGridHeight;// = 100;(Also make final)
     protected static SpaceInvaders game;
     protected ArrayList enemies = new ArrayList();
     protected ArrayList enemyBullets = new ArrayList();
@@ -91,6 +91,8 @@ public class SpaceInvaders extends JPanel{
         currentLevelSet = new LevelSet(levelToLoad, loadPanel);
         int numInRow = currentLevelSet.numInRow;
         int numInColumn = currentLevelSet.numInColumn;
+        enemyGridWidth = currentLevelSet.enemyGridWidth;
+        enemyGridHeight = currentLevelSet.enemyGridHeight;
         int[] enemyLevelMap = currentLevelSet.rowLevels;
         float i;
         float row;
