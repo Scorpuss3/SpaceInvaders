@@ -38,7 +38,7 @@ public class LevelSet {
     
     private static ArrayList getFileData(int levelToLoad) {
         ArrayList finalLines = new ArrayList();
-        String fileName = "Level_" + Integer.toString(levelToLoad) + ".txt";
+        String fileName = "/spaceinvaders/Levels/Level_" + Integer.toString(levelToLoad) + ".txt";
         Path filePath = Paths.get(fileName);
         Charset charset = Charset.forName("US-ASCII");
         try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
