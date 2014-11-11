@@ -17,6 +17,7 @@ public class Player extends Entity{
     private int movementVector = 0; //Int because only vector for x needs to be represented.
     private Image currentSkin;
     private String defaultSkin = "Skins/Player.png";
+    private int bulletSpeed;
     
     public enum tempSkin {
         FIRING
@@ -31,6 +32,7 @@ public class Player extends Entity{
         this.speed = 3; //Default is 3.
         this.health = 3;
         this.bulletDmg = 1;
+        this.bulletSpeed = 3;
         this.faction = Entity.entityFaction.PLAYER;
         
         try {
@@ -74,5 +76,9 @@ public class Player extends Entity{
     
     public boolean isTempSkinActive() {
         return tempSkinActive;
+    }
+    
+    public int getBulletSpeed() {
+        return bulletSpeed;
     }
 }
