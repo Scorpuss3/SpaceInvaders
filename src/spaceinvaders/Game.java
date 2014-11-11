@@ -212,7 +212,7 @@ public class Game {
                 while (!paused) {
                     if (! session.player.isActive()) {
                         paused = true;
-                        //playing = false;
+                        playing = false;
                         JOptionPane.showMessageDialog(session,"YOU LOSE");
                         System.exit(0);
                     }
