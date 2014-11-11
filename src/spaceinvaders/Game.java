@@ -211,11 +211,24 @@ public class Game {
             while (playing) {
                 while (!paused) {
                     if (! session.player.isActive()) {
-                        System.out.println("m");
                         paused = true;
-                        playing = false;
+                        //playing = false;
                         JOptionPane.showMessageDialog(session,"YOU LOSE");
                         System.exit(0);
+                    }
+                    int enemiesAlive = 0;
+                    for (Object object : session.enemies) {
+                        Enemy selectedEnemy = (Enemy) object;
+                        if (selectedEnemy.isActive()) {
+                            enemiesAlive += 1;
+                        }
+                    }
+                    if (enemiesAlive <= 0) {
+                        //Level won...
+                        playing = false;
+                        paused = true;
+                        System.out.println("Added 1 to level...");
+                        SpaceInvaders.level += 1;
                     }
                     try {
                         Thread.sleep(20);
@@ -320,6 +333,14 @@ public class Game {
                 keyAction("Toggle_Pause");
             }
         });
+        
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), "KillAll");
+        actionMap.put("KillAll", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("KillAll");
+            }
+        });
     }
     
     private static void keyAction(String actionString) {
@@ -341,6 +362,12 @@ public class Game {
             case "Toggle_Pause" :
                 paused = !paused;
                 break;
+            case "KillAll" :
+                for (Object object : session.enemies) {
+                    Enemy selected = (Enemy) object;
+                    selected.deactivate();
+                }
+                break;
             default :
                 break;
         }
@@ -358,6 +385,8 @@ public class Game {
     
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
+        playing = true;
+        paused = false;
         setUpKeyboardListener();
         
         PlayerMovement pm = new PlayerMovement();
