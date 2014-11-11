@@ -6,15 +6,10 @@
 
 package spaceinvaders.Levels;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import spaceinvaders.LoadingBar;
 
@@ -30,6 +25,7 @@ public class LevelSet {
     private LoadingBar loadPanel;
     
     public LevelSet(int levelToLoad, LoadingBar loadPanel) {
+        System.out.println("Loading new level...");
         this.loadPanel = loadPanel;
         loadPanel.increment();
         ArrayList fileLines = getFileData(levelToLoad);
