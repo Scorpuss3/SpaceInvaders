@@ -57,7 +57,7 @@ public class Enemy extends Entity{
                 this.health = 1;
                 this.bulletDmg = 1;
                 this.bulletSpeed = 2;
-                this.shotProbability = 0.0;
+                this.shotProbability = 0.01;
                 this.skinName = "Skins/Bullet_Enemy.png";
                 break;
             case 2:
