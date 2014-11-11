@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
+import spaceinvaders.Levels.LevelSet;
 
 public class SpaceInvaders extends JPanel{
     protected int canvasWidth = 600;
@@ -35,6 +36,7 @@ public class SpaceInvaders extends JPanel{
     public static float aspectMultiplier = 1;
     private static JFrame loadFrame;
     public static int level = 1;
+    public static LevelSet currentLevelSet;
     
     @Override
     public void paint(Graphics g) {
@@ -82,25 +84,28 @@ public class SpaceInvaders extends JPanel{
         }
     }
     
-    public void initialiseGame(LoadingBar loadPanel) {
+    public void initialiseGame(LoadingBar loadPanel, int levelToLoad) {
+        currentLevelSet = new LevelSet(levelToLoad);
+        int totalEnemies = currentLevelSet.totalEnemies;
+        int numInRow = currentLevelSet.numInRow;
+        int numInColumn = currentLevelSet.numInColumn;
+        int[] enemyLevelMap = currentLevelSet.rowLevels;
         float i;
-        for (i = 0; i <=20 ; i++) {
-            loadPanel.increment();
-            Enemy newEnemy;
-            if (i <= 5) {
-                newEnemy= new Enemy(3);
-            } else if ((5 < i) && (i <= 15)) {
-                newEnemy= new Enemy(2);
-            } else {
-                newEnemy= new Enemy();
+        float row;
+        for (row = 1 ; row <= numInColumn ; row++) {
+            System.out.println(row);
+            for (i = 1; i <=numInRow ; i++) {
+                loadPanel.increment();
+                
+                Enemy newEnemy;
+                newEnemy= new Enemy(enemyLevelMap[(int) (row-1)]);
+
+                newEnemy.setX(Math.round( ((i/numInRow) * enemyGridWidth) ) + borderWidth + Enemy.getGenericWidth());
+
+                newEnemy.setY(((int) ((row / numInColumn)*enemyGridHeight)) + borderWidth);
+                System.out.println("Y was set to: " + Integer.toString(newEnemy.getY()));
+                enemies.add(newEnemy);
             }
-            
-            newEnemy.setX(Math.round( (((i%5)/4) * enemyGridWidth) ) + borderWidth + Enemy.getGenericWidth());
-            
-            newEnemy.setY((int) ((i-1)/5)*(enemyGridHeight/4) + borderWidth);
-            enemies.add(newEnemy);
-            //System.out.print("New enemy added:" + Float.toString(i));
-            //System.out.println("At Coordinates: (" + Integer.toString(newEnemy.getX()) + "," + Integer.toString(newEnemy.getY()) + ")");
         }
         loadPanel.increment();
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
@@ -168,7 +173,7 @@ public class SpaceInvaders extends JPanel{
                 JFrame frame = createUI();
                 game.getUserDetails();
                 LoadingBar loadBar = setUpLoadingScreen();
-                game.initialiseGame(loadBar);
+                game.initialiseGame(loadBar, level);
 
                 loadFrame.setVisible(false);
                 loadBar.getParent().setVisible(false);
