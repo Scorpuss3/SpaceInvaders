@@ -35,7 +35,7 @@ public class Enemy extends Entity{
 	}catch(Exception e){
             System.err.println(e);
         }
-        this.health = 2;
+        this.health = 1;
         this.bulletDmg = 1;
         this.shotProbability = 0.0;
         this.faction = Entity.entityFaction.ENEMY;
@@ -50,7 +50,7 @@ public class Enemy extends Entity{
         switch (level) {
             case 1:
                 defaultSkin = "Skins/Enemy_Level_1.png";
-                this.health = 2;
+                this.health = 1;
                 this.bulletDmg = 1;
                 this.shotProbability = 0.0;
                 break;
