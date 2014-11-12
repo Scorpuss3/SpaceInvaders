@@ -40,7 +40,7 @@ public class SpaceInvaders extends JPanel{
     // needed here to keep the main loop running- otherwise, the program sees no edit to 'level' in the future,
     // because it it only looking for references in this class.
     public static LevelSet currentLevelSet;
-    private Dimension[] starDimensions = new Dimension[100];
+    private final Dimension[] starDimensions = new Dimension[100];
     
     @Override
     public void paint(Graphics g) {
@@ -185,7 +185,6 @@ public class SpaceInvaders extends JPanel{
                     blank.setSize(frame.getSize());
                     JPanel blankPanel = new JPanel();
                     blankPanel.setBackground(Color.BLACK);
-                    //blank.setBackground(Color.BLACK);
                     blank.add(blankPanel);
                     blank.setLocationRelativeTo(null);
                     blank.setVisible(true);
