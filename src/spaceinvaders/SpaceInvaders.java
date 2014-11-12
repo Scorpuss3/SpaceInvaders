@@ -114,16 +114,16 @@ public class SpaceInvaders extends JPanel{
                 System.out.println("Y was set to: " + Integer.toString(newEnemy.getY()));
                 enemies.add(newEnemy);
                 
-                loadPanel.increment();
+                loadPanel.increment("Adding enemies");
             }
         }
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
-        loadPanel.increment();
+        loadPanel.increment("Adding stars");
         for (int ii = 0; ii < 100; ii++) {
             Dimension d = new Dimension((int) (Math.random() * canvasHeight * aspectMultiplier),(int) (Math.random() * canvasWidth * aspectMultiplier));
             starDimensions[ii] = d;
         }
-        loadPanel.increment();
+        loadPanel.increment("Starting game...");
     }
     
     public void getUserDetails(LoadingBar loadBar) {
@@ -155,19 +155,19 @@ public class SpaceInvaders extends JPanel{
     public static void createUI(LoadingBar loadBar) {
         System.out.println("Creating frame:");
         frame = new JFrame("Space Invaders");
-        loadBar.increment();
+        loadBar.increment("Creating game");
         game = new SpaceInvaders();
-        loadBar.increment();
+        loadBar.increment("setting up canvas");
         game.setSize(game.canvasWidth, game.canvasHeight);
         game.setBackground(Color.black);
-        loadBar.increment();
+        loadBar.increment("Adding Game");
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
         //setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        loadBar.increment();
+        loadBar.increment("Finished Frame");
     }
     
     public static LoadingBar setUpLoadingScreen() {
@@ -201,9 +201,9 @@ public class SpaceInvaders extends JPanel{
                 
                 LoadingBar loadBar = setUpLoadingScreen();
                 createUI(loadBar);
-                loadBar.increment();
+                loadBar.increment("Getting player name");
                 game.getUserDetails(loadBar);
-                loadBar.increment();
+                loadBar.increment("Beginning game init");
                 game.initialiseGame(loadBar, level);
 
                 loadFrame.setVisible(false);
