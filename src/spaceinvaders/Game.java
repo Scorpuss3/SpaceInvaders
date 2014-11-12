@@ -36,6 +36,8 @@ public class Game {
                 int yMod = 0;
                 while (!paused) {
                     int totalPause = 0;
+                    System.out.print("Leftmost: " + ( (Enemy) session.enemies.get(0) ).getX());
+                    System.out.println("   Rightmost: " + ( (Enemy) session.enemies.get(session.enemies.size()-1) ).getX());
                     if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
                         //Invaders have reached left side of screen...
                         xMod = 1;
