@@ -36,6 +36,8 @@ public class LoadingBar extends JPanel{
         g2d.drawString(displayTextRoot + ": " + displayTextBranch,20,25);
         if (currentItem == totalItems) {
             System.out.println("Loading done.");
+        } else if (currentItem > totalItems) {
+            System.out.println("Error, too many items: " + Float.toString(currentItem));
         }
     }
     
