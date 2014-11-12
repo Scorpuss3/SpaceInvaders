@@ -38,14 +38,14 @@ public class Game {
                     if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
                         //Invaders have reached left side of screen...
                         xMod = 1;
-                        yMod = 5;
+                        yMod = 10;
                         System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
                         totalPause += 20; 
                     } else if (( (Enemy) session.enemies.get(session.enemies.size()-1) ).getX() >= (session.canvasWidth - session.borderWidth)-Enemy.getGenericWidth()) {
                         //Invaders have reached right side of screen...
                         // For some reason, it is the second-last listed invader who has the bottom row, far-right coordinate
                         xMod = -1;
-                        yMod = 5;
+                        yMod = 10;
                         System.out.println("Enemies moving by vector: (" + Integer.toString(xMod) + "," + Integer.toString(yMod) + ")");
                         totalPause += 20; 
                     } else {
