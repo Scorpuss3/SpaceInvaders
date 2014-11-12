@@ -27,7 +27,7 @@ public class LevelSet {
     private final LoadingBar loadPanel;
     
     public LevelSet(int levelToLoad, LoadingBar loadPanel) {
-        System.out.println("Loading new level...");
+        System.out.println("Loading new level from file...");
         this.loadPanel = loadPanel;
         loadPanel.increment();
         ArrayList fileLines = getFileData(levelToLoad);
@@ -58,7 +58,9 @@ public class LevelSet {
         String asString = "";
         String[] lineArray;
         try {
+            System.out.println("Starting file read...");
             int data = reader.read();
+            System.out.println("File read ended...");
             loadPanel.increment();
             while(data != -1){
                 char dataChar = (char) data;
