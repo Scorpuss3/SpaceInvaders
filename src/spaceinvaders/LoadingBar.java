@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  */
 public class LoadingBar extends JPanel{
     private int totalLength = 200;
-    private float totalItems = 24;
+    private float totalItems = 28;
     private float currentItem = 0;
     
     @Override
@@ -28,6 +28,9 @@ public class LoadingBar extends JPanel{
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.blue);
         g2d.fillRect(0, 0, (int) ((currentItem/totalItems) * totalLength), 50);
+        if (currentItem == totalItems) {
+            System.out.println("Loading done.");
+        }
     }
     
     public void increment() {
