@@ -24,7 +24,7 @@ public class LevelSet {
     public int[] rowLevels;
     public int enemyGridHeight;
     public int enemyGridWidth;
-    private LoadingBar loadPanel;
+    private final LoadingBar loadPanel;
     
     public LevelSet(int levelToLoad, LoadingBar loadPanel) {
         System.out.println("Loading new level...");
@@ -59,16 +59,19 @@ public class LevelSet {
         String[] lineArray;
         try {
             int data = reader.read();
+            loadPanel.increment();
             while(data != -1){
                 char dataChar = (char) data;
                 asString += dataChar;
                 //System.out.println(dataChar);
                 data = reader.read();
             }
+            loadPanel.increment();
             lineArray = asString.split("\\r?\\n");
             for (String line : lineArray) {
                 finalLines.add(line);
             }
+            loadPanel.increment();
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
