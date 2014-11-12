@@ -16,7 +16,8 @@ import javax.swing.JPanel;
  * @author Acer Laptop
  */
 public class LoadingBar extends JPanel{
-    private int totalLength = 200;
+    public int totalLength = 400;//200
+    public int totalHeight = 50;
     private float totalItems = 32;
     private float currentItem = 0;
     private String displayTextRoot = "";
@@ -30,9 +31,9 @@ public class LoadingBar extends JPanel{
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setBackground(Color.DARK_GRAY);
         g2d.setColor(Color.blue);
-        g2d.fillRect(0, 0, (int) ((currentItem/totalItems) * totalLength), 50);
+        g2d.fillRect(0, 0, (int) ((currentItem/totalItems) * totalLength), totalHeight);
         g2d.setColor(Color.black);
-        g2d.drawString(displayTextRoot + ": " + displayTextBranch,70,25);
+        g2d.drawString(displayTextRoot + ": " + displayTextBranch,20,25);
         if (currentItem == totalItems) {
             System.out.println("Loading done.");
         }
