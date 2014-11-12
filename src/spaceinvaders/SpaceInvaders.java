@@ -53,7 +53,8 @@ public class SpaceInvaders extends JPanel{
         g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeight*aspectMultiplier));
         g2d.setColor(Color.LIGHT_GRAY);
         for (Dimension d : starDimensions) {
-            g2d.drawRect(d.width,d.height, 1, 1);
+            //g2d.drawRect(d.width,d.height, 1, 1);
+            g2d.drawRect(d.height,d.width, 1, 1);
         }
         for (Object object : freezeFrame.enemies) {
             Enemy selectedEnemy = (Enemy) object;
