@@ -24,7 +24,7 @@ import spaceinvaders.Levels.LevelSet;
 
 public class SpaceInvaders extends JPanel{
     protected int canvasWidth = 600;
-    protected int canvasHeight = 500;
+    protected int canvasHeight = 400;//500
     protected final int borderWidth = 5;
     protected int enemyGridWidth;// = (canvasWidth - 2*borderWidth) - 80 ;(Also make final)
     protected int enemyGridHeight;// = 100;(Also make final)
