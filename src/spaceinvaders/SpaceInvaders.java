@@ -34,7 +34,7 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList playerBullets = new ArrayList();
     protected Player player;
     public static float aspectMultiplier = 1;
-    private static JFrame frame, loadFrame;
+    private static JFrame frame, loadFrame, blank;
     public static volatile int level = 1;
     //Essentially, volatile is used to indicate that a variable's value will be modified by different threads.
     // needed here to keep the main loop running- otherwise, the program sees no edit to 'level' in the future,
@@ -180,6 +180,15 @@ public class SpaceInvaders extends JPanel{
             if (loadedLevel != level) {
                 loadedLevel = level;
                 if (level > 1) {
+                    blank = new JFrame();
+                    blank.setUndecorated(true);
+                    blank.setSize(frame.getSize());
+                    JPanel blankPanel = new JPanel();
+                    blankPanel.setBackground(Color.BLACK);
+                    //blank.setBackground(Color.BLACK);
+                    blank.add(blankPanel);
+                    blank.setLocationRelativeTo(null);
+                    blank.setVisible(true);
                     frame.setVisible(false);
                 }
                 
@@ -192,6 +201,9 @@ public class SpaceInvaders extends JPanel{
 
                 loadFrame.setVisible(false);
                 frame.setVisible(true);
+                if (level > 1) {
+                    blank.setVisible(false);
+                }
 
                 Game.runAllGameLoops(game);
             }
