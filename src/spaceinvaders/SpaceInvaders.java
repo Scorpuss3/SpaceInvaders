@@ -10,6 +10,7 @@
 package spaceinvaders;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -39,6 +40,7 @@ public class SpaceInvaders extends JPanel{
     // needed here to keep the main loop running- otherwise, the program sees no edit to 'level' in the future,
     // because it it only looking for references in this class.
     public static LevelSet currentLevelSet;
+    private Dimension[] starDimensions = new Dimension[100];
     
     @Override
     public void paint(Graphics g) {
@@ -47,7 +49,12 @@ public class SpaceInvaders extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.blue);
+        //g2d.setColor(Color.blue);
+        g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeight*aspectMultiplier));
+        g2d.setColor(Color.LIGHT_GRAY);
+        for (Dimension d : starDimensions) {
+            g2d.drawRect(d.width,d.height, 1, 1);
+        }
         for (Object object : freezeFrame.enemies) {
             Enemy selectedEnemy = (Enemy) object;
             if (selectedEnemy.isActive()) {
@@ -109,6 +116,11 @@ public class SpaceInvaders extends JPanel{
             }
         }
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
+        loadPanel.increment();
+        for (int ii = 0; ii < 100; ii++) {
+            Dimension d = new Dimension((int) (Math.random() * canvasHeight * aspectMultiplier),(int) (Math.random() * canvasWidth * aspectMultiplier));
+            starDimensions[ii] = d;
+        }
         loadPanel.increment();
     }
     
