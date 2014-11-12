@@ -25,6 +25,7 @@ public class Game {
     private static SpaceInvaders session;
     private static boolean playing = true;
     private static boolean paused = false;
+    private static Runnable[] threads;
     
     static class EnemyMovement implements Runnable {
         private Thread et;
@@ -289,6 +290,29 @@ public class Game {
         }
     }
     
+    static class ThreadManager implements Runnable {
+        private Thread tmt;
+        @Override
+        public void run() {
+            while (playing) {
+                while (!paused) {
+                    for (Runnable runnable : threads) {
+                        //TODO find out if thread is running...
+                    }
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                    }
+                }  
+            }
+        }
+        
+        public void start() {
+            tmt = new Thread(this, "TempSkinManagingThread");
+            tmt.start();
+        }
+    }
+    
     public static void setUpKeyboardListener() {
         ActionMap actionMap = session.getActionMap();
         InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -389,19 +413,23 @@ public class Game {
         paused = false;
         setUpKeyboardListener();
         
+        threads = new Runnable[8];
+        
         PlayerMovement pm = new PlayerMovement();
-        pm.start();
+        pm.start(); threads[0] = pm;
         EnemyMovement em = new EnemyMovement();
-        em.start();
+        em.start(); threads[1] = em;
         EnemyFiring ef = new EnemyFiring();
-        ef.start();
+        ef.start(); threads[2] = ef;
         BulletMovement bm = new BulletMovement();
-        bm.start();
+        bm.start(); threads[3] = bm;
         SpriteCollisionDetection cd = new SpriteCollisionDetection();
-        cd.start();
+        cd.start(); threads[4] = cd;
         GameEndHandler geh = new GameEndHandler();
-        geh.start();
+        geh.start(); threads[5] = geh;
         TempSkinManager tsm = new TempSkinManager();
-        tsm.start();
+        tsm.start(); threads[6] = tsm;
+        ThreadManager tmt = new ThreadManager();
+        tmt.start(); threads[7] = tmt;
     }
 }
