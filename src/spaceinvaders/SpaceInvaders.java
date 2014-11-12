@@ -166,7 +166,7 @@ public class SpaceInvaders extends JPanel{
         loadFrame = new JFrame();
         loadFrame.setSize(200,50);
         loadFrame.setUndecorated(true);
-        LoadingBar loadBar = new LoadingBar();
+        LoadingBar loadBar = new LoadingBar("Level " + Integer.toString(level));
         loadBar.setSize(200,50);
         loadFrame.add(loadBar);
         loadFrame.setLocationRelativeTo(null);
