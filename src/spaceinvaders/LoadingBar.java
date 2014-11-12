@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  */
 public class LoadingBar extends JPanel{
     private int totalLength = 200;
-    private float totalItems = 28;
+    private float totalItems = 32;
     private float currentItem = 0;
     private String displayText = "";
     
