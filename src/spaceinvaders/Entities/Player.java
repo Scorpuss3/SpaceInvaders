@@ -18,6 +18,7 @@ public class Player extends Entity{
     private Image currentSkin;
     private String defaultSkin = "Skins/Player.png";
     private int bulletSpeed;
+    private boolean firing = false;
     
     public enum tempSkin {
         FIRING
@@ -80,5 +81,13 @@ public class Player extends Entity{
     
     public int getBulletSpeed() {
         return bulletSpeed;
+    }
+    
+    public boolean isFiring() {
+        return firing;
+    }
+    
+    public void setFiring(boolean firing) {
+        this.firing = firing;
     }
 }
