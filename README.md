@@ -11,14 +11,17 @@ Included Features:
 * Movable Player character.
 * Pause Game
 * Multiple Enemy Types, with varied characteristics.
-* Custom graphics for sprites.
+* Custom graphics for sprites
+* Better looking background.
 
 Planned Features:
 -----------------
 * 'Bonus' enemies (Quick to disappear, high scoring).
 * Boss Fights
-* Better looking background.
 
 Current Status:
 ---------------
-The project is currently in development, and not runnable.
+The Project is now in Alpha, not all features fully developed,
+any feedback welcome! 
+
+Can be downloaded in Jar form at https://dl.dropboxusercontent.com/u/78509482/SpaceInvaders.jar
