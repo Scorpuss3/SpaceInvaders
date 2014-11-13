@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import spaceinvaders.LoadingBar;
 
@@ -82,7 +83,7 @@ public class LevelSet {
     }
     
     public static boolean levelExists(int checkLevel) {
-        File f = new File("Level_" + Integer.toString(checkLevel) + ".txt");
-        return f.exists();
+        URL u = LevelSet.class.getResource("Level_" + Integer.toString(checkLevel) + ".txt");
+        return u != null;
     }
 }
