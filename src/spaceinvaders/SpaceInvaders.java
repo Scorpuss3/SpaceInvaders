@@ -186,12 +186,12 @@ public class SpaceInvaders extends JPanel{
     public static void main(String[] args) throws InterruptedException {
         int loadedLevel = 0;
         while (true) {
-            if (level > 0 && !LevelSet.levelExists(level)) {
-                System.out.println("Level does not exist: " + Integer.toString(level));
-                System.exit(0); //Later replace with some exit script...
-            }
             if (loadedLevel != level) {
                 loadedLevel = level;
+                if (level > 0 && !LevelSet.levelExists(level)) {
+                    System.out.println("Level does not exist: " + Integer.toString(level));
+                    System.exit(0); //Later replace with some exit script...
+                }
                 if (level > 1) {
                     blank = new JFrame();
                     blank.setUndecorated(true);
