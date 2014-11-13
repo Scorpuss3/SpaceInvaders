@@ -56,9 +56,7 @@ public class Game {
                     }
                     for (Object object : session.enemies) {
                         Enemy selectedEnemy = (Enemy) object;
-                        if (selectedEnemy.isActive()) {
-                            selectedEnemy.move(xMod,yMod);
-                        }
+                        selectedEnemy.move(xMod,yMod);
                     }
                     session.repaint();
                     totalPause += 20;
