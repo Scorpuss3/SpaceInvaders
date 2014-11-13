@@ -6,6 +6,7 @@
 
 package spaceinvaders.Levels;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -78,5 +79,10 @@ public class LevelSet {
             System.err.format("IOException: %s%n", x);
         }
         return finalLines;
+    }
+    
+    public static boolean levelExists(int checkLevel) {
+        File f = new File("Level_" + Integer.toString(checkLevel) + ".txt");
+        return f.exists();
     }
 }
