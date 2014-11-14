@@ -215,7 +215,7 @@ public class SpaceInvaders extends JPanel{
                     blank.add(blankPanel);
                     blank.setLocationRelativeTo(null);
                     blank.setVisible(true);
-                    Thread.sleep(200);
+                    Thread.sleep(400);
                     frame.setVisible(false);
                 }
                 
