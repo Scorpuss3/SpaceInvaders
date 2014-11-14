@@ -177,7 +177,7 @@ public class SpaceInvaders extends JPanel{
         loadBar.increment("Adding Game");
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
-        //setUpFullScreen(frame, game);
+        setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
