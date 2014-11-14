@@ -13,11 +13,13 @@ Included Features:
 * Multiple Enemy Types, with varied characteristics.
 * Custom graphics for sprites
 * Better looking background.
+* Degrading barriers to hide behind.
 
 Planned Features:
 -----------------
 * 'Bonus' enemies (Quick to disappear, high scoring).
 * Boss Fights
+* 'Power-ups' (Perhaps dropped by bonus enemies).
 
 Current Status:
 ---------------
