@@ -19,8 +19,9 @@ public class Barrier extends Entity{
     public Barrier() {
         this.health = 4;
         this.faction = Entity.entityFaction.BLOCK;
-        this.spriteHeight = 5;
+        this.spriteHeight = 10;
         this.spriteWidth = 40;
+        this.activate();
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier_4.png"));
 	}catch(Exception e){
