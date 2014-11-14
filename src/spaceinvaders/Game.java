@@ -36,8 +36,6 @@ public class Game {
                 int yMod = 0;
                 while (!paused) {
                     int totalPause = 0;
-                    //System.out.print("Leftmost: " + ( (Enemy) session.enemies.get(0) ).getX());
-                    //System.out.println("   Rightmost: " + ( (Enemy) session.enemies.get(session.enemies.size()-1) ).getX());
                     if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
                         //Invaders have reached left side of screen...
                         xMod = 1;
@@ -56,7 +54,9 @@ public class Game {
                     }
                     for (Object object : session.enemies) {
                         Enemy selectedEnemy = (Enemy) object;
-                        selectedEnemy.move(xMod,yMod);
+                        if (selectedEnemy.isActive()) {
+                            selectedEnemy.move(xMod,yMod);
+                        }
                     }
                     session.repaint();
                     totalPause += 20;
@@ -172,7 +172,7 @@ public class Game {
                                 selectedBullet.deactivate();
                             }
                         }
-                        if (selectedBullet.getX() <= session.borderWidth) {
+                        if (selectedBullet.getY() <= session.borderWidth) {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
                         }
@@ -185,7 +185,7 @@ public class Game {
                             session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
                             selectedBullet.deactivate();
                         }
-                        if (selectedBullet.getX() >= session.canvasHeight - session.borderWidth) {
+                        if (selectedBullet.getY() >= session.canvasHeight - session.borderWidth) {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
                         }
@@ -290,19 +290,14 @@ public class Game {
         }
     }
     
-    static class PlayerFiring implements Runnable {
-        private Thread pft;
+    static class ThreadManager implements Runnable {
+        private Thread tmt;
         @Override
         public void run() {
             while (playing) {
                 while (!paused) {
-                    while (session.player.isFiring()) {
-                        session.player.setTempSkin(Player.tempSkin.FIRING);
-                        session.playerBullets.add(new Bullet(session.player,-1));
-                        try {
-                        Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                        }
+                    for (Runnable runnable : threads) {
+                        //TODO find out if thread is running...
                     }
                     try {
                         Thread.sleep(20);
@@ -313,8 +308,8 @@ public class Game {
         }
         
         public void start() {
-            pft = new Thread(this, "TempSkinManagingThread");
-            pft.start();
+            tmt = new Thread(this, "TempSkinManagingThread");
+            tmt.start();
         }
     }
     
@@ -327,14 +322,6 @@ public class Game {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 keyAction("Fire");
-            }
-        });
-        
-        inputMap.put(KeyStroke.getKeyStroke("released SPACE"), "SpaceReleased");
-        actionMap.put("SpaceReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                keyAction("SpaceReleased");
             }
         });
         
@@ -384,10 +371,8 @@ public class Game {
         System.out.println("Got Command: " + actionString);
         switch (actionString) {
             case "Fire" :
-                session.player.setFiring(true);
-                break;
-            case "SpaceReleased" :
-                session.player.setFiring(false);
+                session.player.setTempSkin(Player.tempSkin.FIRING);
+                session.playerBullets.add(new Bullet(session.player,-1));
                 break;
             case "Left" :
                 session.player.setDirection(-1);
@@ -444,7 +429,7 @@ public class Game {
         geh.start(); threads[5] = geh;
         TempSkinManager tsm = new TempSkinManager();
         tsm.start(); threads[6] = tsm;
-        PlayerFiring pf = new PlayerFiring();
-        pf.start(); threads[7] = pf;
+        ThreadManager tmt = new ThreadManager();
+        tmt.start(); threads[7] = tmt;
     }
 }
