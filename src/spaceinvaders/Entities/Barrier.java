@@ -36,10 +36,14 @@ public class Barrier extends Entity{
     @Override
     public void setHealth(int newHealth) {
         this.health = newHealth;
-        try {
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier_"+ Integer.toString(newHealth) + ".png"));
-	}catch(Exception e){
-            System.err.println(e);
+        if (this.health <=0) {
+            this.deactivate();
+        } else {
+            try {
+                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier_"+ Integer.toString(newHealth) + ".png"));
+            }catch(Exception e){
+                System.err.println(e);
+            }
         }
     }
 }
