@@ -26,4 +26,4 @@ Current Status:
 The Project is now in Alpha, not all features fully developed,
 any feedback welcome! 
 
-Can be downloaded in Jar form at https://dl.dropboxusercontent.com/u/78509482/SpaceInvaders.jar
+Released versions can be found at https://github.com/Scorpuss3/SpaceInvaders/releases
