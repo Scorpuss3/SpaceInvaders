@@ -54,9 +54,7 @@ public class Game {
                     }
                     for (Object object : session.enemies) {
                         Enemy selectedEnemy = (Enemy) object;
-                        if (selectedEnemy.isActive()) {
-                            selectedEnemy.move(xMod,yMod);
-                        }
+                        selectedEnemy.move(xMod,yMod);
                     }
                     session.repaint();
                     totalPause += 20;
@@ -306,14 +304,19 @@ public class Game {
         }
     }
     
-    static class ThreadManager implements Runnable {
-        private Thread tmt;
+    static class PlayerFiring implements Runnable {
+        private Thread pft;
         @Override
         public void run() {
             while (playing) {
                 while (!paused) {
-                    for (Runnable runnable : threads) {
-                        //TODO find out if thread is running...
+                    while (session.player.isFiring()) {
+                        session.player.setTempSkin(Player.tempSkin.FIRING);
+                        session.playerBullets.add(new Bullet(session.player,-1));
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                        }
                     }
                     try {
                         Thread.sleep(20);
@@ -324,8 +327,8 @@ public class Game {
         }
         
         public void start() {
-            tmt = new Thread(this, "TempSkinManagingThread");
-            tmt.start();
+            pft = new Thread(this, "TempSkinManagingThread");
+            pft.start();
         }
     }
     
@@ -338,6 +341,14 @@ public class Game {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 keyAction("Fire");
+            }
+        });
+        
+        inputMap.put(KeyStroke.getKeyStroke("released SPACE"), "SpaceReleased");
+        actionMap.put("SpaceReleased", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                keyAction("SpaceReleased");
             }
         });
         
@@ -387,8 +398,10 @@ public class Game {
         System.out.println("Got Command: " + actionString);
         switch (actionString) {
             case "Fire" :
-                session.player.setTempSkin(Player.tempSkin.FIRING);
-                session.playerBullets.add(new Bullet(session.player,-1));
+                session.player.setFiring(true);
+                break;
+            case "SpaceReleased" :
+                session.player.setFiring(false);
                 break;
             case "Left" :
                 session.player.setDirection(-1);
@@ -445,7 +458,7 @@ public class Game {
         geh.start(); threads[5] = geh;
         TempSkinManager tsm = new TempSkinManager();
         tsm.start(); threads[6] = tsm;
-        ThreadManager tmt = new ThreadManager();
-        tmt.start(); threads[7] = tmt;
+        PlayerFiring pf = new PlayerFiring();
+        pf.start(); threads[7] = pf;
     }
 }
