@@ -32,7 +32,7 @@ public class Enemy extends Entity{
         this.spriteWidth = defaultSpriteWidth;
         this.spriteHeight = defaultSpriteHeight;
         try {
-            defaultSkin = "Skins/Enemy_Level_1.png";
+            defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
             currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
 	}catch(Exception e){
             System.err.println(e);
@@ -42,7 +42,7 @@ public class Enemy extends Entity{
         this.bulletSpeed = 2;
         this.shotProbability = 0.0;
         this.faction = Entity.entityFaction.ENEMY;
-        this.skinName = "Skins/Bullet_Enemy.png";
+        this.skinName = "Skins/Bullet/Bullet_Enemy.png";
     }
     
     public Enemy (int level) {
@@ -53,31 +53,31 @@ public class Enemy extends Entity{
         this.faction = Entity.entityFaction.ENEMY;
         switch (level) {
             case 1:
-                defaultSkin = "Skins/Enemy_Level_1.png";
+                defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
                 this.health = 1;
                 this.bulletDmg = 1;
                 this.bulletSpeed = 2;
                 this.shotProbability = 0.01;
-                this.skinName = "Skins/Bullet_Enemy.png";
+                this.skinName = "Skins/Bullet/Bullet_Enemy.png";
                 break;
             case 2:
-                defaultSkin = "Skins/Enemy_Level_2.png";
+                defaultSkin = "Skins/Enemy/Enemy_Level_2.png";
                 this.health = 2;
                 this.bulletDmg = 1;
                 this.bulletSpeed = 2;
                 this.shotProbability = 0.01;
-                this.skinName = "Skins/Bullet_Enemy.png";
+                this.skinName = "Skins/Bullet/Bullet_Enemy.png";
                 break;
             case 3:
-                defaultSkin = "Skins/Enemy_Level_3.png";
+                defaultSkin = "Skins/Enemy/Enemy_Level_3.png";
                 this.health = 4;
                 this.bulletDmg = 1;
                 this.bulletSpeed = 3;
                 this.shotProbability = 0.02;
-                this.skinName = "Skins/Bullet_Enemy_Special.png";
+                this.skinName = "Skins/Bullet/Bullet_Enemy_Special.png";
                 break;
             default:
-                defaultSkin = "Skins/Enemy_Level_1.png";
+                defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
                 this.health = 2;
                 this.bulletDmg = 1;
                 this.bulletSpeed = 2;
@@ -119,7 +119,7 @@ public class Enemy extends Entity{
         tempSkinActive = true;
         if (name == tempSkin.FIRING) {
             try {
-                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy_Level_" + Integer.toString(diffLevel) + "_Firing.png"));
+                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Enemy/Enemy_Level_" + Integer.toString(diffLevel) + "_Firing.png"));
             }catch(Exception e){
                 System.err.println(e);
             }

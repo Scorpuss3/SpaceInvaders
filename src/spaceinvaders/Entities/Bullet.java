@@ -37,9 +37,9 @@ public class Bullet extends Entity{
         } else if (owner.getFaction() == Entity.entityFaction.PLAYER) {
             Player playerOwner = (Player) owner;
             this.speed = playerOwner.getBulletSpeed();
-            skinName = "Skins/Bullet_Player.png";
+            skinName = "Skins/Bullet/Bullet_Player.png";
         } else {
-            skinName = "Skins/Player.png";
+            skinName = "Skins/Bullet/Player.png";
         }
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream(skinName));

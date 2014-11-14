@@ -23,7 +23,7 @@ public class Entity {
     protected entityFaction faction;
     
     public enum entityFaction {
-        PLAYER, ENEMY
+        PLAYER, ENEMY, BLOCK
     }
     
     public Entity() {

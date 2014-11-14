@@ -33,6 +33,7 @@ public class SpaceInvaders extends JPanel{
     protected ArrayList enemies = new ArrayList();
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
+    protected ArrayList barriers = new ArrayList();
     protected Player player;
     public static float aspectMultiplier = 1;
     private static JFrame frame, loadFrame, blank;
@@ -76,6 +77,13 @@ public class SpaceInvaders extends JPanel{
             Bullet selectedBullet = (Bullet) object;
             if (selectedBullet.isActive()) {
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
+            }
+        }
+        
+        for (Object object : freezeFrame.barriers) {
+            Barrier selectedBarrier = (Barrier) object;
+            if (selectedBarrier.isActive()) {
+                g2d.drawImage(selectedBarrier.getImage(),(int) (selectedBarrier.getX()*aspectMultiplier),(int) (selectedBarrier.getY()*aspectMultiplier), (int) (selectedBarrier.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBarrier.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
@@ -124,6 +132,12 @@ public class SpaceInvaders extends JPanel{
             Dimension d = new Dimension((int) (Math.random() * canvasHeight * aspectMultiplier),(int) (Math.random() * canvasWidth * aspectMultiplier));
             starDimensions[ii] = d;
         }
+        for (float iii = 0; iii < 4 ; iii++){
+            Barrier newBarrier = new Barrier();
+            newBarrier.setX(Math.round( ((iii/4) * canvasWidth-(2*borderWidth)) ) + borderWidth + newBarrier.getWidth());
+            newBarrier.setY(canvasHeight - 50);
+            barriers.add(newBarrier);
+        }
         loadPanel.increment("Starting game...");
     }
     
@@ -164,7 +178,7 @@ public class SpaceInvaders extends JPanel{
         loadBar.increment("Adding Game");
         frame.add(game);
         frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
-        //setUpFullScreen(frame, game);
+        setUpFullScreen(frame, game);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -201,7 +215,7 @@ public class SpaceInvaders extends JPanel{
                     blank.add(blankPanel);
                     blank.setLocationRelativeTo(null);
                     blank.setVisible(true);
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                     frame.setVisible(false);
                 }
                 

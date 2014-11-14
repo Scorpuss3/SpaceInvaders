@@ -36,8 +36,6 @@ public class Game {
                 int yMod = 0;
                 while (!paused) {
                     int totalPause = 0;
-                    //System.out.print("Leftmost: " + ( (Enemy) session.enemies.get(0) ).getX());
-                    //System.out.println("   Rightmost: " + ( (Enemy) session.enemies.get(session.enemies.size()-1) ).getX());
                     if (( (Enemy) session.enemies.get(0) ).getX() <= session.borderWidth) {
                         //Invaders have reached left side of screen...
                         xMod = 1;
@@ -172,9 +170,17 @@ public class Game {
                                 selectedBullet.deactivate();
                             }
                         }
-                        if (selectedBullet.getX() <= session.borderWidth) {
+                        if (selectedBullet.getY() <= session.borderWidth) {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
+                        }
+                        for (Object eobject : session.barriers) {
+                            Barrier selectedBarrier = (Barrier) eobject;
+                            if (selectedBullet.intersects(selectedBarrier) && selectedBullet.isActive() && selectedBarrier.isActive()) {
+                                //selectedBarrier.setHealth(selectedBarrier.getHealth()-selectedBullet.getDamage());
+                                selectedBarrier.setHealth(selectedBarrier.getHealth()-1);// All bullets do same damage to barrier.
+                                selectedBullet.deactivate();
+                            }
                         }
                     }
                     for (Object object : session.enemyBullets) {
@@ -185,9 +191,17 @@ public class Game {
                             session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
                             selectedBullet.deactivate();
                         }
-                        if (selectedBullet.getX() >= session.canvasHeight - session.borderWidth) {
+                        if (selectedBullet.getY() >= session.canvasHeight - session.borderWidth) {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
+                        }
+                        for (Object eobject : session.barriers) {
+                            Barrier selectedBarrier = (Barrier) eobject;
+                            if (selectedBullet.intersects(selectedBarrier) && selectedBullet.isActive() && selectedBarrier.isActive()) {
+                                //selectedBarrier.setHealth(selectedBarrier.getHealth()-selectedBullet.getDamage());
+                                selectedBarrier.setHealth(selectedBarrier.getHealth()-1);// All bullets do same damage to barrier.
+                                selectedBullet.deactivate();
+                            }
                         }
                     }
                     try {
@@ -300,7 +314,7 @@ public class Game {
                         session.player.setTempSkin(Player.tempSkin.FIRING);
                         session.playerBullets.add(new Bullet(session.player,-1));
                         try {
-                        Thread.sleep(300);
+                            Thread.sleep(300);
                         } catch (InterruptedException e) {
                         }
                     }
