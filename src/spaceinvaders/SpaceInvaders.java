@@ -131,7 +131,7 @@ public class SpaceInvaders extends JPanel{
             Dimension d = new Dimension((int) (Math.random() * canvasHeight * aspectMultiplier),(int) (Math.random() * canvasWidth * aspectMultiplier));
             starDimensions[ii] = d;
         }
-        for (float iii = 0; iii <= 4 ; iii++){
+        for (float iii = 0; iii < 4 ; iii++){
             Barrier newBarrier = new Barrier();
             newBarrier.setX(Math.round( ((iii/4) * canvasWidth-(2*borderWidth)) ) + borderWidth + newBarrier.getWidth());
             newBarrier.setY(canvasHeight - 50);
