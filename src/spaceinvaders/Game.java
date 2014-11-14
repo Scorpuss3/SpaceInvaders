@@ -8,7 +8,6 @@ package spaceinvaders;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -25,7 +24,6 @@ public class Game {
     private static SpaceInvaders session;
     private static boolean playing = true;
     private static boolean paused = false;
-    private static Runnable[] threads;
     
     static class EnemyMovement implements Runnable {
         private Thread et;
@@ -395,7 +393,7 @@ public class Game {
     }
     
     private static void keyAction(String actionString) {
-        System.out.println("Got Command: " + actionString);
+        //System.out.println("Got Command: " + actionString);
         switch (actionString) {
             case "Fire" :
                 session.player.setFiring(true);
@@ -445,20 +443,20 @@ public class Game {
         threads = new Runnable[8];
         
         PlayerMovement pm = new PlayerMovement();
-        pm.start(); threads[0] = pm;
+        pm.start();
         EnemyMovement em = new EnemyMovement();
-        em.start(); threads[1] = em;
+        em.start();
         EnemyFiring ef = new EnemyFiring();
-        ef.start(); threads[2] = ef;
+        ef.start();
         BulletMovement bm = new BulletMovement();
-        bm.start(); threads[3] = bm;
+        bm.start();
         SpriteCollisionDetection cd = new SpriteCollisionDetection();
-        cd.start(); threads[4] = cd;
+        cd.start();
         GameEndHandler geh = new GameEndHandler();
-        geh.start(); threads[5] = geh;
+        geh.start();
         TempSkinManager tsm = new TempSkinManager();
-        tsm.start(); threads[6] = tsm;
+        tsm.start();
         PlayerFiring pf = new PlayerFiring();
-        pf.start(); threads[7] = pf;
+        pf.start();
     }
 }
