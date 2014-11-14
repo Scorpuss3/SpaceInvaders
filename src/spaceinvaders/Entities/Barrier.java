@@ -23,7 +23,7 @@ public class Barrier extends Entity{
         this.spriteWidth = 40;
         this.activate();
         try {
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier_4.png"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier/Barrier_4.png"));
 	}catch(Exception e){
             System.err.println(e);
         }
@@ -40,7 +40,7 @@ public class Barrier extends Entity{
             this.deactivate();
         } else {
             try {
-                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier_"+ Integer.toString(newHealth) + ".png"));
+                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Barrier/Barrier_"+ Integer.toString(newHealth) + ".png"));
             }catch(Exception e){
                 System.err.println(e);
             }
