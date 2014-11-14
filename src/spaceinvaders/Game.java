@@ -176,6 +176,14 @@ public class Game {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
                         }
+                        for (Object eobject : session.barriers) {
+                            Barrier selectedBarrier = (Barrier) eobject;
+                            if (selectedBullet.intersects(selectedBarrier) && selectedBullet.isActive() && selectedBarrier.isActive()) {
+                                //selectedBarrier.setHealth(selectedBarrier.getHealth()-selectedBullet.getDamage());
+                                selectedBarrier.setHealth(selectedBarrier.getHealth()-1);// All bullets do same damage to barrier.
+                                selectedBullet.deactivate();
+                            }
+                        }
                     }
                     for (Object object : session.enemyBullets) {
                         Bullet selectedBullet = (Bullet) object;
@@ -188,6 +196,14 @@ public class Game {
                         if (selectedBullet.getY() >= session.canvasHeight - session.borderWidth) {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
+                        }
+                        for (Object eobject : session.barriers) {
+                            Barrier selectedBarrier = (Barrier) eobject;
+                            if (selectedBullet.intersects(selectedBarrier) && selectedBullet.isActive() && selectedBarrier.isActive()) {
+                                //selectedBarrier.setHealth(selectedBarrier.getHealth()-selectedBullet.getDamage());
+                                selectedBarrier.setHealth(selectedBarrier.getHealth()-1);// All bullets do same damage to barrier.
+                                selectedBullet.deactivate();
+                            }
                         }
                     }
                     try {
