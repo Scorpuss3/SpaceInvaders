@@ -440,8 +440,6 @@ public class Game {
         paused = false;
         setUpKeyboardListener();
         
-        threads = new Runnable[8];
-        
         PlayerMovement pm = new PlayerMovement();
         pm.start();
         EnemyMovement em = new EnemyMovement();
