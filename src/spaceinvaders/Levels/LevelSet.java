@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import spaceinvaders.LoadingBar;
 
@@ -78,5 +79,10 @@ public class LevelSet {
             System.err.format("IOException: %s%n", x);
         }
         return finalLines;
+    }
+    
+    public static boolean levelExists(int testLevel) {
+        URL u = LevelSet.class.getResource("Level_" + Integer.toString(testLevel) + ".txt");
+        return u != null;
     }
 }
