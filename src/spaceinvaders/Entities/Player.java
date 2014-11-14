@@ -16,7 +16,7 @@ public class Player extends Entity{
     private final String name;
     private int movementVector = 0; //Int because only vector for x needs to be represented.
     private Image currentSkin;
-    private String defaultSkin = "Skins/Player.png";
+    private String defaultSkin = "Skins/Player/Player.png";
     private int bulletSpeed;
     private boolean firing = false;
     
@@ -37,7 +37,7 @@ public class Player extends Entity{
         this.faction = Entity.entityFaction.PLAYER;
         
         try {
-            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player.png"));
+            currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player/Player.png"));
 	}catch(Exception e){
             System.err.println(e);
         }
@@ -59,7 +59,7 @@ public class Player extends Entity{
         tempSkinActive = true;
         if (name == tempSkin.FIRING) {
             try {
-                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player_Firing.png"));
+                currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player/Player_Firing.png"));
             }catch(Exception e){
                 System.err.println(e);
             }
