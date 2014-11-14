@@ -201,6 +201,10 @@ public class SpaceInvaders extends JPanel{
         while (true) {
             if (loadedLevel != level) {
                 loadedLevel = level;
+                if (level > 0 && !LevelSet.levelExists(level)) {
+                    System.out.println("Level did not exist.");
+                    System.exit(0);
+                }
                 if (level > 1) {
                     blank = new JFrame();
                     blank.setUndecorated(true);
