@@ -166,6 +166,7 @@ public class Game {
                             if (selectedBullet.intersects(selectedEnemy) && selectedBullet.isActive() && selectedEnemy.isActive()) {
                                 selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
                                 selectedBullet.deactivate();
+                                session.player.setScore(session.player.getScore() + 1);
                             }
                         }
                         if (selectedBullet.getY() <= session.borderWidth) {
@@ -188,8 +189,9 @@ public class Game {
                             System.out.println("Collision Has Been Detected");
                             session.player.setHealth(session.player.getHealth()-selectedBullet.getDamage());
                             selectedBullet.deactivate();
+                            session.player.setScore(session.player.getScore() - 3);
                         }
-                        if (selectedBullet.getY() >= session.canvasHeight - session.borderWidth) {
+                        if (selectedBullet.getY() >= session.canvasHeightGame - session.borderWidth) {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
                         }
