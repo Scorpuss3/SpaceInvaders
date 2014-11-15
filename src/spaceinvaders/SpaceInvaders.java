@@ -15,8 +15,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
-import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,11 +26,13 @@ import spaceinvaders.Levels.LevelSet;
 
 public class SpaceInvaders extends JPanel{
     protected int canvasWidth = 600;
-    protected int canvasHeight = 400;//500
+    protected int canvasHeightGame = 400;//500
+    protected int canvasHeightGameAndHUD = 450;
     protected final int borderWidth = 5;
     protected int enemyGridWidth;// = (canvasWidth - 2*borderWidth) - 80 ;(Also make final)
     protected int enemyGridHeight;// = 100;(Also make final)
     protected static SpaceInvaders game;
+    private static boolean fullscreen = true;
     protected ArrayList enemies = new ArrayList();
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
@@ -37,6 +40,7 @@ public class SpaceInvaders extends JPanel{
     protected Player player;
     public static float aspectMultiplier = 1;
     private static JFrame frame, loadFrame, blank;
+    private static HUD hud;
     public static volatile int level = 1;
     //Essentially, volatile is used to indicate that a variable's value will be modified by different threads.
     // needed here to keep the main loop running- otherwise, the program sees no edit to 'level' in the future,
@@ -52,7 +56,7 @@ public class SpaceInvaders extends JPanel{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
         //g2d.setColor(Color.blue);
-        g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeight*aspectMultiplier));
+        g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeightGame*aspectMultiplier));
         g2d.setColor(Color.LIGHT_GRAY);
         for (Dimension d : starDimensions) {
             //g2d.drawRect(d.width,d.height, 1, 1);
@@ -92,13 +96,14 @@ public class SpaceInvaders extends JPanel{
         // drawImage (image, x, y, new height, new width, null)
         // drawImage (image, x, y, null)
         
-        g2d.drawRect(2,2,(int) (canvasWidth*aspectMultiplier) -4,(int) (canvasHeight*aspectMultiplier) -4);
-        g2d.drawRect(borderWidth,borderWidth,(int) (canvasWidth*aspectMultiplier-2*borderWidth),(int) (canvasHeight*aspectMultiplier-2*borderWidth));
+        g2d.drawRect(2,2,(int) (canvasWidth*aspectMultiplier) -4,(int) (canvasHeightGame*aspectMultiplier) -4);
+        g2d.drawRect(borderWidth,borderWidth,(int) (canvasWidth*aspectMultiplier-2*borderWidth),(int) (canvasHeightGame*aspectMultiplier-2*borderWidth));
         
         if (Game.isPaused()) {
             g2d.setColor(Color.green);
-            g2d.drawString("PAUSED",canvasWidth/2-20,canvasHeight/2);
+            g2d.drawString("PAUSED",canvasWidth/2-20,canvasHeightGame/2);
         }
+        hud.repaint();
     }
     
     public void initialiseGame(LoadingBar loadPanel, int levelToLoad) {
@@ -126,17 +131,17 @@ public class SpaceInvaders extends JPanel{
                 loadPanel.increment("Adding enemies");
             }
         }
-        player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeight - borderWidth)-20);
+        player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeightGame - borderWidth)-20);
         loadPanel.increment("Adding stars");
         for (int ii = 0; ii < 100; ii++) {
-            Dimension d = new Dimension((int) (Math.random() * canvasHeight * aspectMultiplier),(int) (Math.random() * canvasWidth * aspectMultiplier));
+            Dimension d = new Dimension((int) (Math.random() * canvasHeightGame * aspectMultiplier),(int) (Math.random() * canvasWidth * aspectMultiplier));
             starDimensions[ii] = d;
         }
         for (float iii = 0; iii < 4 ; iii++){
             loadPanel.increment("Adding Barriers");
             Barrier newBarrier = new Barrier();
             newBarrier.setX(Math.round( ((iii/4) * canvasWidth-(2*borderWidth)) ) + borderWidth + newBarrier.getWidth());
-            newBarrier.setY(canvasHeight - 50);
+            newBarrier.setY(canvasHeightGame - 50);
             barriers.add(newBarrier);
         }
         loadPanel.increment("Starting game...");
@@ -145,41 +150,73 @@ public class SpaceInvaders extends JPanel{
     public void getUserDetails(LoadingBar loadBar) {
         //TODO add name collection
         System.out.println("Creating player...");
-        player = new Player("Player 1");
+        if (level <= 1) {
+            player = new Player("Player 1");
+        }
         System.out.println("Created player...");
     }
     
-    public static void setUpFullScreen(JFrame frame, SpaceInvaders game) {
+    public static void setUpFullScreen(JPanel ctp, SpaceInvaders game) {
+        ctp.setBackground(Color.BLACK);
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
         frame.setSize(width,height);
         frame.setUndecorated(true);
         //If statement keps aspect ratio:
-        if ((float)width / game.canvasWidth <= (float)height / game.canvasHeight) {
+        if ((float)width / game.canvasWidth <= (float)height / game.canvasHeightGameAndHUD) {
             // Aspect dictated by the width difference.
             aspectMultiplier = (float)width / game.canvasWidth;
         } else {
             // Aspect dictated by the height difference.
-            aspectMultiplier = (float)height / game.canvasHeight;
+            aspectMultiplier = (float)height / game.canvasHeightGameAndHUD;
         }
-        game.setSize(game.canvasWidth*(int)aspectMultiplier, game.canvasHeight*(int)aspectMultiplier);
+        game.setSize(game.canvasWidth*(int)aspectMultiplier, game.canvasHeightGame*(int)aspectMultiplier);
         System.out.print("Width: " + Float.toString(game.canvasWidth*aspectMultiplier));
-        System.out.println("   Height: " + Float.toString(game.canvasHeight*aspectMultiplier));
+        System.out.println("   Height: " + Float.toString(game.canvasHeightGame*aspectMultiplier));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0; gbc.gridy = 0; gbc.ipadx = (int) (game.canvasWidth * aspectMultiplier)-8; gbc.ipady = (int) (game.canvasHeightGame * aspectMultiplier);
+        ctp.add(game, gbc);
+        GridBagConstraints hudGbc = new GridBagConstraints();
+        hudGbc.gridx = 0; hudGbc.gridy = 1; hudGbc.ipadx = width; hudGbc.ipady = height - gbc.ipady;
+        ctp.add(hud,hudGbc);
     }
     
     public static void createUI(LoadingBar loadBar) {
         System.out.println("Creating frame:");
         frame = new JFrame("Space Invaders");
+        JPanel ctp = new JPanel(new GridBagLayout());
+        frame.add(ctp);
+        
         loadBar.increment("Creating game");
-        game = new SpaceInvaders();
+        if (level == 1) {
+            game = new SpaceInvaders();
+        } else {
+            game = new SpaceInvaders(game.player);
+        }
         loadBar.increment("setting up canvas");
-        game.setSize(game.canvasWidth, game.canvasHeight);
+        game.setSize(game.canvasWidth, game.canvasHeightGame);
         game.setBackground(Color.black);
         loadBar.increment("Adding Game");
-        frame.add(game);
-        frame.setSize(game.canvasWidth+8,game.canvasHeight+30);
-        setUpFullScreen(frame, game);
+        frame.setSize(game.canvasWidth+8,game.canvasHeightGameAndHUD+30);
+        
+        hud = new HUD(game,(game.canvasHeightGameAndHUD - game.canvasHeightGame),game.canvasWidth);
+        if (fullscreen) {
+            setUpFullScreen(ctp, game);
+        }
+        
+        
+        if (!fullscreen) {
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0; gbc.gridy = 0; gbc.ipadx = game.canvasWidth; gbc.ipady = game.canvasHeightGame;
+            ctp.add(game, gbc);
+            GridBagConstraints hudGbc = new GridBagConstraints();
+            hudGbc.gridx = 0; hudGbc.gridy = 1; hudGbc.ipadx = game.canvasWidth; hudGbc.ipady = game.canvasHeightGameAndHUD - game.canvasHeightGame;
+            ctp.add(hud,hudGbc);
+        }
+        
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -196,6 +233,13 @@ public class SpaceInvaders extends JPanel{
         loadFrame.setLocationRelativeTo(null);
         loadFrame.setVisible(true);
         return loadBar;
+    }
+    
+    public SpaceInvaders (Player oldPlayer) {
+        player = oldPlayer;
+    }
+    
+    public SpaceInvaders () {
     }
     
     public static void main(String[] args) throws InterruptedException {
