@@ -19,6 +19,7 @@ public class Player extends Entity{
     private String defaultSkin = "Skins/Player/Player.png";
     private int bulletSpeed;
     private boolean firing = false;
+    private int score;
     
     public enum tempSkin {
         FIRING
@@ -35,6 +36,7 @@ public class Player extends Entity{
         this.bulletDmg = 1;
         this.bulletSpeed = 3;
         this.faction = Entity.entityFaction.PLAYER;
+        this.score = 0;
         
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream("Skins/Player/Player.png"));
@@ -89,5 +91,13 @@ public class Player extends Entity{
     
     public void setFiring(boolean firing) {
         this.firing = firing;
+    }
+    
+    public int getScore(){
+        return score;
+    }
+    
+    public void setScore(int newScore) {
+        score = newScore;
     }
 }
