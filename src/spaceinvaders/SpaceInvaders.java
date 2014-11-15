@@ -17,8 +17,10 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
@@ -47,6 +49,7 @@ public class SpaceInvaders extends JPanel{
     // because it it only looking for references in this class.
     public static LevelSet currentLevelSet;
     private final Dimension[] starDimensions = new Dimension[100];
+    private Image pausedImage;
     
     @Override
     public void paint(Graphics g) {
@@ -101,7 +104,7 @@ public class SpaceInvaders extends JPanel{
         
         if (Game.isPaused()) {
             g2d.setColor(Color.green);
-            g2d.drawString("PAUSED",canvasWidth/2-20,canvasHeightGame/2);
+            g2d.drawImage(pausedImage,(int) ((float)canvasWidth*aspectMultiplier/2)-pausedImage.getWidth(null),(int) ((float)canvasHeightGame*aspectMultiplier/2)- pausedImage.getHeight(null), this);
         }
         hud.repaint();
     }
@@ -145,6 +148,12 @@ public class SpaceInvaders extends JPanel{
             barriers.add(newBarrier);
         }
         loadPanel.increment("Starting game...");
+        
+        try {
+            pausedImage = ImageIO.read(getClass().getResourceAsStream("Entities/Skins/Display/Paused.png"));
+	}catch(Exception e){
+            System.err.println(e);
+        }
     }
     
     public void getUserDetails(LoadingBar loadBar) {
@@ -274,6 +283,7 @@ public class SpaceInvaders extends JPanel{
                 loadFrame.setVisible(false);
                 frame.setVisible(true);
                 if (level > 1) {
+                    Thread.sleep(400);
                     blank.setVisible(false);
                 }
 
