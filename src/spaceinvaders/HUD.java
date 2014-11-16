@@ -6,6 +6,7 @@
 package spaceinvaders;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -28,7 +29,11 @@ public class HUD extends JPanel {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.fillRect(0,0,this.getWidth(),this.getHeight());
-            g2d.setColor(Color.red);
+            g2d.setColor(Color.LIGHT_GRAY);
+            //g2d.setFont(new Font("Arial Rounded", Font.BOLD,(int) (14*SpaceInvaders.aspectMultiplier)));
+            //g2d.setFont(new Font("Cooper Black", Font.BOLD,(int) (14*SpaceInvaders.aspectMultiplier)));
+            //g2d.setFont(new Font("Fixedsys Regular", Font.BOLD,(int) (20*SpaceInvaders.aspectMultiplier)));
+            g2d.setFont(new Font("Gill Sans", Font.BOLD,(int) (20*SpaceInvaders.aspectMultiplier)));
             g2d.drawString("Health: " + Integer.toString(session.player.getHealth()),((float)this.getWidth() / 5)*0.5f,this.getHeight()/2);
             g2d.drawString("Score: " + Integer.toString(session.player.getScore()),(this.getWidth() / 5)*1.5f,this.getHeight()/2);
             g2d.drawString("Level: " + Integer.toString(SpaceInvaders.level),((float)this.getWidth() / 5)*2.5f,this.getHeight()/2);
