@@ -18,10 +18,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
@@ -35,7 +33,7 @@ public class SpaceInvaders extends JPanel{
     protected int enemyGridWidth;// = (canvasWidth - 2*borderWidth) - 80 ;(Also make final)
     protected int enemyGridHeight;// = 100;(Also make final)
     protected static SpaceInvaders game;
-    private static boolean fullscreen = false;
+    private static boolean fullscreen = true;
     protected ArrayList enemies = new ArrayList();
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
