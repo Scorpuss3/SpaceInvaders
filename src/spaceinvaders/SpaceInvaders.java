@@ -11,6 +11,7 @@ package spaceinvaders;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -34,7 +35,7 @@ public class SpaceInvaders extends JPanel{
     protected int enemyGridWidth;// = (canvasWidth - 2*borderWidth) - 80 ;(Also make final)
     protected int enemyGridHeight;// = 100;(Also make final)
     protected static SpaceInvaders game;
-    private static boolean fullscreen = true;
+    private static boolean fullscreen = false;
     protected ArrayList enemies = new ArrayList();
     protected ArrayList enemyBullets = new ArrayList();
     protected ArrayList playerBullets = new ArrayList();
@@ -49,7 +50,6 @@ public class SpaceInvaders extends JPanel{
     // because it it only looking for references in this class.
     public static LevelSet currentLevelSet;
     private final Dimension[] starDimensions = new Dimension[100];
-    private Image pausedImage;
     
     @Override
     public void paint(Graphics g) {
@@ -104,7 +104,8 @@ public class SpaceInvaders extends JPanel{
         
         if (Game.isPaused()) {
             g2d.setColor(Color.green);
-            g2d.drawImage(pausedImage,(int) ((float)canvasWidth*aspectMultiplier/2)-pausedImage.getWidth(null),(int) ((float)canvasHeightGame*aspectMultiplier/2)- pausedImage.getHeight(null), this);
+            g2d.setFont(new Font("Gill Sans", Font.BOLD,(int) (20*SpaceInvaders.aspectMultiplier)));
+            g2d.drawString("PAUSED!!",(int) ((float)canvasWidth*aspectMultiplier/2)-40,(int) ((float)canvasHeightGame*aspectMultiplier/2));
         }
         hud.repaint();
     }
@@ -148,12 +149,6 @@ public class SpaceInvaders extends JPanel{
             barriers.add(newBarrier);
         }
         loadPanel.increment("Starting game...");
-        
-        try {
-            pausedImage = ImageIO.read(getClass().getResourceAsStream("Entities/Skins/Display/Paused.png"));
-	}catch(Exception e){
-            System.err.println(e);
-        }
     }
     
     public void getUserDetails(LoadingBar loadBar) {
