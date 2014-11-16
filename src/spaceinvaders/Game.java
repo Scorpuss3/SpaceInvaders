@@ -25,9 +25,8 @@ public class Game {
     private static SpaceInvaders session;
     private static boolean playing = true;
     private static boolean paused = false;
-    private static final int fps = 40;
+    private static final int fps = 30;
     private static final int pausedFps = 1000;
-    //private static final int fps = DisplayMode.getRefreshRate();
     
     static class EnemyMovement implements Runnable {
         private Thread et;
