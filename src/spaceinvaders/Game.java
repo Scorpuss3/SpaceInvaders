@@ -6,6 +6,7 @@
 
 package spaceinvaders;
 
+import java.awt.DisplayMode;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
@@ -24,6 +25,9 @@ public class Game {
     private static SpaceInvaders session;
     private static boolean playing = true;
     private static boolean paused = false;
+    private static final int fps = 40;
+    private static final int pausedFps = 1000;
+    //private static final int fps = DisplayMode.getRefreshRate();
     
     static class EnemyMovement implements Runnable {
         private Thread et;
@@ -54,12 +58,16 @@ public class Game {
                         Enemy selectedEnemy = (Enemy) object;
                         selectedEnemy.move(xMod,yMod);
                     }
-                    session.repaint();
+                    //session.repaint();
                     totalPause += 20;
                     try {
                         Thread.sleep(totalPause);
                     } catch (InterruptedException e){
                     }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
                 }
             }
         }
@@ -87,6 +95,10 @@ public class Game {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                     }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
                 }
             }
         }
@@ -116,6 +128,10 @@ public class Game {
                     } catch (InterruptedException e) {
                     }
                 }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
             }
         }
         
@@ -143,6 +159,10 @@ public class Game {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                     }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
                 }
             }
         }
@@ -210,6 +230,10 @@ public class Game {
                     }
                     // Added delay, may not be needed...
                 }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
             }
         }
         
@@ -249,7 +273,11 @@ public class Game {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                     }
-                }  
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
             }
         }
         
@@ -280,7 +308,11 @@ public class Game {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                     }
-                }  
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
             }
         }
         
@@ -322,13 +354,43 @@ public class Game {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                     }
-                }  
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
             }
         }
         
         public void start() {
-            pft = new Thread(this, "TempSkinManagingThread");
+            pft = new Thread(this, "PlayerFiringThread");
             pft.start();
+        }
+    }
+    
+    static class CanvasRefresher implements Runnable {
+        private Thread crt;
+        @Override
+        public void run() {
+            while (playing) {
+                while (!paused) {
+                    session.repaint();
+                    try {
+                        Thread.sleep(1000/fps);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
+                session.repaint();
+            }
+        }
+        
+        public void start() {
+            crt = new Thread(this, "CanvasRefresherThread");
+            crt.start();
         }
     }
     
@@ -424,7 +486,7 @@ public class Game {
             default :
                 break;
         }
-        session.repaint();
+        //session.repaint();
     }
     
     public static void handleBulletCollision(Bullet bullet, Entity entity) {
@@ -458,5 +520,7 @@ public class Game {
         tsm.start();
         PlayerFiring pf = new PlayerFiring();
         pf.start();
+        CanvasRefresher cr = new CanvasRefresher();
+        cr.start();
     }
 }
