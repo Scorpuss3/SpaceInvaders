@@ -10,6 +10,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
 import spaceinvaders.Entities.Entity;
+import spaceinvaders.SpaceInvaders;
 
 /**
  *
@@ -37,18 +38,22 @@ public class Sound {
     }
     
     public static void playSound(Entity entity, soundType sound) {
-        URL url;
-        if (entity.getFaction()== Entity.entityFaction.PLAYER) {
-            url = Sound.class.getResource("Player/" + sound.toString());
-        } else {
-            url = Sound.class.getResource("Enemy/" + sound.toString());
+        if (!SpaceInvaders.muted) {
+            URL url;
+            if (entity.getFaction()== Entity.entityFaction.PLAYER) {
+                url = Sound.class.getResource("Player/" + sound.toString());
+            } else {
+                url = Sound.class.getResource("Enemy/" + sound.toString());
+            }
+            AudioClip clip = Applet.newAudioClip(url);
+            clip.play();
         }
-        AudioClip clip = Applet.newAudioClip(url);
-        clip.play();
     }
     
     public static void startMusic() {
-        musicClip.loop();
+        if (!SpaceInvaders.muted) {
+            musicClip.loop();
+        }
     }
     
     public static void stopMusic() {
