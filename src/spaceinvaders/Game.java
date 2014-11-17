@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import spaceinvaders.Entities.*;
+import spaceinvaders.Sounds.Sound;
 
 /**
  *
@@ -119,6 +120,7 @@ public class Game {
                         double randomDouble = Math.random();
                         if (randomDouble <= selectedEnemy.getProbability() && selectedEnemy.isActive()) {
                             selectedEnemy.setTempSkin(Enemy.tempSkin.FIRING);
+                            Sound.playSound(selectedEnemy,Sound.soundType.SHOOT);
                             session.enemyBullets.add(new Bullet(selectedEnemy,1));
                         }
                     }
@@ -184,6 +186,7 @@ public class Game {
                             Enemy selectedEnemy = (Enemy) eobject;
                             if (selectedBullet.intersects(selectedEnemy) && selectedBullet.isActive() && selectedEnemy.isActive()) {
                                 selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
+                                //Sound.playSound(selectedEnemy, Sound.soundType.HIT);
                                 selectedBullet.deactivate();
                                 session.player.setScore(session.player.getScore() + 1);
                             }
@@ -343,6 +346,7 @@ public class Game {
                 while (!paused) {
                     while (session.player.isFiring()) {
                         session.player.setTempSkin(Player.tempSkin.FIRING);
+                        Sound.playSound(session.player,Sound.soundType.SHOOT);
                         session.playerBullets.add(new Bullet(session.player,-1));
                         try {
                             Thread.sleep(300);
@@ -502,6 +506,8 @@ public class Game {
         playing = true;
         paused = false;
         setUpKeyboardListener();
+        
+        Sound.startMusic();
         
         PlayerMovement pm = new PlayerMovement();
         pm.start();
