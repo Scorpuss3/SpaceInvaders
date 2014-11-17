@@ -6,6 +6,7 @@
 package spaceinvaders.Entities;
 
 import java.awt.Rectangle;
+import spaceinvaders.Sounds.Sound;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Entity {
     protected entityFaction faction;
     
     public enum entityFaction {
-        PLAYER, ENEMY, BLOCK
+        PLAYER, ENEMY, BLOCK, BULLET
     }
     
     public Entity() {
@@ -64,6 +65,9 @@ public class Entity {
     
     public void deactivate() {
         isActive = false;
+        if (this.getFaction() != entityFaction.BULLET) {
+            Sound.playSound(this, Sound.soundType.DEAD);
+        }
     }
     
     public boolean isActive() {
