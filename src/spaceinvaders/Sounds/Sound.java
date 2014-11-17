@@ -6,6 +6,8 @@
 
 package spaceinvaders.Sounds;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.net.URL;
 import spaceinvaders.Entities.Entity;
 
@@ -14,6 +16,8 @@ import spaceinvaders.Entities.Entity;
  * @author nobesj
  */
 public class Sound {
+    private static AudioClip musicClip = Applet.newAudioClip((URL) Sound.class.getResource("General/Music/theme.wav"));
+    
     public static enum soundType {
         SHOOT ("Shoot.wav"),
         HIT ("Hit.wav"),
@@ -32,18 +36,21 @@ public class Sound {
     }
     
     public static void playSound(Entity entity, soundType sound) {
+        URL url;
         if (entity.getFaction()== Entity.entityFaction.PLAYER) {
-            URL url = Sound.class.getResource("Player/" + sound.toString());
+            url = Sound.class.getResource("Player/" + sound.toString());
         } else {
-            URL url = Sound.class.getResource("Enemy/" + sound.toString());
+            url = Sound.class.getResource("Enemy/" + sound.toString());
         }
+        AudioClip clip = Applet.newAudioClip(url);
+        clip.play();
     }
     
     public static void startMusic() {
-        
+        musicClip.loop();
     }
     
     public static void stopMusic() {
-        
+        musicClip.stop();
     }
 }
