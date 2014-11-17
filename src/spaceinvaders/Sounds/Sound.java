@@ -21,7 +21,8 @@ public class Sound {
     public static enum soundType {
         SHOOT ("Shoot.wav"),
         HIT ("Hit.wav"),
-        MOVE ("Move.wav");
+        MOVE ("Move.wav"),
+        DEAD ("Dead.wav");
         
         private final String name;
         
