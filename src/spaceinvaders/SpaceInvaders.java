@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.RowFilter.Entry;
 import spaceinvaders.Entities.*;
 import spaceinvaders.Levels.LevelSet;
 
