@@ -6,12 +6,15 @@
 
 package spaceinvaders;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.Arrays;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -19,6 +22,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import spaceinvaders.Entities.Enemy;
 
 /**
  *
@@ -26,6 +30,7 @@ import javax.swing.KeyStroke;
  */
 public class MainMenu {
     private static JFrame menuFrame;
+    private static int width, height;
     
     private static class Menu extends JPanel{
         private final Option startOption, exitOption, highScoresOption;
@@ -58,14 +63,29 @@ public class MainMenu {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                     RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setFont(new Font("Gill Sans", Font.BOLD,startOption.size));
-            g2d.drawString(startOption.caption,200,100);
             
-            g2d.setFont(new Font("Gill Sans", Font.BOLD,exitOption.size));
-            g2d.drawString(exitOption.caption,200,200);
+            g2d.setColor(Color.LIGHT_GRAY);
+            g2d.drawRect(0,0,width,height);
+            g2d.setColor(Color.RED);
+            try {
+                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle.png")),100,100, this);
+            }catch(IOException e){
+                System.err.println(e);
+            }
+                
+            int spacing = 400;
+            for (Option option : options) {
+                g2d.setFont(new Font("Gill Sans", Font.BOLD,option.size));
+                g2d.drawString(option.caption,200,spacing+= 100);
+            }
             
-            g2d.setFont(new Font("Gill Sans", Font.BOLD,highScoresOption.size));
-            g2d.drawString(highScoresOption.caption,200,300);
+            for (int e = 0; e <= 10; e++) {
+                int xpos = 400 + (int) (Math.random()*(width-(500)));
+                int ypos = (int) (Math.random()*(height-100));
+                int enemyType = (int) (Math.random()*4);
+                
+                g2d.drawImage((new Enemy(enemyType)).getImage(),xpos,ypos,100,60, this);
+            }
         }
         
         public void setUpKeyboardListener() {
@@ -147,15 +167,16 @@ public class MainMenu {
         public Menu() {
             options = new Option[3];
             startOption = new Option("Start"); options[0] = startOption;
-            exitOption = new Option("Exit"); options[1] = exitOption;
-            highScoresOption = new Option("HighScores"); options[2] = highScoresOption;
+            highScoresOption = new Option("HighScores"); options[1] = highScoresOption;
+            exitOption = new Option("Exit"); options[2] = exitOption;
             
             startOption.select();
             setUpKeyboardListener();
         }
     }
     
-    public static void start(int width, int height) {
+    public static void start(int w, int h) {
+        width = w; height = h;
         menuFrame = new JFrame();
         menuFrame.setUndecorated(true);
         menuFrame.setSize(width, height);
