@@ -40,20 +40,25 @@ public class MainMenu {
             protected String caption = "";
             protected int size;
             protected boolean selected = false;
+            protected int fontType;
+            
             
             public Option(String caption) {
                 this.caption = caption;
                 this.size = 20;
+                this.fontType = Font.BOLD;
             }
             
             public void select() {
                 selected = true;
-                this.size = 30;
+                this.size = 40;
+                this.fontType = Font.ITALIC;
             }
             
             public void deselect() {
                 selected = false;
                 this.size = 20;
+                this.fontType = Font.BOLD;
             }
         }
         
@@ -75,7 +80,7 @@ public class MainMenu {
                 
             int spacing = 400;
             for (Option option : options) {
-                g2d.setFont(new Font("Gill Sans", Font.BOLD,option.size));
+                g2d.setFont(new Font("Gill Sans", option.fontType ,option.size));
                 g2d.drawString(option.caption,200,spacing+= 100);
             }
             
