@@ -42,7 +42,7 @@ public class SpaceInvaders extends JPanel{
     public static float aspectMultiplier = 1;
     private static JFrame frame, loadFrame, blank;
     private static HUD hud;
-    public static volatile int level = 1;
+    public static volatile int level = 0; // Is deactivated until started by the menu.
     //Essentially, volatile is used to indicate that a variable's value will be modified by different threads.
     // needed here to keep the main loop running- otherwise, the program sees no edit to 'level' in the future,
     // because it it only looking for references in this class.
@@ -238,6 +238,22 @@ public class SpaceInvaders extends JPanel{
         return loadBar;
     }
     
+    private static void startMenu() {
+        blank = new JFrame();
+        blank.setUndecorated(true);
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        blank.setSize(width,height);
+        JPanel blankPanel = new JPanel();
+        blankPanel.setBackground(Color.BLACK);
+        blank.add(blankPanel);
+        blank.setLocationRelativeTo(null);
+        blank.setVisible(true);
+        
+        MainMenu.start(width,height);
+    }
+    
     public SpaceInvaders (Player oldPlayer) {
         player = oldPlayer;
     }
@@ -247,8 +263,9 @@ public class SpaceInvaders extends JPanel{
     
     public static void main(String[] args) throws InterruptedException {
         int loadedLevel = 0;
+        startMenu();
         while (true) {
-            if (loadedLevel != level) {
+            if (loadedLevel != level && level > 0) {
                 loadedLevel = level;
                 if (level > 0 && !LevelSet.levelExists(level)) {
                     System.out.println("Level does not exist: " + Integer.toString(level));
