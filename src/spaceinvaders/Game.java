@@ -9,6 +9,7 @@ package spaceinvaders;
 import java.awt.DisplayMode;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -54,8 +55,8 @@ public class Game {
                     } else {
                         yMod = 0;
                     }
-                    for (Object object : session.enemies) {
-                        Enemy selectedEnemy = (Enemy) object;
+                    for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+                        Enemy selectedEnemy = (Enemy) e.getValue();
                         selectedEnemy.move(xMod,yMod);
                     }
                     //session.repaint();
@@ -115,13 +116,13 @@ public class Game {
         public void run() {
             while (playing) {
                 while (!paused) {
-                    for (Object object : session.enemies) {
-                        Enemy selectedEnemy = (Enemy) object;
+                    for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+                        Enemy selectedEnemy = (Enemy) e.getValue();
                         double randomDouble = Math.random();
                         if (randomDouble <= selectedEnemy.getProbability() && selectedEnemy.isActive()) {
                             selectedEnemy.setTempSkin(Enemy.tempSkin.FIRING);
                             Sound.playSound(selectedEnemy,Sound.soundType.SHOOT);
-                            session.enemyBullets.add(new Bullet(selectedEnemy,1));
+                            session.enemyBullets.put(session.enemyBullets.size(),new Bullet(selectedEnemy,1));
                         }
                     }
                     try {
@@ -148,12 +149,12 @@ public class Game {
         public void run() {
             while (playing) {
                 while (!paused) {
-                    for (Object object : session.enemyBullets) {
-                        Bullet selectedBullet = (Bullet) object;
+                    for (Map.Entry<Integer, Bullet> e : session.enemyBullets.entrySet()) {
+                        Bullet selectedBullet = (Bullet) e.getValue();
                         selectedBullet.move(0, selectedBullet.getDirection()*selectedBullet.getSpeed());
                     }
-                    for (Object object : session.playerBullets) {
-                        Bullet selectedBullet = (Bullet) object;
+                    for (Map.Entry<Integer, Bullet> e : session.playerBullets.entrySet()) {
+                        Bullet selectedBullet = (Bullet) e.getValue();
                         selectedBullet.move(0, selectedBullet.getDirection()*selectedBullet.getSpeed());
                     }
                     try {
@@ -180,10 +181,10 @@ public class Game {
         public void run() {
             while (playing) {
                 while (!paused) {
-                    for (Object object : session.playerBullets) { 
-                        Bullet selectedBullet = (Bullet) object;
-                        for (Object eobject : session.enemies) {
-                            Enemy selectedEnemy = (Enemy) eobject;
+                    for (Map.Entry<Integer, Bullet> e : session.playerBullets.entrySet()) { 
+                        Bullet selectedBullet = (Bullet) e.getValue();
+                        for (Map.Entry<Integer, Enemy> ee : session.enemies.entrySet()) {
+                            Enemy selectedEnemy = (Enemy) ee.getValue();
                             if (selectedBullet.intersects(selectedEnemy) && selectedBullet.isActive() && selectedEnemy.isActive()) {
                                 selectedEnemy.setHealth(selectedEnemy.getHealth()-selectedBullet.getDamage());
                                 //Sound.playSound(selectedEnemy, Sound.soundType.HIT);
@@ -195,8 +196,8 @@ public class Game {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
                         }
-                        for (Object eobject : session.barriers) {
-                            Barrier selectedBarrier = (Barrier) eobject;
+                        for (Map.Entry<Integer, Barrier> ee : session.barriers.entrySet()) {
+                            Barrier selectedBarrier = (Barrier) ee.getValue();
                             if (selectedBullet.intersects(selectedBarrier) && selectedBullet.isActive() && selectedBarrier.isActive()) {
                                 //selectedBarrier.setHealth(selectedBarrier.getHealth()-selectedBullet.getDamage());
                                 selectedBarrier.setHealth(selectedBarrier.getHealth()-1);// All bullets do same damage to barrier.
@@ -204,8 +205,8 @@ public class Game {
                             }
                         }
                     }
-                    for (Object object : session.enemyBullets) {
-                        Bullet selectedBullet = (Bullet) object;
+                    for (Map.Entry<Integer, Bullet> e : session.enemyBullets.entrySet()) {
+                        Bullet selectedBullet = (Bullet) e.getValue();
                         if (session.player.intersects(selectedBullet) && selectedBullet.isActive()) {
                             // Collision with Player...
                             System.out.println("Collision Has Been Detected");
@@ -217,8 +218,8 @@ public class Game {
                             // Collision with bottom border...
                             selectedBullet.deactivate();
                         }
-                        for (Object eobject : session.barriers) {
-                            Barrier selectedBarrier = (Barrier) eobject;
+                        for (Map.Entry<Integer, Barrier> ee : session.barriers.entrySet()) {
+                            Barrier selectedBarrier = (Barrier) ee.getValue();
                             if (selectedBullet.intersects(selectedBarrier) && selectedBullet.isActive() && selectedBarrier.isActive()) {
                                 //selectedBarrier.setHealth(selectedBarrier.getHealth()-selectedBullet.getDamage());
                                 selectedBarrier.setHealth(selectedBarrier.getHealth()-1);// All bullets do same damage to barrier.
@@ -258,8 +259,8 @@ public class Game {
                         System.exit(0);
                     }
                     int enemiesAlive = 0;
-                    for (Object object : session.enemies) {
-                        Enemy selectedEnemy = (Enemy) object;
+                    for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+                        Enemy selectedEnemy = (Enemy) e.getValue();
                         if (selectedEnemy.isActive()) {
                             enemiesAlive += 1;
                         }
@@ -296,8 +297,8 @@ public class Game {
         public void run() {
             while (playing) {
                 while (!paused) {
-                    for (Object object : session.enemies) {
-                        Enemy selectedEnemy = (Enemy) object;
+                    for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+                        Enemy selectedEnemy = (Enemy) e.getValue();
                         if (selectedEnemy.isTempSkinActive()) {
                             System.out.println("Found temp enemy costume...");
                             resetSkin(selectedEnemy);
@@ -347,7 +348,7 @@ public class Game {
                     while (session.player.isFiring()) {
                         session.player.setTempSkin(Player.tempSkin.FIRING);
                         Sound.playSound(session.player,Sound.soundType.SHOOT);
-                        session.playerBullets.add(new Bullet(session.player,-1));
+                        session.playerBullets.put(session.playerBullets.size(),new Bullet(session.player,-1));
                         try {
                             Thread.sleep(300);
                         } catch (InterruptedException e) {
@@ -481,8 +482,8 @@ public class Game {
                 paused = !paused;
                 break;
             case "KillAll" :
-                for (Object object : session.enemies) {
-                    Enemy selected = (Enemy) object;
+                for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+                    Enemy selected = (Enemy) e.getValue();
                     selected.deactivate();
                 }
                 break;
@@ -527,5 +528,7 @@ public class Game {
         pf.start();
         CanvasRefresher cr = new CanvasRefresher();
         cr.start();
+        //Fix concurrentcy with using non-srraylists. Use concurrenthashmaps. They seem to work pretty much the same anyway.
+        //http://howtodoinjava.com/2013/05/27/best-practices-for-using-concurrenthashmap/
     }
 }
