@@ -20,8 +20,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.RowFilter.Entry;
 import spaceinvaders.Entities.*;
 import spaceinvaders.Levels.LevelSet;
 
@@ -34,10 +37,10 @@ public class SpaceInvaders extends JPanel{
     protected int enemyGridHeight;// = 100;(Also make final)
     protected static SpaceInvaders game;
     private static boolean fullscreen = true;
-    protected ArrayList enemies = new ArrayList();
-    protected ArrayList enemyBullets = new ArrayList();
-    protected ArrayList playerBullets = new ArrayList();
-    protected ArrayList barriers = new ArrayList();
+    protected ConcurrentHashMap<Integer, Enemy> enemies = new ConcurrentHashMap<Integer, Enemy>();
+    protected ConcurrentHashMap<Integer, Bullet> enemyBullets = new ConcurrentHashMap<Integer, Bullet>();
+    protected ConcurrentHashMap<Integer, Bullet> playerBullets = new ConcurrentHashMap<Integer, Bullet>();
+    protected ConcurrentHashMap<Integer, Barrier> barriers = new ConcurrentHashMap<Integer, Barrier>();
     protected Player player;
     public static float aspectMultiplier = 1;
     private static JFrame frame, loadFrame, blank;
@@ -64,30 +67,30 @@ public class SpaceInvaders extends JPanel{
             //g2d.drawRect(d.width,d.height, 1, 1);
             g2d.drawRect(d.height,d.width, 1, 1);
         }
-        for (Object object : freezeFrame.enemies) {
-            Enemy selectedEnemy = (Enemy) object;
+        for (Map.Entry<Integer, Enemy> e : freezeFrame.enemies.entrySet()) {
+            Enemy selectedEnemy = (Enemy) e.getValue();
             if (selectedEnemy.isActive()) {
                 g2d.drawImage(selectedEnemy.getImage(),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier), (int) (selectedEnemy.getImage().getWidth(null)*aspectMultiplier),(int) (selectedEnemy.getImage().getHeight(null)*aspectMultiplier) ,this);
                 //g2d.drawString(Integer.toString(selectedEnemy.getHealth()),(int) (selectedEnemy.getX()*aspectMultiplier),(int) (selectedEnemy.getY()*aspectMultiplier));
             }
         }
         
-        for (Object object : freezeFrame.enemyBullets) {
-            Bullet selectedBullet = (Bullet) object;
+        for (Map.Entry<Integer, Bullet> e : freezeFrame.enemyBullets.entrySet()) {
+            Bullet selectedBullet = (Bullet) e.getValue();
             if (selectedBullet.isActive()) {
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
-        for (Object object : freezeFrame.playerBullets) {
-            Bullet selectedBullet = (Bullet) object;
+        for (Map.Entry<Integer, Bullet> e : freezeFrame.playerBullets.entrySet()) {
+            Bullet selectedBullet = (Bullet) e.getValue();
             if (selectedBullet.isActive()) {
                 g2d.drawImage(selectedBullet.getImage(),(int) (selectedBullet.getX()*aspectMultiplier),(int) (selectedBullet.getY()*aspectMultiplier), (int) (selectedBullet.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBullet.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
         }
         
-        for (Object object : freezeFrame.barriers) {
-            Barrier selectedBarrier = (Barrier) object;
+        for (Map.Entry<Integer, Barrier> e : freezeFrame.barriers.entrySet()) {
+            Barrier selectedBarrier = (Barrier) e.getValue();
             if (selectedBarrier.isActive()) {
                 g2d.drawImage(selectedBarrier.getImage(),(int) (selectedBarrier.getX()*aspectMultiplier),(int) (selectedBarrier.getY()*aspectMultiplier), (int) (selectedBarrier.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBarrier.getImage().getHeight(null)*aspectMultiplier) ,this);
             }
@@ -129,7 +132,7 @@ public class SpaceInvaders extends JPanel{
 
                 newEnemy.setY(((int) ((row / numInColumn)*enemyGridHeight)) + borderWidth);
                 System.out.println("Y was set to: " + Integer.toString(newEnemy.getY()));
-                enemies.add(newEnemy);
+                enemies.put(enemies.size(),newEnemy);
                 
                 loadPanel.increment("Adding enemies");
             }
@@ -145,7 +148,7 @@ public class SpaceInvaders extends JPanel{
             Barrier newBarrier = new Barrier();
             newBarrier.setX(Math.round( ((iii/4) * canvasWidth-(2*borderWidth)) ) + borderWidth + newBarrier.getWidth());
             newBarrier.setY(canvasHeightGame - 50);
-            barriers.add(newBarrier);
+            barriers.put(barriers.size(),newBarrier);
         }
         loadPanel.increment("Starting game...");
     }
