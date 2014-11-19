@@ -9,6 +9,7 @@ package spaceinvaders.Sounds;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
+import javax.swing.JOptionPane;
 import spaceinvaders.Entities.Entity;
 import spaceinvaders.SpaceInvaders;
 
@@ -17,7 +18,8 @@ import spaceinvaders.SpaceInvaders;
  * @author nobesj
  */
 public class Sound {
-    private static AudioClip musicClip = Applet.newAudioClip((URL) Sound.class.getResource("General/Music/theme.wav"));
+    //private final static AudioClip musicClip = Applet.newAudioClip((URL) Sound.class.getResource("General/Music/theme.wav"));
+    private static AudioClip musicClip;
     
     public static enum soundType {
         SHOOT ("Shoot.wav"),
@@ -47,12 +49,19 @@ public class Sound {
             }
             AudioClip clip = Applet.newAudioClip(url);
             clip.play();
+        } else {
+            System.out.println("Sound effects muted, will not play...");
         }
     }
     
     public static void startMusic() {
+        System.out.print("Testing if muted...: ");
+        System.out.println(SpaceInvaders.muted);
         if (!SpaceInvaders.muted) {
+            musicClip = Applet.newAudioClip((URL) Sound.class.getResource("General/Music/theme.wav"));
             musicClip.loop();
+        } else {
+            System.out.println("Music was muted, no playing.");
         }
     }
     
