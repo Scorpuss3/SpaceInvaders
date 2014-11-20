@@ -101,14 +101,17 @@ public class HighScores {
         }
         
         private void keyAction(String actionString) {
-        System.out.println("Got Command: " + actionString);
-        switch (actionString) {
-            case "EXIT" :
+            System.out.println("Got Command: " + actionString);
+//            switch (actionString) {
+//                case "EXIT" :
+//                    myFrame.setVisible(false);
+//                    break;
+//                default :
+//                    break;
+//            }
+            if (actionString.equals("EXIT")) {
                 myFrame.setVisible(false);
-                break;
-            default :
-                break;
-        }
+            }
         }
         
         public ScorePanel(int parsedWidth, int parsedHeight, JFrame parsedFrame) {
