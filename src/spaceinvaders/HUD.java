@@ -18,7 +18,6 @@ import spaceinvaders.Entities.*;
  * @author Acer Laptop
  */
 public class HUD extends JPanel {
-    private Player hudPlayer;
     private final SpaceInvaders session;
     
     @Override
@@ -36,7 +35,7 @@ public class HUD extends JPanel {
             g2d.setFont(new Font("Gill Sans", Font.BOLD,(int) (20*SpaceInvaders.aspectMultiplier)));
             //g2d.drawString("Health: " + Integer.toString(session.player.getHealth()),((float)this.getWidth() / 5)*0.5f,this.getHeight()/2);
             for (int i = 0 ; i < freezeFrame.player.getHealth(); i++) {
-                g2d.drawImage(freezeFrame.player.getImage(),50, (int) (this.getHeight()/4 *1.5f*i),null);
+                g2d.drawImage(freezeFrame.player.getImage(),50, (int) (this.getHeight()/4 *1.0f*i),60,30,null);
             }
             g2d.drawString("Score: " + Integer.toString(session.player.getScore()),(this.getWidth() / 5)*1.5f,this.getHeight()/2);
             g2d.drawString("Level: " + Integer.toString(SpaceInvaders.level),((float)this.getWidth() / 5)*2.5f,this.getHeight()/2);
