@@ -1,2 +1,3 @@
-POO FACE                        12
-Other Person                    212
+Dummy Player 1                  100
+Dummy Player 2                  212
+Dummy Player 3                   59
