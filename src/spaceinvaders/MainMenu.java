@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import spaceinvaders.Entities.Enemy;
+import spaceinvaders.HighScores.HighScores;
 
 /**
  *
@@ -160,7 +161,7 @@ public class MainMenu {
                 } else  if (exitOption.selected) {
                     System.exit(0);
                 } else if (highScoresOption.selected) {
-                    // Do something...
+                    HighScores.start(width, height);
                 }
                 break;
             default :
