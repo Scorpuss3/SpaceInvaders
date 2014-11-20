@@ -135,37 +135,63 @@ public class MainMenu {
         
         private void keyAction(String actionString) {
         System.out.println("Got Command: " + actionString);
-        switch (actionString) {
-            case "UP" :
-                int ui = getSelectedIndex();
-                (options[ui]).deselect();
-                try {
-                    (options[ui-1]).select();
-                } catch (Exception e) {
-                    (options[options.length -1]).select();
-                }
-                break;
-            case "DOWN" :
-                int di = getSelectedIndex();
-                (options[di]).deselect();
-                try {
-                    (options[di+1]).select();
-                } catch (Exception e) {
-                    (options[0]).select();
-                }
-                break;
-            case "CONFIRM" :
-                if (startOption.selected) {
-                    SpaceInvaders.level = 1;
-                    menuFrame.setVisible(false);
-                } else  if (exitOption.selected) {
-                    System.exit(0);
-                } else if (highScoresOption.selected) {
-                    HighScores.start(width, height);
-                }
-                break;
-            default :
-                break;
+//        switch (actionString) {
+//            case "UP" :
+//                int ui = getSelectedIndex();
+//                (options[ui]).deselect();
+//                try {
+//                    (options[ui-1]).select();
+//                } catch (Exception e) {
+//                    (options[options.length -1]).select();
+//                }
+//                break;
+//            case "DOWN" :
+//                int di = getSelectedIndex();
+//                (options[di]).deselect();
+//                try {
+//                    (options[di+1]).select();
+//                } catch (Exception e) {
+//                    (options[0]).select();
+//                }
+//                break;
+//            case "CONFIRM" :
+//                if (startOption.selected) {
+//                    SpaceInvaders.level = 1;
+//                    menuFrame.setVisible(false);
+//                } else  if (exitOption.selected) {
+//                    System.exit(0);
+//                } else if (highScoresOption.selected) {
+//                    HighScores.start(width, height);
+//                }
+//                break;
+//            default :
+//                break;
+//        }
+        if (actionString.equals("UP")) {
+            int ui = getSelectedIndex();
+            (options[ui]).deselect();
+            try {
+                (options[ui-1]).select();
+            } catch (Exception e) {
+                (options[options.length -1]).select();
+            }
+        } else if (actionString.equals("DOWN")) {
+            int di = getSelectedIndex();
+            (options[di]).deselect();
+            try {
+                (options[di+1]).select();
+            } catch (Exception e) {
+                (options[0]).select();
+            }
+        } else if (actionString.equals("CONFIRM")) {
+            if (startOption.selected) {
+                SpaceInvaders.level = 1;
+                menuFrame.setVisible(false);
+            } else  if (exitOption.selected) {
+                System.exit(0);
+            } else if (highScoresOption.selected) {
+                HighScores.start(width, height);
+            }
         }
         repaint();
     }
