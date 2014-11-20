@@ -462,33 +462,51 @@ public class Game {
     
     private static void keyAction(String actionString) {
         //System.out.println("Got Command: " + actionString);
-        switch (actionString) {
-            case "Fire" :
-                session.player.setFiring(true);
-                break;
-            case "SpaceReleased" :
-                session.player.setFiring(false);
-                break;
-            case "Left" :
-                session.player.setDirection(-1);
-                break;
-            case "Right" :
-                session.player.setDirection(1);
-                break;
-            case "ArrowKeyReleased" :
-                session.player.setDirection(0);
-                break;
-            case "Toggle_Pause" :
-                paused = !paused;
-                break;
-            case "KillAll" :
-                for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+//        switch (actionString) {
+//            case "Fire" :
+//                session.player.setFiring(true);
+//                break;
+//            case "SpaceReleased" :
+//                session.player.setFiring(false);
+//                break;
+//            case "Left" :
+//                session.player.setDirection(-1);
+//                break;
+//            case "Right" :
+//                session.player.setDirection(1);
+//                break;
+//            case "ArrowKeyReleased" :
+//                session.player.setDirection(0);
+//                break;
+//            case "Toggle_Pause" :
+//                paused = !paused;
+//                break;
+//            case "KillAll" :
+//                for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+//                    Enemy selected = (Enemy) e.getValue();
+//                    selected.deactivate();
+//                }
+//                break;
+//            default :
+//                break;
+//        }
+        if (actionString.equals("Fire")) {
+            session.player.setFiring(true);
+        } else if (actionString.equals("SpaceReleased")) {
+            session.player.setFiring(false);
+        } else if (actionString.equals("Left")) {
+            session.player.setDirection(-1);
+        } else if (actionString.equals("Right")) {
+            session.player.setDirection(1);
+        } else if (actionString.equals("ArrowKeyReleased")) {
+            session.player.setDirection(0);
+        } else if (actionString.equals("Toggle_Pause")) {
+            paused = !paused;
+        } else if (actionString.equals("KillAll")) {
+            for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
                     Enemy selected = (Enemy) e.getValue();
                     selected.deactivate();
                 }
-                break;
-            default :
-                break;
         }
         //session.repaint();
     }
