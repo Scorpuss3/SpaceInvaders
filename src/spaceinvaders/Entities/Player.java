@@ -100,4 +100,8 @@ public class Player extends Entity{
     public void setScore(int newScore) {
         score = newScore;
     }
+    
+    public String getName() {
+        return name;
+    }
 }
