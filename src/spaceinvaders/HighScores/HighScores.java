@@ -11,13 +11,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -58,7 +62,7 @@ public class HighScores {
             }
         }
         
-        private void getScoreInfo(HashMap scores) {
+        public void getScoreInfo(HashMap scores) {
             //http://tutorials.jenkov.com/java-io/inputstream.html
             String fileName = "HighScores.txt";
             InputStream input = getClass().getResourceAsStream(fileName);
@@ -129,5 +133,21 @@ public class HighScores {
         scoreFrame.setSize(gotWidth, gotHeight);
         scoreFrame.add(new ScorePanel(gotWidth,gotHeight, scoreFrame));
         scoreFrame.setVisible(true);
+    }
+    
+    public static void addRecord(String name, Integer score) {
+        try {
+            System.out.println(name + score.toString());
+            //PrintWriter writer = new PrintWriter(HighScores.class.getResource("HighScores/HighScores.txt").getPath());
+            PrintWriter writer = new PrintWriter("HighScores.txt");
+            System.out.println("Writer successfully initialized");
+            String fullString = name + "                                ".substring(name.length()) + score.toString();
+            //writer.append(fullString);
+            writer.println(fullString);
+            writer.close();
+            System.out.println("Append and close done.");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
