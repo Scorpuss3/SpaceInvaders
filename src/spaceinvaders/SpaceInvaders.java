@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
+import spaceinvaders.HighScores.HighScores;
 import spaceinvaders.Levels.LevelSet;
 
 public class SpaceInvaders extends JPanel{
@@ -271,6 +272,7 @@ public class SpaceInvaders extends JPanel{
                 loadedLevel = level;
                 if (level > 0 && !LevelSet.levelExists(level)) {
                     System.out.println("Level does not exist: " + Integer.toString(level));
+                    HighScores.addRecord(game.player.getName(),game.player.getScore());
                     System.exit(0); //Later replace with some exit script...
                 }
                 if (level > 1) {
