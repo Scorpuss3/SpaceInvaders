@@ -12,11 +12,14 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -139,11 +142,15 @@ public class HighScores {
         try {
             System.out.println(name + score.toString());
             //PrintWriter writer = new PrintWriter(HighScores.class.getResource("HighScores/HighScores.txt").getPath());
-            PrintWriter writer = new PrintWriter("HighScores.txt");
+            //PrintWriter writer = new PrintWriter("HighScores.txt");
+            URL resourceUrl = HighScores.class.getResource("HighScores.txt");
+            File file = new File(resourceUrl.toURI());
+            OutputStream output = new FileOutputStream(file);
+            PrintWriter writer = new PrintWriter(output); //use outputstream one
             System.out.println("Writer successfully initialized");
             String fullString = name + "                                ".substring(name.length()) + score.toString();
-            //writer.append(fullString);
-            writer.println(fullString);
+            writer.append(fullString);
+            //writer.println(fullString);
             writer.close();
             System.out.println("Append and close done.");
         } catch (Exception e) {
