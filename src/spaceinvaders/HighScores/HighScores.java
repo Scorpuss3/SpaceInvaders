@@ -12,6 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,18 +21,24 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import spaceinvaders.SpaceInvaders;
@@ -92,6 +100,23 @@ public class HighScores {
             }
         }
         
+        public void getScoreInfo2(HashMap scores) {
+            Properties highScores = new Properties();
+            InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
+            try {
+                highScores.load(input);
+                input.close();
+            } catch (IOException ex) {
+            }
+            Enumeration e = highScores.propertyNames();
+
+            while (e.hasMoreElements()) {
+                String key = (String) e.nextElement();
+                String score =  highScores.getProperty(key);
+                scores.put(key,score);
+            }
+        }
+        
         public void setUpKeyboardListener() {
             ActionMap actionMap = this.getActionMap();
             InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -123,7 +148,7 @@ public class HighScores {
         
         public ScorePanel(int parsedWidth, int parsedHeight, JFrame parsedFrame) {
             height = parsedHeight; width = parsedWidth;
-            getScoreInfo(scores);
+            getScoreInfo2(scores);
             setUpKeyboardListener();
             myFrame = parsedFrame;
             repaint();
@@ -139,22 +164,54 @@ public class HighScores {
     }
     
     public static void addRecord(String name, Integer score) {
+//        try {
+//            System.out.println(name + score.toString());
+//            //PrintWriter writer = new PrintWriter(HighScores.class.getResource("HighScores/HighScores.txt").getPath());
+//            //PrintWriter writer = new PrintWriter("HighScores.txt");
+//            URL resourceUrl = HighScores.class.getResource("HighScores.txt");
+//            File file = new File(resourceUrl.toURI());
+//            OutputStream output = new FileOutputStream(file);
+//            PrintWriter writer = new PrintWriter(output); //use outputstream one
+//            System.out.println("Writer successfully initialized");
+//            String fullString = name + "                                ".substring(name.length()) + score.toString();
+//            writer.append(fullString);
+//            //writer.println(fullString);
+//            writer.close();
+//            System.out.println("Append and close done.");
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+        Properties highScores = new Properties();
+        InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
         try {
-            System.out.println(name + score.toString());
-            //PrintWriter writer = new PrintWriter(HighScores.class.getResource("HighScores/HighScores.txt").getPath());
-            //PrintWriter writer = new PrintWriter("HighScores.txt");
-            URL resourceUrl = HighScores.class.getResource("HighScores.txt");
-            File file = new File(resourceUrl.toURI());
-            OutputStream output = new FileOutputStream(file);
-            PrintWriter writer = new PrintWriter(output); //use outputstream one
-            System.out.println("Writer successfully initialized");
-            String fullString = name + "                                ".substring(name.length()) + score.toString();
-            writer.append(fullString);
-            //writer.println(fullString);
-            writer.close();
-            System.out.println("Append and close done.");
-        } catch (Exception e) {
-            System.out.println(e);
+            highScores.load(input);
+            input.close();
+        } catch (IOException ex) {
         }
+        //Enumeration e = highScores.propertyNames();
+        
+        boolean gettingPossibleName = true;
+        while (gettingPossibleName == true) {
+            if (highScores.containsKey(name)) {
+                name = JOptionPane.showInputDialog(null,"Name taken. Enter new name:");
+            } else {
+                gettingPossibleName = false;
+            }
+        }
+        highScores.setProperty(name, score.toString());
+        FileOutputStream output;
+        try {
+            //output = new FileOutputStream(new File("HighScores.properties"));
+            //highScores.store(output,"");
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            //URL url = classLoader.getResource("HighScores/HighScores.properties");
+            URL url = HighScores.class.getClassLoader().getResource("HighScores/HighScores.properties");
+            System.out.println(url.toString());
+            highScores.store(new FileOutputStream(new File(url.getFile())), "");
+            //highScores.store(new FileOutputStream(new File("HighScores.properties")),""); //works out of jar...
+        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
+        }
+        
     }
 }
