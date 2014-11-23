@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import spaceinvaders.Entities.*;
 import spaceinvaders.HighScores.HighScores;
@@ -157,7 +158,7 @@ public class SpaceInvaders extends JPanel{
         //TODO add name collection
         System.out.println("Creating player...");
         if (level <= 1) {
-            player = new Player("Player 1");
+            player = new Player(JOptionPane.showInputDialog(null,"Enter Player Name:"));
         }
         System.out.println("Created player...");
     }
