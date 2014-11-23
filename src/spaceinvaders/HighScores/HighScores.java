@@ -205,9 +205,10 @@ public class HighScores {
             //highScores.store(output,"");
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             //URL url = classLoader.getResource("HighScores/HighScores.properties");
-            URL url = HighScores.class.getClassLoader().getResource("HighScores/HighScores.properties");
+            URL url = HighScores.class.getResource("HighScores.properties");
             System.out.println(url.toString());
             highScores.store(new FileOutputStream(new File(url.getFile())), "");
+            //highScores.store(new FileOutputStream(new File(url.toURI())), "");
             //highScores.store(new FileOutputStream(new File("HighScores.properties")),""); //works out of jar...
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {
