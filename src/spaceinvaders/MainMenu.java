@@ -84,7 +84,7 @@ public class MainMenu {
             for (int e = 0; e <= 10; e++) {
                 int xpos = 400 + (int) (Math.random()*(width-(500)));
                 int ypos = (int) (Math.random()*(height-100));
-                int enemyType = (int) (Math.random()*4);
+                int enemyType = (int) (Math.random()*5);
                 
                 g2d.drawImage((new Enemy(enemyType)).getImage(),xpos,ypos,100,60, this);
             }
