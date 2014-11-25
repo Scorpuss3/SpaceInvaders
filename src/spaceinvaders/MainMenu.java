@@ -32,6 +32,7 @@ import spaceinvaders.HighScores.HighScores;
 public class MainMenu {
     private static JFrame menuFrame;
     private static int width, height;
+    private static LoadingBar menuLoader;
     
     private static class Menu extends JPanel{
         private final Option startOption, exitOption, highScoresOption;
@@ -209,22 +210,38 @@ public class MainMenu {
     }
         
         public Menu() {
+            menuLoader.increment("Creating menu options");
             options = new Option[3];
             startOption = new Option("Start"); options[0] = startOption;
             highScoresOption = new Option("HighScores"); options[1] = highScoresOption;
             exitOption = new Option("Exit"); options[2] = exitOption;
             
+            menuLoader.increment("Initiating choice");
             startOption.select();
+            menuLoader.increment("Adding Controls");
             setUpKeyboardListener();
         }
     }
     
     public static void start(int w, int h) {
+        JFrame loadFrame = new JFrame();
+        loadFrame.setSize(400,50);
+        loadFrame.setUndecorated(true);
+        menuLoader = new LoadingBar("Load Main Menu:",6);
+        menuLoader.setSize(menuLoader.totalLength,menuLoader.totalHeight);
+        loadFrame.add(menuLoader);
+        loadFrame.setLocationRelativeTo(null);
+        loadFrame.setVisible(true);
+        
+        
         width = w; height = h;
         menuFrame = new JFrame();
+        menuLoader.increment("Configuring Frame");
         menuFrame.setUndecorated(true);
         menuFrame.setSize(width, height);
+        menuLoader.increment("Setting up Menu");
         menuFrame.add(new Menu());
+        menuLoader.increment("Starting...");
         menuFrame.setVisible(true);
     }
 }
