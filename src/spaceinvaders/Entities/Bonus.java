@@ -8,6 +8,7 @@ package spaceinvaders.Entities;
 
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import spaceinvaders.SpaceInvaders;
 
 /**
  *
@@ -17,11 +18,13 @@ public class Bonus extends Entity {
     protected enum type {
         HEALTH, SPEED, POWER
     }
-    protected type bonusType;
+    public type bonusType;
     private Image currentSkin;
     public int lastingTime;
     
     public Bonus() {
+        this.spriteWidth=20;
+        this.spriteHeight=10;
         double generated = Math.random();
         String skinName = null;
         if (generated <= 20) {
@@ -46,5 +49,31 @@ public class Bonus extends Entity {
     
     public Image getImage() {
         return currentSkin;
+    }
+    
+    public void activateEffect(SpaceInvaders session) {
+        if (this.bonusType == type.HEALTH) {
+            session.player.setHealth(session.player.getHealth()+1);
+        } else if (this.bonusType == type.POWER) {
+            session.player.bulletDmg = session.player.bulletDmg * 2;
+        } else if (this.bonusType == type.SPEED) {
+            session.player.speed = session.player.speed * 2;
+        }
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException ex) {
+        }
+        deactivateEffect(session);
+    }
+    
+    public void deactivateEffect(SpaceInvaders session) {
+        if (this.bonusType == type.POWER) {
+            //session.player.bulletDmg = session.player.bulletDmg / 2;
+            session.player.bulletDmg = 1;
+        } else if (this.bonusType == type.SPEED) {
+            //session.player.speed = session.player.speed / 2;
+            session.player.speed = 3;
+        }
+        // Health is a permenant bonus, no need to be removed...
     }
 }
