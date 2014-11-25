@@ -28,21 +28,7 @@ public class Enemy extends Entity{
     private boolean tempSkinActive = false;
     
     public Enemy () {
-        super();
-        this.spriteWidth = defaultSpriteWidth;
-        this.spriteHeight = defaultSpriteHeight;
-        try {
-            defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
-            currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
-	}catch(Exception e){
-            System.err.println(e);
-        }
-        this.health = 1;
-        this.bulletDmg = 1;
-        this.bulletSpeed = 2;
-        this.shotProbability = 0.0;
-        this.faction = Entity.entityFaction.ENEMY;
-        this.skinName = "Skins/Bullet/Bullet_Enemy.png";
+        this(1);
     }
     
     public Enemy (int level) {
@@ -76,6 +62,13 @@ public class Enemy extends Entity{
                 this.shotProbability = 0.02;
                 this.skinName = "Skins/Bullet/Bullet_Enemy_Special.png";
                 break;
+            case 4:
+                defaultSkin = "Skins/Enemy/Enemy_Bonus.png";
+                this.health = 1;
+                this.bulletDmg = 0;
+                this.bulletSpeed = 0;
+                this.shotProbability = 0;
+                this.skinName =  "Skins/Bullet/Bullet_Enemy.png";
             default:
                 defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
                 this.health = 2;
