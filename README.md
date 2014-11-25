@@ -14,6 +14,7 @@ Included Features:
 * Custom graphics for sprites
 * Better looking background.
 * Degrading barriers to hide behind.
+* High Scores saved and in menu- ATM saved outside of jar in same directory.
 
 Planned Features:
 -----------------
