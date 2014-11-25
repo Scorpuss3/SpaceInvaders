@@ -198,18 +198,20 @@ public class HighScores {
         try {
             highScores.load(input);
             input.close();
+            boolean gettingPossibleName = true;
+            while (gettingPossibleName == true) {
+                if (highScores.containsKey(name)) {
+                    name = JOptionPane.showInputDialog(null,"Name taken. Enter new name:");
+                } else {
+                    gettingPossibleName = false;
+                }
+            }
         } catch (IOException ex) {
+        } catch (NullPointerException ee) {
         }
         //Enumeration e = highScores.propertyNames();
         
-        boolean gettingPossibleName = true;
-        while (gettingPossibleName == true) {
-            if (highScores.containsKey(name)) {
-                name = JOptionPane.showInputDialog(null,"Name taken. Enter new name:");
-            } else {
-                gettingPossibleName = false;
-            }
-        }
+        
         highScores.setProperty(name, score.toString());
         FileOutputStream output;
         try {
@@ -217,9 +219,13 @@ public class HighScores {
             //highScores.store(output,"");
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             //URL url = classLoader.getResource("HighScores/HighScores.properties");
-            URL url = HighScores.class.getResource("HighScores.properties");
-            System.out.println(url.toString());
-            highScores.store(new FileOutputStream(new File("HighScores.properties")), "");
+            //URL url = HighScores.class.getResource("HighScores.properties");
+            //System.out.println(url.toString());
+            File saveFile = new File("HighScores.properties");
+            if (! saveFile.exists()) {
+                saveFile.createNewFile();
+            }
+            highScores.store(new FileOutputStream(saveFile), "");
             //highScores.store(new FileOutputStream(new File(url.toURI())), "");
             //highScores.store(new FileOutputStream(new File("HighScores.properties")),""); //works out of jar...
         } catch (FileNotFoundException ex) {
