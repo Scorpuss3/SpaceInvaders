@@ -38,10 +38,12 @@ public class SpaceInvaders extends JPanel{
     protected int enemyGridHeight;// = 100;(Also make final)
     protected static SpaceInvaders game;
     private static boolean fullscreen = true;
+    protected Enemy bonusEnemy;
     protected ConcurrentHashMap<Integer, Enemy> enemies = new ConcurrentHashMap<Integer, Enemy>();
     protected ConcurrentHashMap<Integer, Bullet> enemyBullets = new ConcurrentHashMap<Integer, Bullet>();
     protected ConcurrentHashMap<Integer, Bullet> playerBullets = new ConcurrentHashMap<Integer, Bullet>();
     protected ConcurrentHashMap<Integer, Barrier> barriers = new ConcurrentHashMap<Integer, Barrier>();
+    protected ConcurrentHashMap<Integer, Bonus> bonuses = new ConcurrentHashMap<Integer, Bonus>();
     protected Player player;
     public static float aspectMultiplier = 1;
     private static JFrame frame, loadFrame, blank;
@@ -97,6 +99,17 @@ public class SpaceInvaders extends JPanel{
             }
         }
         
+        for (Map.Entry<Integer, Bonus> e : freezeFrame.bonuses.entrySet()) {
+            Bonus selectedBonus = (Bonus) e.getValue();
+            if (selectedBonus.isActive()) {
+                g2d.drawImage(selectedBonus.getImage(),(int) (selectedBonus.getX()*aspectMultiplier),(int) (selectedBonus.getY()*aspectMultiplier), (int) (selectedBonus.getImage().getWidth(null)*aspectMultiplier),(int) (selectedBonus.getImage().getHeight(null)*aspectMultiplier) ,this);
+            }
+        }
+        
+        if (bonusEnemy.isActive()) {
+            g2d.drawImage(freezeFrame.bonusEnemy.getImage(), (int) (freezeFrame.bonusEnemy.getX()*aspectMultiplier), (int) (freezeFrame.bonusEnemy.getY()*aspectMultiplier),(int) (freezeFrame.bonusEnemy.getImage().getWidth(null)*aspectMultiplier), (int) (freezeFrame.bonusEnemy.getImage().getHeight(null)*aspectMultiplier) ,this);
+        }
+        
         g2d.setColor(Color.red);
         g2d.drawImage(freezeFrame.player.getImage(),(int) (player.getX()*aspectMultiplier),(int) (player.getY()*aspectMultiplier), (int) (player.getImage().getWidth(null)*aspectMultiplier),(int) (player.getImage().getHeight(null)*aspectMultiplier) ,this);
         // drawImage (image, x, y, new height, new width, null)
@@ -138,6 +151,8 @@ public class SpaceInvaders extends JPanel{
                 loadPanel.increment("Adding enemies");
             }
         }
+        bonusEnemy = new Enemy(); bonusEnemy.deactivate();
+        
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeightGame - borderWidth)-20);
         loadPanel.increment("Adding stars");
         for (int ii = 0; ii < 100; ii++) {
