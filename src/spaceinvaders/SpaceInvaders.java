@@ -44,7 +44,7 @@ public class SpaceInvaders extends JPanel{
     protected ConcurrentHashMap<Integer, Bullet> playerBullets = new ConcurrentHashMap<Integer, Bullet>();
     protected ConcurrentHashMap<Integer, Barrier> barriers = new ConcurrentHashMap<Integer, Barrier>();
     protected ConcurrentHashMap<Integer, Bonus> bonuses = new ConcurrentHashMap<Integer, Bonus>();
-    protected Player player;
+    public Player player;
     public static float aspectMultiplier = 1;
     private static JFrame frame, loadFrame, blank;
     private static HUD hud;
