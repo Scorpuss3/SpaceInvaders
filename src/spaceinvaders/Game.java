@@ -6,7 +6,6 @@
 
 package spaceinvaders;
 
-import java.awt.DisplayMode;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Map;
@@ -172,6 +171,55 @@ public class Game {
         public void start() {
             bt = new Thread(this, "bulletMovementThread");
             bt.start();
+        }
+    }
+    
+    static class BonusEnemyHandler implements Runnable {
+        private Thread bet;
+        @Override
+        public void run() {
+            while (playing) {
+                int count = 0;
+                while (!paused) {
+                    count += 1;
+                    if (session.bonusEnemy.isActive()) {
+                        if (session.bonusEnemy.getX() >= session.canvasWidth) {
+                            session.bonusEnemy.deactivate();
+                        }
+                        for (Map.Entry<Integer, Bullet> e : session.playerBullets.entrySet()) {
+                            Bullet selectedBullet = (Bullet) e.getValue();
+                            if (session.bonusEnemy.intersects(selectedBullet) && selectedBullet.isActive()) {
+                                session.bonusEnemy.deactivate();
+                                Bonus newBonus = new Bonus();
+                                newBonus.setX(session.bonusEnemy.getX()+(session.bonusEnemy.getWidth()/2));
+                                newBonus.setY(session.bonusEnemy.getY()+session.bonusEnemy.getWidth());
+                                session.bonuses.put(session.bonuses.size(), newBonus);
+                            }
+                        }
+                        if (count == 15) {
+                            session.bonusEnemy.move(1,0);
+                            count = 0;
+                        }
+                    } else {
+                        if (Math.random() <= 1.01) {//TODO change this back to 0.01
+                            session.bonusEnemy.setX(-(session.bonusEnemy.getWidth()));
+                            session.bonusEnemy.setY(10);
+                            session.bonusEnemy.activate();
+                            System.out.println("Created a bonus enemy.");
+                        }
+                    }
+                    
+                    try {
+                        Thread.sleep(1000/pausedFps);
+                    } catch (InterruptedException e){
+                    }
+                }
+            }
+        }
+        
+        public void start() {
+            bet = new Thread(this, "bonusEnemyHandlingThread");
+            bet.start();
         }
     }
     
@@ -546,6 +594,8 @@ public class Game {
         pf.start();
         CanvasRefresher cr = new CanvasRefresher();
         cr.start();
+        BonusEnemyHandler beh = new BonusEnemyHandler();
+        beh.start();
         //Fix concurrentcy with using non-srraylists. Use concurrenthashmaps. They seem to work pretty much the same anyway.
         //http://howtodoinjava.com/2013/05/27/best-practices-for-using-concurrenthashmap/
     }
