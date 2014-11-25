@@ -102,7 +102,13 @@ public class HighScores {
         
         public void getScoreInfo2(HashMap scores) {
             Properties highScores = new Properties();
-            InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
+            //InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
+            FileInputStream input = null;
+            try {
+                input = new FileInputStream("HighScores.properties");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+            }
             try {
                 highScores.load(input);
                 input.close();
@@ -182,7 +188,13 @@ public class HighScores {
 //            System.out.println(e);
 //        }
         Properties highScores = new Properties();
-        InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
+        //InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
+        FileInputStream input = null;
+        try {
+            input = new FileInputStream("HighScores.properties");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             highScores.load(input);
             input.close();
@@ -207,7 +219,7 @@ public class HighScores {
             //URL url = classLoader.getResource("HighScores/HighScores.properties");
             URL url = HighScores.class.getResource("HighScores.properties");
             System.out.println(url.toString());
-            highScores.store(new FileOutputStream(new File(url.getFile())), "");
+            highScores.store(new FileOutputStream(new File("HighScores.properties")), "");
             //highScores.store(new FileOutputStream(new File(url.toURI())), "");
             //highScores.store(new FileOutputStream(new File("HighScores.properties")),""); //works out of jar...
         } catch (FileNotFoundException ex) {
