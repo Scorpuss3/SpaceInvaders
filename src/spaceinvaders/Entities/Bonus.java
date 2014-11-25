@@ -27,18 +27,18 @@ public class Bonus extends Entity {
         this.spriteHeight=10;
         double generated = Math.random()*100;
         String skinName = null;
-        if (generated <= 20) {
+        if (generated <= 30) {
             bonusType = type.HEALTH;
             lastingTime = 600;
-            skinName = "Skins/Bonus/Speed.png";
-        } else if (generated <= 40) {
+            skinName = "Skins/Bonus/Health.png";
+        } else if (generated <= 60) {
             bonusType = type.POWER;
             lastingTime = 600;
             skinName = "Skins/Bonus/Power.png";
         } else {
             bonusType = type.SPEED;
             lastingTime = 600;
-            skinName = "Skins/Bonus/Health.png";
+            skinName = "Skins/Bonus/Speed.png";
         }
         try {
             currentSkin = ImageIO.read(getClass().getResourceAsStream(skinName));
