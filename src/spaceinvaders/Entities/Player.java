@@ -20,6 +20,7 @@ public class Player extends Entity{
     private int bulletSpeed;
     private boolean firing = false;
     private int score;
+    public Bonus currentBonus;
     
     public enum tempSkin {
         FIRING
