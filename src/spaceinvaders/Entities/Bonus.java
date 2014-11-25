@@ -23,12 +23,12 @@ public class Bonus extends Entity {
     public int lastingTime;
     
     public Bonus() {
-        this.spriteWidth=20;
+        this.spriteWidth=10;
         this.spriteHeight=10;
-        double generated = Math.random();
+        double generated = Math.random()*100;
         String skinName = null;
         if (generated <= 20) {
-            bonusType = type.SPEED;
+            bonusType = type.HEALTH;
             lastingTime = 600;
             skinName = "Skins/Bonus/Speed.png";
         } else if (generated <= 40) {
@@ -36,7 +36,7 @@ public class Bonus extends Entity {
             lastingTime = 600;
             skinName = "Skins/Bonus/Power.png";
         } else {
-            bonusType = type.HEALTH;
+            bonusType = type.SPEED;
             lastingTime = 600;
             skinName = "Skins/Bonus/Health.png";
         }
@@ -53,7 +53,9 @@ public class Bonus extends Entity {
     
     public void activateEffect(SpaceInvaders session) {
         if (this.bonusType == type.HEALTH) {
-            session.player.setHealth(session.player.getHealth()+1);
+            if (session.player.getHealth() < 3) {
+                session.player.setHealth(session.player.getHealth()+1);
+            }
         } else if (this.bonusType == type.POWER) {
             session.player.bulletDmg = session.player.bulletDmg * 2;
         } else if (this.bonusType == type.SPEED) {
