@@ -71,6 +71,8 @@ public class Enemy extends Entity{
                 this.skinName =  "Skins/Bullet/Bullet_Enemy.png";
                 this.spriteWidth = 30;
                 this.spriteHeight = 10;
+                System.out.println("CREATED IT RIGHT...");
+                break;
             default:
                 defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
                 this.health = 2;
@@ -80,6 +82,7 @@ public class Enemy extends Entity{
                 break;
         }
         try {
+            System.out.println("Skin name was: " + defaultSkin);
             currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
 	}catch(Exception e){
             System.err.println(e);
