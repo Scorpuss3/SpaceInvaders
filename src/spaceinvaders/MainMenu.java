@@ -36,6 +36,7 @@ public class MainMenu {
     private static class Menu extends JPanel{
         private final Option startOption, exitOption, highScoresOption;
         private final Option[] options;
+        private boolean noScores = false;
         
         private class Option {
             protected String caption = "";
@@ -83,6 +84,11 @@ public class MainMenu {
             for (Option option : options) {
                 g2d.setFont(new Font("Gill Sans", option.fontType ,option.size));
                 g2d.drawString(option.caption,200,spacing+= 100);
+                if (option.caption.equals("HighScores")) {
+                    if (noScores) {
+                        g2d.drawString("(No High Scores!!!)", 500, spacing);
+                    }
+                }
             }
             
             for (int e = 0; e <= 10; e++) {
@@ -190,7 +196,13 @@ public class MainMenu {
             } else  if (exitOption.selected) {
                 System.exit(0);
             } else if (highScoresOption.selected) {
-                HighScores.start(width, height);
+                try {
+                    HighScores.start(width, height);
+                } catch (Exception e) {
+                    System.out.println(e);
+                    System.out.println("Assuming no HighScores have been set");
+                    noScores = true;
+                }
             }
         }
         repaint();
