@@ -179,9 +179,7 @@ public class Game {
         @Override
         public void run() {
             while (playing) {
-                int count = 0;
                 while (!paused) {
-                    count += 1;
                     if (session.bonusEnemy.isActive()) {
                         if (session.bonusEnemy.getX() >= session.canvasWidth) {
                             session.bonusEnemy.deactivate();
@@ -193,13 +191,12 @@ public class Game {
                                 Bonus newBonus = new Bonus();
                                 newBonus.setX(session.bonusEnemy.getX()+(session.bonusEnemy.getWidth()/2));
                                 newBonus.setY(session.bonusEnemy.getY()+session.bonusEnemy.getWidth());
+                                newBonus.activate();
                                 session.bonuses.put(session.bonuses.size(), newBonus);
                             }
                         }
-                        if (count == 15) {
-                            session.bonusEnemy.move(1,0);
-                            count = 0;
-                        }
+                        session.bonusEnemy.move(1,0);
+                        
                     } else {
                         if (Math.random() <= 1.01) {//TODO change this back to 0.01
                             session.bonusEnemy.setX(-(session.bonusEnemy.getWidth()));
@@ -210,9 +207,13 @@ public class Game {
                     }
                     
                     try {
-                        Thread.sleep(1000/pausedFps);
+                        Thread.sleep(20);
                     } catch (InterruptedException e){
                     }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
                 }
             }
         }
@@ -220,6 +221,73 @@ public class Game {
         public void start() {
             bet = new Thread(this, "bonusEnemyHandlingThread");
             bet.start();
+        }
+    }
+    
+    static class BonusSelectionHandler implements Runnable {
+        private Thread bst;
+        @Override
+        public void run() {
+            while (playing) {
+                while (!paused) {
+                    for (Map.Entry<Integer, Bonus> e : session.bonuses.entrySet()) {
+                        Bonus selectedBonus = (Bonus) e.getValue();
+                        if (session.player.intersects(selectedBonus) && selectedBonus.isActive()) {
+                            try {
+                                session.player.currentBonus.deactivateEffect(session);
+                            } catch (Exception ee) {
+                            } //If this is first bonus used...
+                            System.out.println("Player caught bonus: ");
+                            selectedBonus.deactivate();
+                            session.player.currentBonus = selectedBonus;
+                            session.player.currentBonus.activateEffect(session);
+                        }
+                    }
+                    
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e){
+                    }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
+            }
+        }
+        
+        public void start() {
+            bst = new Thread(this, "bonusSelectionHandlingThread");
+            bst.start();
+        }
+    }
+    
+    static class BonusMovement implements Runnable {
+        private Thread bmt;
+        @Override
+        public void run() {
+            while (playing) {
+                while (!paused) {
+                    for (Map.Entry<Integer, Bonus> e : session.bonuses.entrySet()) {
+                        Bonus selectedBonus = (Bonus) e.getValue();
+                        selectedBonus.move(0, 1);
+                    }
+                    
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e){
+                    }
+                }
+                try {
+                    Thread.sleep(1000/pausedFps);
+                } catch (InterruptedException e){
+                }
+            }
+        }
+        
+        public void start() {
+            bmt = new Thread(this, "bonusMovementHandlingThread");
+            bmt.start();
         }
     }
     
@@ -596,6 +664,10 @@ public class Game {
         cr.start();
         BonusEnemyHandler beh = new BonusEnemyHandler();
         beh.start();
+        BonusSelectionHandler bsh = new BonusSelectionHandler();
+        bsh.start();
+        BonusMovement bom = new BonusMovement();
+        bom.start();
         //Fix concurrentcy with using non-srraylists. Use concurrenthashmaps. They seem to work pretty much the same anyway.
         //http://howtodoinjava.com/2013/05/27/best-practices-for-using-concurrenthashmap/
     }
