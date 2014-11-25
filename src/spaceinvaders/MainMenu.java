@@ -80,6 +80,14 @@ public class MainMenu {
             }catch(IOException e){
                 System.err.println(e);
             }
+            
+            for (int e = 0; e <= 10; e++) {
+                int xpos = 400 + (int) (Math.random()*(width-(500)));
+                int ypos = (int) (Math.random()*(height-100));
+                int enemyType = (int) (Math.random()*4);
+                
+                g2d.drawImage((new Enemy(enemyType)).getImage(),xpos,ypos,100,60, this);
+            }
                 
             int spacing = 400;
             for (Option option : options) {
@@ -90,14 +98,6 @@ public class MainMenu {
                         g2d.drawString("(No High Scores!!!)", 500, spacing);
                     }
                 }
-            }
-            
-            for (int e = 0; e <= 10; e++) {
-                int xpos = 400 + (int) (Math.random()*(width-(500)));
-                int ypos = (int) (Math.random()*(height-100));
-                int enemyType = (int) (Math.random()*4);
-                
-                g2d.drawImage((new Enemy(enemyType)).getImage(),xpos,ypos,100,60, this);
             }
         }
         
