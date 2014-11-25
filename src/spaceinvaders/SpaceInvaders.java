@@ -19,7 +19,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JFrame;
@@ -151,7 +150,7 @@ public class SpaceInvaders extends JPanel{
                 loadPanel.increment("Adding enemies");
             }
         }
-        bonusEnemy = new Enemy(); bonusEnemy.deactivate();
+        bonusEnemy = new Enemy(4); bonusEnemy.deactivate();
         
         player.setX((canvasWidth-borderWidth*2)/2 - player.getWidth()/2); player.setY((canvasHeightGame - borderWidth)-20);
         loadPanel.increment("Adding stars");
