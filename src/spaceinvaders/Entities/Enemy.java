@@ -69,6 +69,8 @@ public class Enemy extends Entity{
                 this.bulletSpeed = 0;
                 this.shotProbability = 0;
                 this.skinName =  "Skins/Bullet/Bullet_Enemy.png";
+                this.spriteWidth = 30;
+                this.spriteHeight = 10;
             default:
                 defaultSkin = "Skins/Enemy/Enemy_Level_1.png";
                 this.health = 2;
