@@ -201,7 +201,10 @@ public class HighScores {
             boolean gettingPossibleName = true;
             while (gettingPossibleName == true) {
                 if (highScores.containsKey(name)) {
-                    name = JOptionPane.showInputDialog(null,"Name taken. Enter new name:");
+                    String newName = JOptionPane.showInputDialog(null,"Name taken. Enter new name:");
+                    if (newName != null) {
+                        name = newName;
+                    }
                 } else {
                     gettingPossibleName = false;
                 }
