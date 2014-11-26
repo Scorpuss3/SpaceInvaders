@@ -369,10 +369,7 @@ public class Game {
             while (playing) {
                 while (!paused) {
                     if (! session.player.isActive()) {
-                        paused = true;
-                        playing = false;
-                        JOptionPane.showMessageDialog(session,"YOU LOSE");
-                        System.exit(0);
+                        end();
                     }
                     int enemiesAlive = 0;
                     for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
@@ -388,6 +385,16 @@ public class Game {
                         System.out.println("Added 1 to level...");
                         SpaceInvaders.level += 1;
                     }
+                    int lowestY = 0;
+                    for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
+                        Enemy selectedEnemy = (Enemy) e.getValue();
+                        if (selectedEnemy.getY() > lowestY) {
+                            lowestY = selectedEnemy.getY();
+                        }
+                    }
+                    if (lowestY >= (session.barriers.get(0).getY()-new Enemy().getHeight())) {
+                        end();
+                    }
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
@@ -400,6 +407,12 @@ public class Game {
             }
         }
         
+        private void end() {
+            paused = true;
+            playing = false;
+            JOptionPane.showMessageDialog(session,"YOU LOSE");
+            System.exit(0);
+        }
         
         public void start() {
             geht = new Thread(this, "gameEndHandlingThread");
