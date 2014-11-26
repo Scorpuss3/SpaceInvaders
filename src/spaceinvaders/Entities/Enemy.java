@@ -82,7 +82,6 @@ public class Enemy extends Entity{
                 break;
         }
         try {
-            System.out.println("Skin name was: " + defaultSkin);
             currentSkin = ImageIO.read(getClass().getResourceAsStream(defaultSkin));
 	}catch(Exception e){
             System.err.println(e);
