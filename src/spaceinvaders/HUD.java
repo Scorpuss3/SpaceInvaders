@@ -11,7 +11,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
-import spaceinvaders.Entities.*;
 
 /**
  *
@@ -39,6 +38,10 @@ public class HUD extends JPanel {
             }
             g2d.drawString("Score: " + Integer.toString(session.player.getScore()),(this.getWidth() / 5)*1.5f,this.getHeight()/2);
             g2d.drawString("Level: " + Integer.toString(SpaceInvaders.level),((float)this.getWidth() / 5)*2.5f,this.getHeight()/2);
+            try {
+                g2d.drawImage(session.player.currentBonus.getImage(),(int) (((float)this.getWidth() / 5)*4.5f),(this.getHeight()/2)-40,80,80,this);
+            } catch (Exception e) {
+            }
         }
     
     public HUD(SpaceInvaders parsedSession,int width,int height) {
