@@ -287,7 +287,10 @@ public class SpaceInvaders extends JPanel{
                 loadedLevel = level;
                 if (level > 0 && !LevelSet.levelExists(level)) {
                     System.out.println("Level does not exist: " + Integer.toString(level));
-                    HighScores.addRecord(game.player.getName(),game.player.getScore());
+                    JOptionPane.showMessageDialog(game,"YOU WIN!!!");
+                    if (JOptionPane.showConfirmDialog(game, "Save High Score?") == JOptionPane.YES_OPTION) {
+                        HighScores.addRecord(game.player.getName(),game.player.getScore());
+                    }
                     System.exit(0); //Later replace with some exit script...
                 }
                 if (level > 1) {
