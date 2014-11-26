@@ -79,5 +79,6 @@ public class Bonus extends Entity {
             session.player.speed = 3;
         }
         // Health is a permenant bonus, no need to be removed...
+        session.player.currentBonus = null;
     }
 }
