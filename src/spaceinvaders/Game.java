@@ -369,7 +369,7 @@ public class Game {
             while (playing) {
                 while (!paused) {
                     if (! session.player.isActive()) {
-                        end();
+                        end("Player Died.");
                     }
                     int enemiesAlive = 0;
                     for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
@@ -393,7 +393,7 @@ public class Game {
                         }
                     }
                     if (lowestY >= ((session.canvasHeightGame - 50)-new Enemy().getHeight())) {
-                        end();
+                        end("Enemies reached bottom.");
                     }
                     try {
                         Thread.sleep(20);
@@ -407,9 +407,10 @@ public class Game {
             }
         }
         
-        private void end() {
+        private void end(String reason) {
             paused = true;
             playing = false;
+            //JOptionPane.showMessageDialog(session,"YOU LOSE: " + reason);
             JOptionPane.showMessageDialog(session,"YOU LOSE");
             System.exit(0);
         }
