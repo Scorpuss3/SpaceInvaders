@@ -29,15 +29,15 @@ public class Bonus extends Entity {
         String skinName = null;
         if (generated <= 30) {
             bonusType = type.HEALTH;
-            lastingTime = 600;
+            lastingTime = 6000;
             skinName = "Skins/Bonus/Health.png";
         } else if (generated <= 60) {
             bonusType = type.POWER;
-            lastingTime = 600;
+            lastingTime = 6000;
             skinName = "Skins/Bonus/Power.png";
         } else {
             bonusType = type.SPEED;
-            lastingTime = 600;
+            lastingTime = 6000;
             skinName = "Skins/Bonus/Speed.png";
         }
         try {
@@ -61,11 +61,13 @@ public class Bonus extends Entity {
         } else if (this.bonusType == type.SPEED) {
             session.player.speed = session.player.speed * 2;
         }
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException ex) {
+        if (this.bonusType != type.HEALTH) {
+            try {
+                Thread.sleep(this.lastingTime);
+            } catch (InterruptedException ex) {
+            }
+            deactivateEffect(session);
         }
-        deactivateEffect(session);
     }
     
     public void deactivateEffect(SpaceInvaders session) {
