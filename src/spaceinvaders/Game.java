@@ -388,7 +388,7 @@ public class Game {
                     int lowestY = 0;
                     for (Map.Entry<Integer, Enemy> e : session.enemies.entrySet()) {
                         Enemy selectedEnemy = (Enemy) e.getValue();
-                        if (selectedEnemy.getY() > lowestY) {
+                        if ((selectedEnemy.getY() > lowestY && selectedEnemy.isActive())) {
                             lowestY = selectedEnemy.getY();
                         }
                     }
@@ -410,8 +410,8 @@ public class Game {
         private void end(String reason) {
             paused = true;
             playing = false;
-            //JOptionPane.showMessageDialog(session,"YOU LOSE: " + reason);
-            JOptionPane.showMessageDialog(session,"YOU LOSE");
+            JOptionPane.showMessageDialog(session,"YOU LOSE: " + reason);
+            //JOptionPane.showMessageDialog(session,"YOU LOSE");
             System.exit(0);
         }
         
