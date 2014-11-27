@@ -30,11 +30,11 @@ import spaceinvaders.Levels.LevelSet;
 
 public class SpaceInvaders extends JPanel{
     protected int canvasWidth = 600;
-    protected int canvasHeightGame = 400;//500
+    protected int canvasHeightGame = 400;
     protected int canvasHeightGameAndHUD = 450;
     protected final int borderWidth = 5;
-    protected int enemyGridWidth;// = (canvasWidth - 2*borderWidth) - 80 ;(Also make final)
-    protected int enemyGridHeight;// = 100;(Also make final)
+    protected int enemyGridWidth;
+    protected int enemyGridHeight;
     protected static SpaceInvaders game;
     private static boolean fullscreen = true;
     protected Enemy bonusEnemy;
@@ -62,11 +62,9 @@ public class SpaceInvaders extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
-        //g2d.setColor(Color.blue);
         g2d.drawRect(0,0,(int) (canvasWidth*aspectMultiplier),(int) (canvasHeightGame*aspectMultiplier));
         g2d.setColor(Color.LIGHT_GRAY);
         for (Dimension d : starDimensions) {
-            //g2d.drawRect(d.width,d.height, 1, 1);
             g2d.drawRect(d.height,d.width, 1, 1);
         }
         for (Map.Entry<Integer, Enemy> e : freezeFrame.enemies.entrySet()) {
@@ -169,7 +167,6 @@ public class SpaceInvaders extends JPanel{
     }
     
     public void getUserDetails(LoadingBar loadBar) {
-        //TODO add name collection
         System.out.println("Creating player...");
         if (level <= 1) {
             player = new Player(JOptionPane.showInputDialog(null,"Enter Player Name:"));
@@ -291,7 +288,7 @@ public class SpaceInvaders extends JPanel{
                     if (JOptionPane.showConfirmDialog(game, "Save High Score?") == JOptionPane.YES_OPTION) {
                         HighScores.addRecord(game.player.getName(),game.player.getScore());
                     }
-                    System.exit(0); //Later replace with some exit script...
+                    System.exit(0);
                 }
                 if (level > 1) {
                     blank = new JFrame();
