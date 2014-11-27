@@ -35,6 +35,7 @@ public class SpaceInvaders extends JPanel{
     protected final int borderWidth = 5;
     protected int enemyGridWidth;
     protected int enemyGridHeight;
+    protected int lineOfDefense = canvasHeightGame - 50;
     protected static SpaceInvaders game;
     private static boolean fullscreen = true;
     protected Enemy bonusEnemy;
@@ -115,6 +116,8 @@ public class SpaceInvaders extends JPanel{
         g2d.drawRect(2,2,(int) (canvasWidth*aspectMultiplier) -4,(int) (canvasHeightGame*aspectMultiplier) -4);
         g2d.drawRect(borderWidth,borderWidth,(int) (canvasWidth*aspectMultiplier-2*borderWidth),(int) (canvasHeightGame*aspectMultiplier-2*borderWidth));
         
+        g2d.drawLine(0, (int) (lineOfDefense*aspectMultiplier), (int) (canvasWidth*aspectMultiplier), (int) (lineOfDefense * aspectMultiplier));
+        
         if (Game.isPaused()) {
             g2d.setColor(Color.green);
             g2d.setFont(new Font("Gill Sans", Font.BOLD,(int) (20*SpaceInvaders.aspectMultiplier)));
@@ -160,7 +163,7 @@ public class SpaceInvaders extends JPanel{
             loadPanel.increment("Adding Barriers");
             Barrier newBarrier = new Barrier();
             newBarrier.setX(Math.round( ((iii/4) * canvasWidth-(2*borderWidth)) ) + borderWidth + newBarrier.getWidth());
-            newBarrier.setY(canvasHeightGame - 50);
+            newBarrier.setY(lineOfDefense);
             barriers.put(barriers.size(),newBarrier);
         }
         loadPanel.increment("Starting game...");

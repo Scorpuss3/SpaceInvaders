@@ -392,7 +392,7 @@ public class Game {
                             lowestY = selectedEnemy.getY();
                         }
                     }
-                    if (lowestY >= ((session.canvasHeightGame - 50)-new Enemy().getHeight())) {
+                    if (lowestY >= session.lineOfDefense - new Enemy().getHeight()) {
                         end("Enemies reached bottom.");
                     }
                     try {
