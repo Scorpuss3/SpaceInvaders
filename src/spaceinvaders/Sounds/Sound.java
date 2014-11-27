@@ -9,7 +9,6 @@ package spaceinvaders.Sounds;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
-import javax.swing.JOptionPane;
 import spaceinvaders.Entities.Entity;
 import spaceinvaders.SpaceInvaders;
 
@@ -50,7 +49,7 @@ public class Sound {
             AudioClip clip = Applet.newAudioClip(url);
             clip.play();
         } else {
-            System.out.println("Sound effects muted, will not play...");
+            //System.out.println("Sound effects muted, will not play...");
         }
     }
     
