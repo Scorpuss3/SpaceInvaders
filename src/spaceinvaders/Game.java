@@ -198,6 +198,10 @@ public class Game {
                         session.bonusEnemy.move(1,0);
                         
                     } else {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e){
+                        }
                         if (Math.random() <= 0.05) {//TODO change this back to 0.01
                             session.bonusEnemy.setX(-(session.bonusEnemy.getWidth()));
                             session.bonusEnemy.setY(10);
@@ -682,7 +686,6 @@ public class Game {
         bsh.start();
         BonusMovement bom = new BonusMovement();
         bom.start();
-        //Fix concurrentcy with using non-srraylists. Use concurrenthashmaps. They seem to work pretty much the same anyway.
-        //http://howtodoinjava.com/2013/05/27/best-practices-for-using-concurrenthashmap/
+        //http://www.java-gaming.org/index.php?topic=24220.0
     }
 }
