@@ -198,7 +198,7 @@ public class Game {
                         session.bonusEnemy.move(1,0);
                         
                     } else {
-                        if (Math.random() <= 1.01) {//TODO change this back to 0.01
+                        if (Math.random() <= 0.05) {//TODO change this back to 0.01
                             session.bonusEnemy.setX(-(session.bonusEnemy.getWidth()));
                             session.bonusEnemy.setY(10);
                             session.bonusEnemy.activate();
