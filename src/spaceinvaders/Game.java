@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import spaceinvaders.Entities.*;
+import spaceinvaders.HighScores.HighScores;
 import spaceinvaders.Sounds.Sound;
 
 /**
@@ -416,6 +417,9 @@ public class Game {
             playing = false;
             JOptionPane.showMessageDialog(session,"YOU LOSE: " + reason);
             //JOptionPane.showMessageDialog(session,"YOU LOSE");
+            if (JOptionPane.showConfirmDialog(session, "Save High Score?") == JOptionPane.YES_OPTION) {
+                HighScores.addRecord(session.player.getName(),session.player.getScore());
+            }
             System.exit(0);
         }
         
