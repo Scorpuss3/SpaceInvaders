@@ -76,13 +76,13 @@ public class MainMenu {
             g2d.drawRect(0,0,width,height);
             g2d.setColor(Color.RED);
             try {
-                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle.png")),100,100, this);
+                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle2.png")),100,100, this);
             }catch(IOException e){
                 System.err.println(e);
             }
             
             for (int e = 0; e <= 10; e++) {
-                int xpos = 400 + (int) (Math.random()*(width-(500)));
+                int xpos = 500 + (int) (Math.random()*(width-(600)));
                 int ypos = (int) (Math.random()*(height-100));
                 int enemyType = (int) (Math.random()*5);
                 
