@@ -541,6 +541,7 @@ public class Game {
         InputMap inputMap = session.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "Fire");
+        inputMap.put(KeyStroke.getKeyStroke("pressed W"), "Fire");
         actionMap.put("Fire", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -549,6 +550,7 @@ public class Game {
         });
         
         inputMap.put(KeyStroke.getKeyStroke("released SPACE"), "SpaceReleased");
+        inputMap.put(KeyStroke.getKeyStroke("released W"), "SpaceReleased");
         actionMap.put("SpaceReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -557,6 +559,7 @@ public class Game {
         });
         
         inputMap.put(KeyStroke.getKeyStroke("pressed LEFT"), "Left");
+        inputMap.put(KeyStroke.getKeyStroke("pressed A"), "Left");
         actionMap.put("Left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -565,6 +568,7 @@ public class Game {
         });
         
         inputMap.put(KeyStroke.getKeyStroke("pressed RIGHT"), "Right");
+        inputMap.put(KeyStroke.getKeyStroke("pressed D"), "Right");
         actionMap.put("Right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -574,6 +578,8 @@ public class Game {
         
         inputMap.put(KeyStroke.getKeyStroke("released LEFT"), "ArrowKeyReleased");
         inputMap.put(KeyStroke.getKeyStroke("released RIGHT"), "ArrowKeyReleased");
+        inputMap.put(KeyStroke.getKeyStroke("released D"), "ArrowKeyReleased");
+        inputMap.put(KeyStroke.getKeyStroke("released A"), "ArrowKeyReleased");
         actionMap.put("ArrowKeyReleased", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
