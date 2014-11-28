@@ -33,11 +33,11 @@ public class Bonus extends Entity {
             skinName = "Skins/Bonus/Health.png";
         } else if (generated <= 60) {
             bonusType = type.POWER;
-            lastingTime = 6000;
+            lastingTime = 10000;
             skinName = "Skins/Bonus/Power.png";
         } else {
             bonusType = type.SPEED;
-            lastingTime = 6000;
+            lastingTime = 15000;
             skinName = "Skins/Bonus/Speed.png";
         }
         try {
