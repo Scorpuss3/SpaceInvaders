@@ -667,7 +667,6 @@ public class Game {
     public static void runAllGameLoops(SpaceInvaders passedSession) throws InterruptedException {
         session = passedSession;
         playing = true;
-        paused = false;
         setUpKeyboardListener();
         
         Sound.startMusic();
@@ -696,6 +695,7 @@ public class Game {
         bsh.start();
         BonusMovement bom = new BonusMovement();
         bom.start();
+        paused = false;
         //http://www.java-gaming.org/index.php?topic=24220.0
     }
 }
