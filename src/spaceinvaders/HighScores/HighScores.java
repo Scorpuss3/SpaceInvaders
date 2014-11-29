@@ -24,10 +24,12 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -48,10 +50,11 @@ import spaceinvaders.SpaceInvaders;
  * @author Acer Laptop
  */
 public class HighScores {
+    private static final int maxSavedScores = 10;
     private static class ScorePanel extends JPanel {
         private JFrame myFrame;
-        private HashMap<String, String> scores = new HashMap<String, String>();
-        private int height, width;
+        private LinkedHashMap<String, String> scores = new LinkedHashMap<String, String>();
+        private final int height, width;
         
         @Override
         public void paint(Graphics g) {
@@ -64,16 +67,24 @@ public class HighScores {
             g2d.drawRect(50,50,width-100,height-100);
             
             g2d.setFont(new Font("Gill Sans", Font.BOLD,(int) (20*SpaceInvaders.aspectMultiplier)));
-            Iterator it = scores.entrySet().iterator();
             int i = 200;
-            for (Map.Entry<String, String> e : scores.entrySet()) {
+//            for (Map.Entry<String, String> e : scores.entrySet()) {
+//                i += 40;
+//                System.out.println("Looped through scores.");
+//                g2d.drawString(e.getKey(),(width/2)-100,i);
+//                g2d.drawString(e.getValue(),(width/2)+100,i);
+//            }
+            System.out.println("Score length at draw: " + scores.size());
+            for (Object okey : scores.keySet()) {
                 i += 40;
-                g2d.drawString(e.getKey(),(width/2)-100,i);
-                g2d.drawString(e.getValue(),(width/2)+100,i);
+                String key = (String) okey;
+                String pScore = (String) scores.get(key);
+                g2d.drawString(key,(width/2)-100,i);
+                g2d.drawString(pScore,(width/2)+100,i);
             }
         }
         
-        public void getScoreInfo(HashMap scores) {
+        public void getScoreInfo(LinkedHashMap scores) {
             //http://tutorials.jenkov.com/java-io/inputstream.html
             String fileName = "HighScores.txt";
             InputStream input = getClass().getResourceAsStream(fileName);
@@ -100,7 +111,7 @@ public class HighScores {
             }
         }
         
-        public void getScoreInfo2(HashMap scores) {
+        public LinkedHashMap getScoreInfo2(LinkedHashMap scores) {
             Properties highScores = new Properties();
             //InputStream input = HighScores.class.getResourceAsStream("HighScores.properties");
             FileInputStream input = null;
@@ -114,13 +125,20 @@ public class HighScores {
                 input.close();
             } catch (IOException ex) {
             }
+            scores  = sortProperties(highScores);
+            System.out.println("scores length: " + scores.size());
+            for (Object key : scores.keySet()) {
+                System.out.print((String) key);
+                System.out.println(": " + (String) scores.get(key));
+            }
             Enumeration e = highScores.propertyNames();
 
-            while (e.hasMoreElements()) {
-                String key = (String) e.nextElement();
-                String score =  highScores.getProperty(key);
-                scores.put(key,score);
-            }
+            //while (e.hasMoreElements()) {
+            //    String key = (String) e.nextElement();
+            //    String score =  highScores.getProperty(key);
+            //    scores.put(key,score);
+            //}
+            return scores;
         }
         
         public void setUpKeyboardListener() {
@@ -154,7 +172,7 @@ public class HighScores {
         
         public ScorePanel(int parsedWidth, int parsedHeight, JFrame parsedFrame) {
             height = parsedHeight; width = parsedWidth;
-            getScoreInfo2(scores);
+            scores = getScoreInfo2(scores);
             setUpKeyboardListener();
             myFrame = parsedFrame;
             repaint();
@@ -169,12 +187,62 @@ public class HighScores {
         scoreFrame.setVisible(true);
     }
     
+    public static LinkedHashMap sortProperties (Properties p) {
+        Properties oldProps = new Properties();
+        Enumeration e = p.propertyNames();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            String score =  p.getProperty(key);
+            oldProps.setProperty(key, score);
+        }
+        
+        System.out.println("Number of scores: " + p.values().size());
+        p.clear();
+        
+        Enumeration e0 = oldProps.propertyNames();
+        Integer[] scoresInOrder = new Integer[oldProps.values().size()];
+        System.out.println("Number of scores: " + oldProps.values().size());
+        int index = 0;
+        while (e0.hasMoreElements()) {
+            String key = (String) e0.nextElement();
+            String score =  oldProps.getProperty(key);
+            scoresInOrder[index] = (Integer.parseInt(score));
+            index++;
+            System.out.println("Added a score to array.");
+        }
+        Arrays.sort(scoresInOrder);
+        for (int i = scoresInOrder.length - 1; i >= 0; i--) {
+            System.out.print(scoresInOrder[i] + " ");
+        }
+        System.out.println();
+        
+        LinkedHashMap<String, String> sortedScores = new LinkedHashMap<String, String>();
+        for (int i = scoresInOrder.length -1  ; i >= 0 ; i--) {
+            int currentScore = scoresInOrder[i];
+            System.out.println("Selected Score: " + currentScore);
+            Enumeration e2 = oldProps.propertyNames();
+            while (e2.hasMoreElements()) {
+                String key = (String) e2.nextElement();
+                if (Integer.parseInt(oldProps.getProperty(key)) == currentScore) {
+                    if (scoresInOrder.length - i <= maxSavedScores) {
+                        p.setProperty(key, oldProps.getProperty(key));
+                        System.out.println("Added a property to p, score was: " + oldProps.getProperty(key));
+                        sortedScores.put(key, oldProps.getProperty(key));
+                        System.out.println("Now finished adding to scores.");
+                    }
+                    oldProps.remove(key);
+                }
+            }
+        }
+        System.out.println("sortedScores length: " + sortedScores.size());
+        return sortedScores;
+    }
+    
     public static void addRecord(String name, Integer score) {
 //        try {
 //            System.out.println(name + score.toString());
 //            //PrintWriter writer = new PrintWriter(HighScores.class.getResource("HighScores/HighScores.txt").getPath());
 //            //PrintWriter writer = new PrintWriter("HighScores.txt");
-//            URL resourceUrl = HighScores.class.getResource("HighScores.txt");
 //            File file = new File(resourceUrl.toURI());
 //            OutputStream output = new FileOutputStream(file);
 //            PrintWriter writer = new PrintWriter(output); //use outputstream one
@@ -212,10 +280,9 @@ public class HighScores {
         } catch (IOException ex) {
         } catch (NullPointerException ee) {
         }
-        //Enumeration e = highScores.propertyNames();
-        
         
         highScores.setProperty(name, score.toString());
+        sortProperties(highScores);
         FileOutputStream output;
         try {
             //output = new FileOutputStream(new File("HighScores.properties"));
@@ -232,7 +299,9 @@ public class HighScores {
             //highScores.store(new FileOutputStream(new File(url.toURI())), "");
             //highScores.store(new FileOutputStream(new File("HighScores.properties")),""); //works out of jar...
         } catch (FileNotFoundException ex) {
+            System.out.println(ex);
         } catch (IOException ex) {
+            System.out.println(ex);
         }
         
     }
