@@ -18,6 +18,7 @@ import javax.swing.KeyStroke;
 import spaceinvaders.Entities.*;
 import spaceinvaders.HighScores.HighScores;
 import spaceinvaders.Sounds.Sound;
+// Added a pointless line...
 
 /**
  *
