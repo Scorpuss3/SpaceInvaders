@@ -35,7 +35,7 @@ public class MainMenu {
     private static LoadingBar menuLoader;
     
     private static class Menu extends JPanel{
-        private final Option startOption, exitOption, highScoresOption;
+        private final Option startOption, exitOption, highScoresOption, howToPlayOption;
         private final Option[] options;
         private boolean noScores = false;
         
@@ -89,7 +89,7 @@ public class MainMenu {
                 g2d.drawImage((new Enemy(enemyType)).getImage(),xpos,ypos,100,60, this);
             }
                 
-            int spacing = 400;
+            int spacing = 300;
             for (Option option : options) {
                 g2d.setFont(new Font("Gill Sans", option.fontType ,option.size));
                 g2d.drawString(option.caption,200,spacing+= 100);
@@ -204,6 +204,8 @@ public class MainMenu {
                     System.out.println("Assuming no HighScores have been set");
                     noScores = true;
                 }
+            } else if (howToPlayOption.selected) {
+                HowToPlay.start(width, height);
             }
         }
         repaint();
@@ -211,10 +213,11 @@ public class MainMenu {
         
         public Menu() {
             menuLoader.increment("Creating menu options");
-            options = new Option[3];
+            options = new Option[4];
             startOption = new Option("Start"); options[0] = startOption;
-            highScoresOption = new Option("HighScores"); options[1] = highScoresOption;
-            exitOption = new Option("Exit"); options[2] = exitOption;
+            howToPlayOption = new Option("How To Play"); options[1] = howToPlayOption;
+            highScoresOption = new Option("HighScores"); options[2] = highScoresOption;
+            exitOption = new Option("Exit"); options[3] = exitOption;
             
             menuLoader.increment("Initiating choice");
             startOption.select();
