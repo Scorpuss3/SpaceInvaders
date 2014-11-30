@@ -39,7 +39,7 @@ public class Sound {
     }
     
     public static void playSound(Entity entity, soundType sound) {
-        if (!SpaceInvaders.muted) {
+        if (!SpaceInvaders.effectsMuted) {
             URL url;
             if (entity.getFaction()== Entity.entityFaction.PLAYER) {
                 url = Sound.class.getResource("Player/" + sound.toString());
@@ -53,12 +53,25 @@ public class Sound {
         }
     }
     
-    public static void startMusic() {
-        System.out.print("Testing if muted...: ");
-        System.out.println(SpaceInvaders.muted);
-        if (!SpaceInvaders.muted) {
+    static class MusicThread implements Runnable {
+        private Thread mt;
+        @Override
+        public void run() {
             musicClip = Applet.newAudioClip((URL) Sound.class.getResource("General/Music/theme.wav"));
             musicClip.loop();
+        }
+        
+        public void start() {
+            mt = new Thread(this, "bonusMovementHandlingThread");
+            mt.start();
+        }
+    }
+    
+    public static void startMusic() {
+        System.out.print("Testing if muted...: ");
+        System.out.println(SpaceInvaders.musicMuted);
+        if (!SpaceInvaders.musicMuted) {
+            MusicThread mpt = new MusicThread(); mpt.start();
         } else {
             System.out.println("Music was muted, no playing.");
         }
