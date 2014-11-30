@@ -481,6 +481,7 @@ public class Game {
         private Thread pft;
         @Override
         public void run() {
+            int myLevel = SpaceInvaders.level;
             while (playing) {
                 while (!paused) {
                     while (session.player.isFiring()) {
@@ -497,6 +498,7 @@ public class Game {
                     } catch (InterruptedException e) {
                     }
                 }
+                System.out.println("Player Firing thread version; " + myLevel);
                 try {
                     Thread.sleep(1000/pausedFps);
                 } catch (InterruptedException e){
@@ -653,11 +655,6 @@ public class Game {
                 }
         }
         //session.repaint();
-    }
-    
-    public static void handleBulletCollision(Bullet bullet, Entity entity) {
-        entity.setHealth(entity.getHealth()-bullet.getDamage());
-        bullet.deactivate();
     }
     
     public static boolean isPaused() {
