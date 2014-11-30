@@ -54,7 +54,7 @@ public class SpaceInvaders extends JPanel{
     // because it it only looking for references in this class.
     public static LevelSet currentLevelSet;
     private final Dimension[] starDimensions = new Dimension[100];
-    public final static boolean muted = true;
+    public final static boolean musicMuted = true, effectsMuted = true;
     
     @Override
     public void paint(Graphics g) {
