@@ -75,11 +75,6 @@ public class MainMenu {
             g2d.setColor(Color.LIGHT_GRAY);
             g2d.drawRect(0,0,width,height);
             g2d.setColor(Color.RED);
-            try {
-                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle2.png")),100,100, this);
-            }catch(IOException e){
-                System.err.println(e);
-            }
             
             for (int e = 0; e <= 10; e++) {
                 int xpos = 500 + (int) (Math.random()*(width-(600)));
@@ -87,6 +82,12 @@ public class MainMenu {
                 int enemyType = (int) (Math.random()*5);
                 
                 g2d.drawImage((new Enemy(enemyType)).getImage(),xpos,ypos,100,60, this);
+            }
+            
+            try {
+                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle2.png")),100,100, this);
+            }catch(IOException e){
+                System.err.println(e);
             }
                 
             int spacing = 300;
