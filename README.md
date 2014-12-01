@@ -24,8 +24,8 @@ Planned Features:
 
 Current Status:
 ---------------
-The Project is now in Alpha, not all features fully developed,
-any feedback welcome! 
+The Project is now in Beta, most features fully developed, and bugs removed.
+Any feedback welcome! 
 
 Released versions can be found at https://github.com/Scorpuss3/SpaceInvaders/releases
 (Some features listed above will not be in released versions. The lists refer to the source).
