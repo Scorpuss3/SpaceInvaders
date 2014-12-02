@@ -76,7 +76,7 @@ public class MainMenu {
             g2d.drawRect(0,0,width,height);
             g2d.setColor(Color.RED);
             try {
-                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle2.png")),100,100, this);
+                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle.png")),100,100, this);
             }catch(IOException e){
                 System.err.println(e);
             }
@@ -243,7 +243,9 @@ public class MainMenu {
         menuFrame.setUndecorated(true);
         menuFrame.setSize(width, height);
         menuLoader.increment("Setting up Menu");
-        menuFrame.add(new Menu());
+        JPanel menuPanel = new Menu();
+        menuPanel.setBackground(Color.white);
+        menuFrame.add(menuPanel);
         menuLoader.increment("Starting...");
         menuFrame.setVisible(true);
     }
