@@ -72,6 +72,8 @@ public class HighScores {
                 g2d.drawString(key,(width/2)-100,i);
                 g2d.drawString(pScore,(width/2)+100,i);
             }
+            
+            g2d.drawString("Any Key to go back",width-400,height-60);
         }
         
         public void getScoreInfo(LinkedHashMap scores) {
