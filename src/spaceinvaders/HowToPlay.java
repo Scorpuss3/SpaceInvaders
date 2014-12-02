@@ -49,6 +49,8 @@ public class HowToPlay {
                         } catch (IOException ex) {
                 Logger.getLogger(HowToPlay.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            g2d.drawString("Any Key to go back",width-400,height-60);
         }
         
         public void setUpKeyboardListener() {
