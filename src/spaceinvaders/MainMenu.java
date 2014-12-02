@@ -68,6 +68,7 @@ public class MainMenu {
         @Override
         public void paint(Graphics g) {
             super.paint(g);
+            System.out.println("Printing Start Menu...");
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                     RenderingHints.VALUE_ANTIALIAS_ON);
@@ -85,7 +86,7 @@ public class MainMenu {
             }
             
             try {
-                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle2.png")),100,100, this);
+                g2d.drawImage(ImageIO.read(MainMenu.class.getResourceAsStream("MainTitle.png")),100,100, this);
             }catch(IOException e){
                 System.err.println(e);
             }
